@@ -1,0 +1,75 @@
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <h1 class="h3 text-gray-800" style="margin-bottom: 30px;">Perfil de Acesso</h1>
+
+  <div class="card shadow mb-4">
+
+    <div class="card-body tab-content">
+      <div class="portlet light">
+        <div class="card-body" style="margin: 20px 0;border-radius: 5px;
+                                border: 1px solid #e3e6f0;">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label for="name">Nome do Perfil</label>
+              <input type="text" id="name" [(ngModel)]="model.name" name="profile" class="form-control"
+                     placeholder="Nome">
+            </div>
+            <div *ngIf="model.id && model.id.length > 0" class="form-group col-md-4">
+              <label style="margin-top: 30px;">Criado em: {{model.createdAt | date: 'dd/MM/yyyy'}}</label>
+            </div>
+            <div class="col-md-2">
+              <a (click)="onSave()" class="btn btn-primary btn-icon-split mt-4">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-check"></i>
+                      </span>
+                <span class="text">Salvar</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" style="margin: 20px 0;border-radius: 5px;
+                                border: 1px solid #e3e6f0;" *ngFor="let c of model.menu">
+          <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 5px">
+            {{c.displayName}}</h6>
+          <div class="custom-control custom-checkbox small">
+            <input type="checkbox" [(ngModel)]="c.access"
+                   [attr.name]="'access_' + c.menuId"
+                   [attr.id]="'access_' + c.menuId"
+                   class="custom-control-input">
+            <label class="custom-control-label" [attr.for]="'access_' + c.menuId" style="font-size: 16px;">
+              <span *ngIf="!c.access">Desabilitado neste perfil</span>
+              <span *ngIf="c.access">Habilitado neste perfil</span>
+            </label>
+          </div>
+          <hr *ngIf="c.access && c.subMenu && c.subMenu.length > 0">
+          <table *ngIf="c.access && c.subMenu && c.subMenu.length > 0" class="table table-bordered" id="dataTable"
+                 width="100%"
+                 cellspacing="0">
+            <thead>
+            <tr style="background-color:#f8f9fc">
+              <th style="text-align: left;">SubMenu</th>
+              <th style="text-align: center;">Liberar Acesso</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let f of c.subMenu">
+              <td style="text-align: left;">{{f.displayName}}</td>
+              <td style="text-align: center;">
+                <div class="custom-control custom-checkbox small">
+                  <input type="checkbox" [(ngModel)]="f.access"
+                         [attr.name]="'access_' + f.menuId"
+                         [attr.id]="'access_' + f.menuId"
+                         class="custom-control-input">
+                  <label class="custom-control-label" [attr.for]="'access_' + f.menuId"></label>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
