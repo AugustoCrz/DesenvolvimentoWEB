@@ -1,0 +1,154 @@
+<div class="container-fluid">
+
+  <div class="row mb-4">
+    <div class="col-md-10">
+      <h1 class="h3 text-gray-800">Fale Conosco</h1>
+    </div>
+    <div class="col-md-2 text-right">
+    </div>
+  </div>
+
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-secondary mb-3">Ocorrências</h6>
+
+      <!-- Content Row -->
+      <div class="row">
+
+        <!-- Hoje Card Example -->
+        <div class="col-sm-12 col-md-4 mb-4">
+          <div class="card border-left-danger shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Fale Conosco (Não Respondidas)</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-comments fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Respondidos Card Example -->
+        <div class="col-sm-12 col-md-4 mb-4">
+          <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Fale Conosco (Respondidas)</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-comments fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NÃO RESPONDIDOS Card Example -->
+        <div class="col-sm-12 col-md-4 mb-4">
+          <div class="card border-left-dark shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Fale Conosco (Total)</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-comments fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="m-0">
+
+      <h6 class="m-0 font-weight-bold text-secondary mt-3 mb-3">Buscar por ocorrência</h6>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <label>Status</label>
+          <select class="form-control" [(ngModel)]="statusSelect">
+            <option [ngValue]="null">Todos</option>
+            <option [ngValue]="sT" *ngFor="let sT of listStatus">{{sT.name}}</option>
+          </select>
+        </div>
+        <div class="col-md-3 form-group">
+          <label>Periodo</label>
+          <input type="text" class="form-control form-control-user js-daterange"
+                 id="dateInitialPrimary" autocomplete="off" aria-describedby="dateInitial">
+        </div>
+      </div>
+      <hr>
+      <div class="col-md-12 text-right">
+        <a (click)="getExcel()" class="btn btn-success btn-icon-split mr-sm-2">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-download"></i>
+                    </span>
+          <span class="text">Exportar Excel</span>
+        </a>
+        <a (click)="onSearch()" class="btn btn-secondary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-search"></i>
+                    </span>
+          <span class="text">Pesquisar</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="tableUser" width="100%" cellspacing="0">
+          <thead>
+          <tr>
+            <th class="align-middle">Nome</th>
+            <th class="w-25 align-middle">Email</th>
+            <th class="align-middle">Assunto</th>
+            <th class="w-25/ align-middle">Mensagem</th>
+            <th class="align-middle">Status</th>
+            <th class="align-middle">Data da Mensagem</th>
+            <th class="text-center align-middle">Opções</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let u  of listContact">
+            <td class="align-middle">{{u.name}}</td>
+            <td class="align-middle">{{u.email}}</td>
+            <td class="align-middle">{{u.subject.name}}</td>
+            <td class="align-middle">{{u.message}}</td>
+            <td class="align-middle">{{u.contactStatus.name}}</td>
+            <td class="align-middle">{{u.createdAt | date: 'dd/MM/yyyy'}}</td>
+            <td class="align-middle text-center">
+              <a [routerLink]="['/fale-conosco-detalhe/' + u.id]" class="btn btn-sm btn-warning btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-eye"></i>
+                    </span>
+                <span class="text">Ver</span>
+              </a></td>
+          </tr>
+
+          <tr>
+            <td class="align-middle">Davi Vinicius</td>
+            <td class="align-middle">davi@teste.com.br</td>
+            <td class="align-middle">Outros</td>
+            <td class="align-middle">Olá, estou com duvidas</td>
+            <td class="align-middle">Não Respondida</td>
+            <td class="align-middle">12/08/2020</td>
+            <td class="align-middle text-center">
+              <a [routerLink]="['/fale-conosco-detalhe/' + 'dfdf']" class="btn btn-sm btn-warning btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-eye"></i>
+                    </span>
+                <span class="text">Ver</span>
+              </a></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
