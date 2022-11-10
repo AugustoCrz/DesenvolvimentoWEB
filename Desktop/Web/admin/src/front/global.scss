@@ -1,0 +1,287 @@
+/*CSS GLOBAL*/
+//body {
+//  font-family: $base-font-family;
+//}
+//
+//h1,
+//h2,
+//h3,
+//h4 {
+//  font-family: $base-font-family;
+//}
+
+
+/*CARD*/
+.card {
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid #e3e6f0;
+  border-radius: .35rem;
+}
+
+.card-header {
+  background-color: #f8f9fc;
+  border-bottom: 1px solid #e3e6f0;
+}
+
+.card-footer {
+  background-color: #f8f9fc;
+  border-bottom: 1px solid #e3e6f0;
+}
+
+/*TABLE*/
+.table {
+  color: #858796;
+}
+
+/*BTN*/
+.btn {
+  color: #ffffff !important;
+}
+.header .fa-plus{
+  display: none;
+}
+.header.collapsed .fa-plus{
+  display: inline-block;
+}
+.header.collapsed .fa-minus{
+  display: none;
+}
+
+.file-field.medium .file-path-wrapper {
+  height: 3rem; }
+.file-field.medium .file-path-wrapper .file-path {
+  height: 2.8rem; }
+
+.file-field.big-2 .file-path-wrapper {
+  height: 3.7rem; }
+.file-field.big-2 .file-path-wrapper .file-path {
+  height: 3.5rem; }
+
+.file-field input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0;
+}
+
+
+/*TEXT COLOR*/
+.text-primary {
+  color: $primary-color !important;
+}
+.text-secondary {
+  color: $secondary-color !important;
+}
+
+/*FORM*/
+.form-control {
+  color: #6e707e;
+}
+
+/*DROPDOWN*/
+.dropdown-menu {
+  color: #858796;
+  border: 1px solid #e3e6f0;
+}
+
+.dropdown-item {
+  color: #38414a !important;
+}
+
+/*FALE CONOSCO*/
+.message-card-scroll {
+  max-height: 400px;
+  overflow: auto;
+  width: auto;
+  height: 370px;
+}
+
+.timeline {
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: table;
+  margin-bottom: 50px;
+  position: relative;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.timeline:before {
+  background-color: rgba(173,181,189,.3);
+  bottom: 0;
+  content: "";
+  left: 50%;
+  position: absolute;
+  top: 30px;
+  width: 2px;
+  z-index: 0;
+}
+
+.timeline-item {
+  display: table-row;
+}
+
+.timeline-desk .album img {
+  height: 36px;
+  width: auto;
+  border-radius: 3px;
+}
+
+.timeline-item.alt .timeline-desk .album a {
+  float: right;
+  margin-left: 5px;
+}
+
+.timeline-desk .album a {
+  float: left;
+  margin-right: 5px;
+}
+
+.timeline-item.alt:before {
+  display: none;
+}
+
+.timeline-item:before {
+  content: "";
+  display: block;
+  width: 50%;
+}
+
+.timeline-item.alt:after {
+  content: "";
+  display: block;
+  width: 50%;
+}
+
+.timeline .time-show {
+  margin-bottom: 30px;
+  margin-right: -75px;
+  margin-top: 30px;
+  position: relative;
+  text-align: right;
+}
+
+.timeline .time-show a {
+  color: #fff;
+}
+
+.width-lg {
+  min-width: 140px;
+}
+
+.timeline-desk {
+  display: table-cell;
+  vertical-align: top;
+  width: 50%;
+}
+
+.timeline-item.alt .panel {
+  margin-left: 0;
+  margin-right: 45px;
+}
+
+.timeline-desk .panel {
+  background: #f8f9fc;
+  display: block;
+  margin-bottom: 5px;
+  margin-left: 45px;
+  position: relative;
+  text-align: left;
+  padding: 20px;
+  border-radius: 7px;
+}
+
+.timeline-item.alt .timeline-desk .arrow-alt {
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid #fff!important;
+  border-top: 8px solid transparent;
+  display: block;
+  height: 0;
+  left: auto;
+  margin-top: -10px;
+  position: absolute;
+  right: -7px;
+  top: 50%;
+  width: 0;
+}
+
+.timeline-item.alt .timeline-icon {
+  left: auto;
+  right: -58px;
+}
+
+.timeline .timeline-icon {
+  -webkit-border-radius: 50%;
+  background: #98a6ad;
+  border-radius: 50%;
+  color: #fff;
+  display: block;
+  height: 25px;
+  left: -54px;
+  margin-top: -11px;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  width: 25px;
+  padding: 1px;
+}
+
+.timeline-item.alt h4 {
+  text-align: right;
+}
+
+.timeline-desk h4 {
+  font-size: 16px;
+  font-weight: 300;
+  margin: 0;
+}
+
+.timeline-item.alt .timeline-date {
+  text-align: right;
+}
+
+.timeline-item.alt p {
+  text-align: right;
+}
+
+.timeline-desk p {
+  color: #98a6ad;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.timeline-item.alt .panel .panel-body p+p {
+  margin-top: 10px!important;
+}
+
+.timeline-item .timeline-desk .arrow {
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid #fff!important;
+  border-top: 8px solid transparent;
+  display: block;
+  height: 0;
+  left: -7px;
+  margin-top: -10px;
+  position: absolute;
+  top: 50%;
+  width: 0;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(154, 154, 154, 0.25);
+  border-radius: 10px;
+  opacity: 0.4;
+}
+
+
