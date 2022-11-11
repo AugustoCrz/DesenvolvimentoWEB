@@ -12,7 +12,7 @@
   "test": {
     "username": "root",
     "password": null,
-    "database": "database_test",
+    "database": "bank_test",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "define": {
@@ -22,7 +22,7 @@
   "production": {
     "username": "root",
     "password": null,
-    "database": "database_production",
+    "database": "bank_production",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "define": {

@@ -24,6 +24,7 @@ describe("Testes para o path 'conta'", () => {
 
         expect(objToTest).toHaveProperty("nome");
         expect(objToTest).toHaveProperty("sobrenome");
+        expect(res.body).toHaveProperty("endereco");
         expect(res.body).toHaveProperty("identificador");
         expect(objToTest).toHaveProperty("saldo");
     });
@@ -43,6 +44,7 @@ describe("Testes para o path 'conta'", () => {
         // Para simplificar, vamos testar apenas o primeiro objeto
         expect(res.body).toHaveProperty("nome");
         expect(res.body).toHaveProperty("sobrenome");
+        expect(res.body).toHaveProperty("endereco");
         expect(res.body).toHaveProperty("identificador");
         expect(res.body).toHaveProperty("saldo");
     });

@@ -45,7 +45,7 @@ module.exports = {
         });
     },
 
-    // handler para remover um álbum pelo seu id
+    // handler para remover a conta pelo seu identificador
     remove: function (req, res) {
         ContaService.removeById(
             // req.params acessa os parâmetros passados na path definidos como :nomeparam no router

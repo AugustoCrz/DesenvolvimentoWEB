@@ -1,61 +1,49 @@
 <template>
-    <div>
-        <b-container>
-            <div class="login">
-                <img style="width: 100px;" src="~/assets/login_logo.png" alt />
 
-                <b-form @submit="doLogin">
-                    <b-form-group id="user" label="Usuário" label-for="user-input" label-align="left">
-                        <b-form-input id="user-input" v-model="login.username" type="text" required
-                            placeholder="Nome de usuário"></b-form-input>
-                    </b-form-group>
-
-                    <b-form-group id="pwd" label="Senha" label-for="pwd-input" label-align="left">
-                        <b-form-input id="pwd-input" v-model="login.pwd" type="password" required placeholder="Senha">
-                        </b-form-input>
-                    </b-form-group>
-
-                    <b-button type="submit" variant="success">Entrar</b-button>
-                </b-form>
-            </div>
-        </b-container>
-    </div>
 </template>
 
 <script>
-
 export default {
-    name: "Login",
+  async asyncData({ store, $axios, redirect }) {
+    console.log(`STATE: ${store.state.authenticationToken}`)
+    const authToken = typeof window !== 'undefined' ? store.state.authenticationToken : null // se tiver carregando client side, recupera o token do usuário
 
-    data() {
-        return {
-            login: {
-                // username: "",
-                // pwd: "",
-                username: "joao",
-                pwd: "12345",
-            },
-        };
-    },
+    // Check if user is logged in.
+    if (authToken === null) {
+      // This means that there ISN'T JWT and no user is logged in.
+      $axios.defaults.headers.common.Authorization = null;
+      redirect("/");
+    } else {
+      // This means that there IS a JWT so someone must be logged in.
+      $axios.defaults.headers.common.Authorization = `Bearer ${authToken}`; // salva o token para usar nos headers nas requisições
+    }
 
-    methods: {
-        doLogin(event) {
-            event.preventDefault();
-            this.$axios
-                .post("http://localhost:5000/login", this.login)
-                .then((response) => {
-                    this.$store.commit('setToken', response.data.token)
-                    this.$router.push("/main");
-                })
-                .catch((error) => {
-                    console.error("Não foi possível realizar o Login");
-                    console.error(error);
-                });
-        },
-    },
+    let vendedores;
+
+    try {
+      const response = await $axios.$get('vendedores');
+      vendedores = response;
+    } catch (ex) {
+      console.log(ex);
+    }
+
+    return { vendedores }
+  },
+
+  name: 'IndexPage',
+  data: function () {
+    return {
+      show: false,
+      vendedores: []
+    };
+  },
+
+  methods: {
+
+  }
 }
 </script>
 
-<style>
+<style scoped>
 @import '../static/style.css';
 </style>
