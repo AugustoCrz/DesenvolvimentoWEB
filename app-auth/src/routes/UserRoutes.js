@@ -8,8 +8,6 @@ const routes = Router();
 
 // o GET /user não vai precisar de autenticação
 routes.post("/user", UserController.createUser);
-routes.delete("/user/:id", verifyJWT, UserController.deleteUser);
-routes.get("/user/:id", verifyJWT, UserController.getUser);
-routes.put("/user/:id", verifyJWT, UserController.updateUser);
+routes.get("/user/:id", UserController.getUser);
 
 module.exports = routes;

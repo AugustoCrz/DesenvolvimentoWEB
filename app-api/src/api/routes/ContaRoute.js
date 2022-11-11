@@ -4,12 +4,12 @@ const ContaController = require("../controllers/ContaController");
 
 const routes = Router();
 
-routes.post("/conta", verifyJWT, ContaController.add);
+routes.post("/conta", ContaController.add);
 routes.post("/conta/update", ContaController.update);
 
-routes.get("/conta", verifyJWT, ContaController.listAll);
-routes.get("/conta/:id", verifyJWT, ContaController.getById);
+routes.get("/conta", ContaController.listAll);
+// routes.get("/conta/:id", verifyJWT, ContaController.getById);
 
-routes.delete("/conta/:id", verifyJWT, ContaController.remove);
+routes.delete("/conta/:id", ContaController.remove);
 
 module.exports = routes;

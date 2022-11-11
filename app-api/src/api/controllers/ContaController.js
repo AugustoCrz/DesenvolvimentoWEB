@@ -1,4 +1,4 @@
-const ContaService = require("../services/ContaController");
+const ContaService = require("../services/ContaService");
 
 module.exports = {
 

@@ -16,4 +16,3 @@ dbo.connectToServer(function (err) {
     console.log(`Server ativo na porta ${port}`);
   });
 });
-
