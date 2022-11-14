@@ -1,62 +1,64 @@
 <template>
     <div>
-        <div id="rodape_topo">
+        <div id="rodape_lateral">
 
             <div class="invent-cards">
                 <h1 class="titulo_pag" v-if="inicioView">Olá Teste</h1>
                 <h1 class="titulo_pag" v-if="marketplaceView">Marketplace</h1>
                 <h1 class="titulo_pag" v-if="acoesView">Mercado de ações</h1>
-                <h1 class="titulo_pag" v-if="transferenciasView">Operações</h1>
+                <h1 class="titulo_pag" v-if="operacoesView">Operações</h1>
             </div>
 
             <div id="buttons_nav">
                 <!-- Botão de Inicio -->
-                <b-nav-item class='icons_nav_menu' @click="
-                    inicioView = true
-                    marketplaceView = false
-                    acoesView = false
-                    transferenciasView = false">
-                    Página inicial
-                </b-nav-item>
+                <b-navbar-nav>
+                    <b-nav-item class='icons_nav_menu' @click="
+                        inicioView = true
+                        marketplaceView = false
+                        acoesView = false
+                        operacoesView = false">
+                        <h3 class="buttn_icon_menu">Página inicial</h3>
+                    </b-nav-item>
 
-                <!-- Botão do marketplace -->
-                <b-nav-item class='icons_nav_menu' @click="
-                    inicioView = false
-                    marketplaceView = true
-                    acoesView = false
-                    transferenciasView = false">
-                    Marketplace
-                </b-nav-item>
+                    <!-- Botão do marketplace -->
+                    <b-nav-item class='icons_nav_menu' @click="
+                        inicioView = false
+                        marketplaceView = true
+                        acoesView = false
+                        operacoesView = false">
+                        <h3 class="buttn_icon_menu">Marketplace</h3>
+                    </b-nav-item>
 
-                <!-- Botão de Ações -->
-                <b-nav-item class='icons_nav_menu' @click="
-                    inicioView = false
-                    marketplaceView = false
-                    acoesView = true
-                    transferenciasView = false">
-                    Mercado de Ações
-                </b-nav-item>
+                    <!-- Botão de Ações -->
+                    <b-nav-item class='icons_nav_menu' @click="
+                        inicioView = false
+                        marketplaceView = false
+                        acoesView = true
+                        operacoesView = false">
+                        <h3 class="buttn_icon_menu">Mercado de Ações</h3>
+                    </b-nav-item>
 
-                <!-- Botão das Operações -->
-                <b-nav-item class='icons_nav_menu' @click="
-                    inicioView = false
-                    marketplaceView = false
-                    acoesView = false
-                    transferenciasView = true">
-                    Operações
-                </b-nav-item>
+                    <!-- Botão das Operações -->
+                    <b-nav-item class='icons_nav_menu' @click="
+                        inicioView = false
+                        marketplaceView = false
+                        acoesView = false
+                        operacoesView = true">
+                        <h3 class="buttn_icon_menu">Operações</h3>
+                    </b-nav-item>
+                </b-navbar-nav>
             </div>
         </div>
 
         <div class="invent-cards" v-if="marketplaceView">
-        
+            
         </div>
 
         <div class="invent-cards" v-if="acoesView">
         
         </div>
 
-        <div class="invent-cards" v-if="transferenciasView">
+        <div class="invent-cards" v-if="operacoesView">
             
         </div>
     </div>
@@ -105,7 +107,7 @@ export default {
             inicioView: true,
             marketplaceView: false,
             acoesView: false,
-            transferenciasView: false,
+            operacoesView: false,
 
             conta: {
                 nome: 'Testômetro',
