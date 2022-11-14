@@ -10,8 +10,8 @@
 .buttn_icon_menu {
     padding: 5px;
     border-radius: 15px;
-    background-color: #BB86FC;
     transition: all .2s;
+    background-color: #BB86FC;
 }
 
 .buttn_icon_menu:hover {
@@ -44,4 +44,20 @@ a {
     margin: 5px;
     margin-left: 15px;
     color: white !important;
+}
+
+.content_page {
+    width: 70%;
+    padding: 2%;
+    float: right;
+    height: 100%;
+    margin-top: 2%;
+}
+
+#btn_operacoes {
+    width: 90%;
+    padding: 2%;
+    margin-left: 5%;
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.11);
 }

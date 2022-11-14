@@ -3,10 +3,9 @@
         <div id="rodape_lateral">
 
             <div class="invent-cards">
-                <h1 class="titulo_pag" v-if="inicioView">Olá Teste</h1>
+                <h1 class="titulo_pag" v-if="inicioView">Bank Bank</h1>
                 <h1 class="titulo_pag" v-if="marketplaceView">Marketplace</h1>
                 <h1 class="titulo_pag" v-if="acoesView">Mercado de ações</h1>
-                <h1 class="titulo_pag" v-if="operacoesView">Operações</h1>
             </div>
 
             <div id="buttons_nav">
@@ -15,8 +14,7 @@
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = true
                         marketplaceView = false
-                        acoesView = false
-                        operacoesView = false">
+                        acoesView = false">
                         <h3 class="buttn_icon_menu">Página inicial</h3>
                     </b-nav-item>
 
@@ -24,8 +22,7 @@
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = false
                         marketplaceView = true
-                        acoesView = false
-                        operacoesView = false">
+                        acoesView = false">
                         <h3 class="buttn_icon_menu">Marketplace</h3>
                     </b-nav-item>
 
@@ -33,33 +30,31 @@
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = false
                         marketplaceView = false
-                        acoesView = true
-                        operacoesView = false">
+                        acoesView = true">
                         <h3 class="buttn_icon_menu">Mercado de Ações</h3>
-                    </b-nav-item>
-
-                    <!-- Botão das Operações -->
-                    <b-nav-item class='icons_nav_menu' @click="
-                        inicioView = false
-                        marketplaceView = false
-                        acoesView = false
-                        operacoesView = true">
-                        <h3 class="buttn_icon_menu">Operações</h3>
                     </b-nav-item>
                 </b-navbar-nav>
             </div>
         </div>
 
-        <div class="invent-cards" v-if="marketplaceView">
+        <div class="invent-cards content_page" v-if="inicioView">
+            <div>
+                <h2>Olá Testador!</h2>
+                <hr />
+
+                <div id="btn_operacoes">
+                    Funções rápidas<hr />
+                    <p>PIX</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="invent-cards content_page" v-if="marketplaceView">
             
         </div>
 
-        <div class="invent-cards" v-if="acoesView">
+        <div class="invent-cards content_page" v-if="acoesView">
         
-        </div>
-
-        <div class="invent-cards" v-if="operacoesView">
-            
         </div>
     </div>
 </template>
@@ -68,7 +63,8 @@
 export default {
     async asyncData({ store, $axios, redirect }) {
         console.log(`STATE: ${store.state.authenticationToken}`)
-        const authToken = typeof window !== 'undefined' ? store.state.authenticationToken : null // se tiver carregando client side, recupera o token do usuário
+        const authToken = typeof window !== 'undefined' ? store.state.authenticationToken : null
+        // se tiver carregando client side, recupera o token do usuário
 
         // Check if user is logged in.
         if (authToken === null) {
@@ -107,10 +103,10 @@ export default {
             inicioView: true,
             marketplaceView: false,
             acoesView: false,
-            operacoesView: false,
 
             conta: {
                 nome: 'Testômetro',
+                tipo: 0, // 0 - Usuário comum, 1 - adm, 2 - vendedor/loja
                 endereco: null,
                 saldo: 0,
             },
@@ -127,4 +123,5 @@ export default {
   
 <style scoped>
 @import '../static/style.css';
+@import '../static/animations.css';
 </style>
