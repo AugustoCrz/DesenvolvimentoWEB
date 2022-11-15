@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
 <template>
     <div>
         <div id="rodape_lateral">
@@ -13,24 +15,24 @@
                 <b-navbar-nav>
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = true
-                                            marketplaceView = false
-                    acoesView = false">
+                        marketplaceView = false
+                        acoesView = false">
                         <h3 class="buttn_icon_menu">Página inicial</h3>
                     </b-nav-item>
 
                     <!-- Botão do marketplace -->
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = false
-                                            marketplaceView = true
-                    acoesView = false">
+                        marketplaceView = true
+                        acoesView = false">
                         <h3 class="buttn_icon_menu">Marketplace</h3>
                     </b-nav-item>
 
                     <!-- Botão de Ações -->
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = false
-                                            marketplaceView = false
-                    acoesView = true">
+                        marketplaceView = false
+                        acoesView = true">
                         <h3 class="buttn_icon_menu">Mercado de Ações</h3>
                     </b-nav-item>
                 </b-navbar-nav>
@@ -75,7 +77,7 @@
 
                 <h2 style="float: right; margin-top: -46px">Carrinho</h2>
             </div><hr />
-            <input type="text" class="search" placeholder="Pesquise por um produto!">
+            <input type="text" class="search" placeholder="Pesquisa">
 
             <div id="lista_itens_marketplace">
                 <div class="item_market_place"></div>
@@ -86,7 +88,24 @@
         </div>
 
         <div class="invent-cards content_page" v-if="acoesView">
+            <h2>Mercado de ações</h2><hr />
 
+            <input type="text" class="search" placeholder="Pesquisa">
+
+            <div id="banner_mercado_acoes">
+
+            </div>
+
+            <hr />
+            <h4>Ações em destaque</h4>
+
+            <div id="lista_empresas_mercado">
+                <div class="item_m_acoes"></div>
+                <div class="item_m_acoes"></div>
+                <div class="item_m_acoes"></div>
+                <div class="item_m_acoes"></div>
+                <div class="item_m_acoes"></div>
+            </div>
         </div>
     </div>
 </template>
