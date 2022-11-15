@@ -13,24 +13,24 @@
                 <b-navbar-nav>
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = true
-                        marketplaceView = false
-                        acoesView = false">
+                                            marketplaceView = false
+                    acoesView = false">
                         <h3 class="buttn_icon_menu">Página inicial</h3>
                     </b-nav-item>
 
                     <!-- Botão do marketplace -->
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = false
-                        marketplaceView = true
-                        acoesView = false">
+                                            marketplaceView = true
+                    acoesView = false">
                         <h3 class="buttn_icon_menu">Marketplace</h3>
                     </b-nav-item>
 
                     <!-- Botão de Ações -->
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = false
-                        marketplaceView = false
-                        acoesView = true">
+                                            marketplaceView = false
+                    acoesView = true">
                         <h3 class="buttn_icon_menu">Mercado de Ações</h3>
                     </b-nav-item>
                 </b-navbar-nav>
@@ -38,23 +38,55 @@
         </div>
 
         <div class="invent-cards content_page" v-if="inicioView">
-            <div>
-                <h2>Olá Testador!</h2>
+            <h2>Olá Testador!</h2><hr />
+
+            <div id="btn_operacoes">
+                Funções rápidas
                 <hr />
 
-                <div id="btn_operacoes">
-                    Funções rápidas<hr />
-                    <p>PIX</p>
+                <div id="itens_fnc_rapida">
+                    <div class='item_fnc_rapida'>
+                        PIX
+                        <hr />
+                        <p>Pagar</p>
+                        <p>Registrar chave</p>
+                    </div>
+
+                    <div class='item_fnc_rapida'>
+                        Pagamentos
+                        <hr />
+                        <p>Transferir</p>
+                        <p>Receber</p>
+                    </div>
+
+                    <div class='item_fnc_rapida'>
+                        Recargas
+                        <hr />
+                        <p>Celular</p>
+                        <p>Bilhete único</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="invent-cards content_page" v-if="marketplaceView">
-            
+            <div>
+                <h2>Bem vindo ao Marketplace</h2>
+
+                <h2 style="float: right; margin-top: -46px">Carrinho</h2>
+            </div><hr />
+            <input type="text" class="search" placeholder="Pesquise por um produto!">
+
+            <div id="lista_itens_marketplace">
+                <div class="item_market_place"></div>
+                <div class="item_market_place"></div>
+                <div class="item_market_place"></div>
+                <div class="item_market_place"></div>
+            </div>
         </div>
 
         <div class="invent-cards content_page" v-if="acoesView">
-        
+
         </div>
     </div>
 </template>
@@ -85,7 +117,7 @@ export default {
         } catch (ex) {
             console.log(ex);
         }
-      
+
         try {
             const response = await $axios.$get('vendedores');
             vendedores = response;

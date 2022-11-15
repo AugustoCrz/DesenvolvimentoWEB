@@ -61,3 +61,45 @@ a {
     border-radius: 15px;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.11);
 }
+
+#itens_fnc_rapida {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.item_fnc_rapida {
+    width: 150px;
+    min-height: 25px;
+    margin-right: 5%;
+}
+
+input.search {
+    width: 90%;
+    margin-left: 5%;
+    padding-left: 2%;
+    border-radius: 15px;
+    border: solid 1px gainsboro;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.185);
+}
+
+#lista_itens_marketplace {
+    width: 100%;
+    row-gap: 5px;
+    height: 500px;
+    display: grid;
+    column-gap: 5px;
+    margin-top: 20px;
+    grid-template-columns: auto auto auto auto;
+}
+
+.item_market_place {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    transition: all .2s;
+    background-color: rgb(252, 244, 255);
+}
+
+.item_market_place:hover{
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.192);
+}
