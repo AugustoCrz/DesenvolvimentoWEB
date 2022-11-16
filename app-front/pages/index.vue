@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
 <template>
     <div>
+        <script src="https://kit.fontawesome.com/6c1b2d82eb.js" crossorigin="anonymous"></script>
+
         <div id="rodape_lateral">
 
             <div class="invent-cards">
@@ -43,29 +43,29 @@
             <h2>Olá Testador!</h2><hr />
 
             <div id="btn_operacoes">
-                Funções rápidas
+                <i class="fas fa-stopwatch"></i> Funções rápidas
                 <hr />
 
                 <div id="itens_fnc_rapida">
                     <div class='item_fnc_rapida'>
-                        PIX
+                        PIX <i class="fas fa-dollar-pix"></i>
                         <hr />
-                        <p>Pagar</p>
-                        <p>Registrar chave</p>
+                        <p class="btn_item"><i class="fas fa-wallet"></i> Pagar</p>
+                        <p class="btn_item"><i class="fas fa-key"></i> Registrar chave</p>
                     </div>
 
                     <div class='item_fnc_rapida'>
-                        Pagamentos
+                        Pagamentos <i class="fas fa-dollar-sign"></i>
                         <hr />
-                        <p>Transferir</p>
-                        <p>Receber</p>
+                        <p class="btn_item"><i class="fas fa-wallet"></i> Transferir</p>
+                        <p class="btn_item"><i class="fas fa-receipt"></i> Receber</p>
                     </div>
 
                     <div class='item_fnc_rapida'>
-                        Recargas
+                        Recargas <i class="fas fa-bolt"></i>
                         <hr />
-                        <p>Celular</p>
-                        <p>Bilhete único</p>
+                        <p class="btn_item"><i class="fas fa-mobile"></i> Celular</p>
+                        <p class="btn_item"><i class="fas fa-passport"></i> Bilhete único</p>
                     </div>
                 </div>
             </div>
@@ -75,7 +75,7 @@
             <div>
                 <h2>Bem vindo ao Marketplace</h2>
 
-                <h2 style="float: right; margin-top: -46px">Carrinho</h2>
+                <h2 style="float: right; margin-top: -46px; margin-right: 20px;">Carrinho <i class="fas fa-dolly"></i></h2>
             </div><hr />
             <input type="text" class="search" placeholder="Pesquisa">
 
@@ -97,7 +97,7 @@
             </div>
 
             <hr />
-            <h4>Ações em destaque</h4>
+            <h4>Ações em destaque <i class="fas fa-crown"></i></h4>
 
             <div id="lista_empresas_mercado">
                 <div class="item_m_acoes"></div>
@@ -127,7 +127,7 @@ export default {
             $axios.defaults.headers.common.Authorization = `Bearer ${authToken}`; // salva o token para usar nos headers nas requisições
         }
 
-        let vendedores, conta;
+        let vendedores, produtos, conta, acoes;
         const identificador = 0;
 
         try {
@@ -144,7 +144,21 @@ export default {
             console.log(ex);
         }
 
-        return { vendedores, conta }
+        try {
+            const response = await $axios.$get('produtos');
+            produtos = response;
+        } catch (ex) {
+            console.log(ex);
+        }
+
+        try {
+            const response = await $axios.$get('acoes');
+            acoes = response;
+        } catch (ex) {
+            console.log(ex);
+        }
+
+        return { vendedores, produtos, conta, acoes }
     },
 
     name: 'IndexPage',
@@ -162,7 +176,8 @@ export default {
                 saldo: 0,
             },
 
-            vendedores: []
+            vendedores: [],
+            produtos: []
         };
     },
 

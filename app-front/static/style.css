@@ -55,9 +55,8 @@ a {
 }
 
 #btn_operacoes {
-    width: 90%;
+    width: 100%;
     padding: 2%;
-    margin-left: 5%;
     border-radius: 15px;
     box-shadow: 2px 2px 15px rgba(0, 0, 0, .2);
 }
@@ -122,4 +121,21 @@ input.search {
     border-radius: 10px;
     background-color: rgb(212, 212, 212);
     box-shadow: 2px 2px 15px rgba(0, 0, 0, .2);
+}
+
+.btn_item {
+    padding: 2px;
+    border-radius: 5px;
+    padding-left: 10px;
+    background-color: rgb(230, 230, 230);
+    transition: all .2s;
+}
+
+.btn_item:hover {
+    background-color: rgb(182, 182, 182);
+}
+
+i.fas {
+    width: 15px;
+    text-align: center;
 }
