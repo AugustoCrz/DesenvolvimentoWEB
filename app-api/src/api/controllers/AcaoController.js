@@ -1,39 +1,39 @@
-const ProdutoService = require("../services/ProdutoService");
+const AcaoService = require("../services/AcaoService");
 
 module.exports = {
 
     getById: function (req, res) {
-        const produtoId = req.params.id;
-        ProdutoService.getById(
+        const acaoId = req.params.id;
+        AcaoService.getById(
             // req.params acessa os parâmetros passados na path definidos como :nomeparam
-            produtoId).then((produto) => {
-                if (produto) {
+            acaoId).then((acao) => {
+                if (acao) {
                     res.statusCode = 200; // Status HTTP para OK;
                     res.set("Content-Type", "application/json");
-                    res.send(JSON.stringify(produto));
+                    res.send(JSON.stringify(acao));
                 } else {
                     res.statusCode = 404; // Status HTTP para No Found;
                     res.set("Content-Type", "application/json");
-                    res.send({ status: `Não foi possível encontrar um produto com ID: ${produtoId}.` });
+                    res.send({ status: `Não foi possível encontrar uma ação com ID: ${acaoId}.` });
                 }
             });
     },
 
     listAll: function (req, res) {
         res.statusCode = 200; // Status HTTP para OK;
-        ProdutoService.getAll().then(
-            produtos => {
+        AcaoService.getAll().then(
+            acoes => {
                 res.set("Content-Type", "application/json");
-                res.send(JSON.stringify(produtos));
+                res.send(JSON.stringify(acoes));
             }
         )
     },
 
-    // handler para adicionar um novo produto
+    // handler para adicionar uma nova ação
     add: function (req, res) {
-        const { nome, quantidade, categoria, valor } = req.body
-        ProdutoService.addNew(
-            { nome, quantidade, categoria, valor }
+        const { nome, sobrenome, endereco, saldo } = req.body
+        AcaoService.addNew(
+            { nome, sobrenome, endereco, saldo }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");
@@ -47,9 +47,9 @@ module.exports = {
     },
 
     update: function (req, res) {
-        const { nome, quantidade, categoria, valor } = req.body
-        ProdutoService.update(
-            { nome, quantidade, categoria, valor }
+        const { nome, sobrenome, endereco, saldo } = req.body
+        AcaoService.update(
+            { nome, sobrenome, endereco, saldo }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");
@@ -62,9 +62,9 @@ module.exports = {
         });
     },
 
-    // handler para remover o produto pelo seu identificador
+    // handler para remover a ação pelo seu identificador
     remove: function (req, res) {
-        ProdutoService.removeById(
+        AcaoService.removeById(
             // req.params acessa os parâmetros passados na path definidos como :nomeparam no router
             req.params.id).then((status) => {
                 res.statusCode = 200; // Status HTTP para Operação bem sucedida "No content";

@@ -2,6 +2,23 @@ const LojaService = require("../services/LojaService");
 
 module.exports = {
 
+    getById: function (req, res) {
+        const lojaId = req.params.id;
+        LojaService.getById(
+            // req.params acessa os parâmetros passados na path definidos como :nomeparam
+            lojaId).then((loja) => {
+                if (loja) {
+                    res.statusCode = 200; // Status HTTP para OK;
+                    res.set("Content-Type", "application/json");
+                    res.send(JSON.stringify(loja));
+                } else {
+                    res.statusCode = 404; // Status HTTP para No Found;
+                    res.set("Content-Type", "application/json");
+                    res.send({ status: `Não foi possível encontrar a loja com ID: ${lojaId}.` });
+                }
+            });
+    },
+
     listAll: function (req, res) {
         res.statusCode = 200; // Status HTTP para OK;
         LojaService.getAll().then(

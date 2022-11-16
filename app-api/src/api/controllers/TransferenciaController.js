@@ -2,6 +2,23 @@ const TransferenciaService = require("../services/TransferenciaService");
 
 module.exports = {
 
+    getById: function (req, res) {
+        const transferenciaId = req.params.id;
+        TransferenciaService.getById(
+            // req.params acessa os parâmetros passados na path definidos como :nomeparam
+            transferenciaId).then((transferencia) => {
+                if (transferencia) {
+                    res.statusCode = 200; // Status HTTP para OK;
+                    res.set("Content-Type", "application/json");
+                    res.send(JSON.stringify(transferencia));
+                } else {
+                    res.statusCode = 404; // Status HTTP para No Found;
+                    res.set("Content-Type", "application/json");
+                    res.send({ status: `Não foi possível encontrar uma transferência com ID: ${transferenciaId}.` });
+                }
+            });
+    },
+
     listAll: function (req, res) {
         res.statusCode = 200; // Status HTTP para OK;
         TransferenciaService.getAll().then(

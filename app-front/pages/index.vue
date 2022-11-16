@@ -127,7 +127,7 @@ export default {
             $axios.defaults.headers.common.Authorization = `Bearer ${authToken}`; // salva o token para usar nos headers nas requisições
         }
 
-        let vendedores, produtos, conta, acoes;
+        let produtos, conta, acoes, lojas, transferencias;
         const identificador = 0;
 
         try {
@@ -138,27 +138,34 @@ export default {
         }
 
         try {
-            const response = await $axios.$get('vendedores');
-            vendedores = response;
-        } catch (ex) {
-            console.log(ex);
-        }
-
-        try {
-            const response = await $axios.$get('produtos');
+            const response = await $axios.$get('produto');
             produtos = response;
         } catch (ex) {
             console.log(ex);
         }
 
         try {
-            const response = await $axios.$get('acoes');
+            const response = await $axios.$get('acao');
             acoes = response;
         } catch (ex) {
             console.log(ex);
         }
 
-        return { vendedores, produtos, conta, acoes }
+        try {
+            const response = await $axios.$get('loja');
+            lojas = response;
+        } catch (ex) {
+            console.log(ex);
+        }
+
+        try {
+            const response = await $axios.$get('transferencia');
+            transferencias = response;
+        } catch (ex) {
+            console.log(ex);
+        }
+
+        return { produtos, conta, acoes, lojas, transferencias }
     },
 
     name: 'IndexPage',
@@ -176,8 +183,10 @@ export default {
                 saldo: 0,
             },
 
-            vendedores: [],
-            produtos: []
+            acoes: [],
+            lojas: [],
+            produtos: [],
+            transferencias: []
         };
     },
 

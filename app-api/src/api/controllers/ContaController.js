@@ -2,6 +2,23 @@ const ContaService = require("../services/ContaService");
 
 module.exports = {
 
+    getById: function (req, res) {
+        const contaId = req.params.id;
+        ContaService.getById(
+            // req.params acessa os parâmetros passados na path definidos como :nomeparam
+            contaId).then((conta) => {
+                if (conta) {
+                    res.statusCode = 200; // Status HTTP para OK;
+                    res.set("Content-Type", "application/json");
+                    res.send(JSON.stringify(conta));
+                } else {
+                    res.statusCode = 404; // Status HTTP para No Found;
+                    res.set("Content-Type", "application/json");
+                    res.send({ status: `Não foi possível encontrar uma conta com ID: ${contaId}.` });
+                }
+            });
+    },
+
     listAll: function (req, res) {
         res.statusCode = 200; // Status HTTP para OK;
         ContaService.getAll().then(

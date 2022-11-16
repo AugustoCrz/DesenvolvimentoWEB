@@ -8,7 +8,7 @@ routes.post("/conta", ContaController.add);
 routes.post("/conta/update", ContaController.update);
 
 routes.get("/conta", ContaController.listAll);
-// routes.get("/conta/:id", verifyJWT, ContaController.getById);
+routes.get("/conta/:id", ContaController.getById);
 
 routes.delete("/conta/:id", ContaController.remove);
 
