@@ -80,10 +80,9 @@
             <input type="text" class="search" placeholder="Pesquisa">
 
             <div id="lista_itens_marketplace">
-                <div class="item_market_place"></div>
-                <div class="item_market_place"></div>
-                <div class="item_market_place"></div>
-                <div class="item_market_place"></div>
+                <div v-for="produto in produtos">
+                    <div class="item_market_place"></div>
+                </div>
             </div>
         </div>
 
@@ -94,17 +93,13 @@
 
             <div id="banner_mercado_acoes">
 
-            </div>
-
-            <hr />
+            </div><hr />
             <h4>Ações em destaque <i class="fas fa-crown"></i></h4>
 
             <div id="lista_empresas_mercado">
-                <div class="item_m_acoes"></div>
-                <div class="item_m_acoes"></div>
-                <div class="item_m_acoes"></div>
-                <div class="item_m_acoes"></div>
-                <div class="item_m_acoes"></div>
+                <div v-for="(acao, index) in acoes" v-if="index < 5">
+                    <div class="item_m_acoes"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -165,7 +160,7 @@ export default {
             console.log(ex);
         }
 
-        return { produtos, conta, acoes, lojas, transferencias }
+        return { conta, lojas, produtos, acoes, transferencias }
     },
 
     name: 'IndexPage',
@@ -175,6 +170,37 @@ export default {
             inicioView: true,
             marketplaceView: false,
             acoesView: false,
+
+            tab_acao: false,
+            tab_loja: false,
+            tab_conta: false,
+            tab_produto: false,
+            tab_transferencias: false,
+
+            novaConta: {
+                nome: null,
+                sobrenome: null,
+                endereco: null,
+                saldo: null
+            },
+
+            novaLoja: {
+                nome: null,
+            },
+
+            novoProduto: {
+                nome: null,
+                quantidade: null,
+                categoria: null,
+                valor: null,
+                idLoja: null
+            },
+
+            novaAcao: {
+                nome: null,
+                tipo: null,
+                valor: null
+            },
 
             conta: {
                 nome: 'Testômetro',
@@ -192,6 +218,155 @@ export default {
 
     methods: {
 
+        createNewConta: function (event) {
+        event.preventDefault();
+
+        // Veja mais sobre em https://axios.nuxtjs.org/usage
+        this.$axios
+            .$post("conta", this.novaConta)
+            .then(() => {
+                this.updateConta();
+            })
+            .catch((error) => {
+                console.error('Não foi possível criar uma nova conta');
+                console.log(error);
+            });
+
+            this.$bvModal.hide('modal-conta');
+            this.tab_conta = false;
+        },
+
+        updateConta: function () {
+            this.$axios.$get("conta").then((response) => {
+                this.conta = response;
+            })
+        },
+
+        removeSelectedConta: function (id) {
+            this.$axios.$delete(`conta/${id}`).then(() => {
+                this.updateConta();
+            })
+        },
+
+        createNewLoja: function (event) {
+        event.preventDefault();
+
+        // Veja mais sobre em https://axios.nuxtjs.org/usage
+        this.$axios
+            .$post("loja", this.novaLoja)
+            .then(() => {
+                this.updateLoja();
+            })
+            .catch((error) => {
+                console.error('Não foi possível criar uma nova loja');
+                console.log(error);
+            });
+
+            this.$bvModal.hide('modal-loja');
+            this.tab_loja = false;
+        },
+
+        updateLoja: function () {
+            this.$axios.$get("loja").then((response) => {
+                this.lojas = response;
+            })
+        },
+
+        removeSelectedLoja: function (id) {
+            this.$axios.$delete(`loja/${id}`).then(() => {
+                this.updateLoja();
+            })
+        },
+
+        createNewProduto: function (event) {
+        event.preventDefault();
+
+        // Veja mais sobre em https://axios.nuxtjs.org/usage
+        this.$axios
+            .$post("produto", this.novoProduto)
+            .then(() => {
+                this.updateProduto();
+            })
+            .catch((error) => {
+                console.error('Não foi possível criar um novo produto');
+                console.log(error);
+            });
+
+            this.$bvModal.hide('modal-produto');
+            this.tab_produto = false;
+        },
+
+        updateProduto: function () {
+            this.$axios.$get("produto").then((response) => {
+                this.produtos = response;
+            })
+        },
+
+        removeSelectedProduto: function (id) {
+            this.$axios.$delete(`produto/${id}`).then(() => {
+                this.updateProduto();
+            })
+        },
+
+        createNewAcao: function (event) {
+        event.preventDefault();
+
+        // Veja mais sobre em https://axios.nuxtjs.org/usage
+        this.$axios
+            .$post("acao", this.novaAcao)
+            .then(() => {
+                this.updateAcao();
+            })
+            .catch((error) => {
+                console.error('Não foi possível criar uma nova ação');
+                console.log(error);
+            });
+
+            this.$bvModal.hide('modal-acao');
+            this.tab_acao = false;
+        },
+
+        updateAcao: function () {
+            this.$axios.$get("acao").then((response) => {
+                this.acoes = response;
+            })
+        },
+
+        removeSelectedAcao: function (id) {
+            this.$axios.$delete(`acao/${id}`).then(() => {
+                this.updateAcao();
+            })
+        },
+
+        createNewTransferencia: function (event) {
+        event.preventDefault();
+
+        // Veja mais sobre em https://axios.nuxtjs.org/usage
+        this.$axios
+            .$post("transferencia", this.novaLoja)
+            .then(() => {
+                this.updateTransferencia();
+            })
+            .catch((error) => {
+                console.error('Não foi possível registrar uma nova transferência');
+                console.log(error);
+            });
+
+            this.$bvModal.hide('modal-transferencia');
+            this.tab_transferencias = false;
+        },
+
+        updateTransferencia: function () {
+            this.$axios.$get("transferencia").then((response) => {
+                this.transferencias = response;
+            })
+        },
+
+        removeSelectedTransferencia: function (id) {
+            this.$axios.$delete(`transferencia/${id}`).then(() => {
+                this.updateTransferencia();
+            })
+        },
     }
 }
 </script>

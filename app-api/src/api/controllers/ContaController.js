@@ -70,7 +70,6 @@ module.exports = {
                 res.statusCode = 200; // Status HTTP para Operação bem sucedida "No content";
                 res.set("Content-Type", "application/json");
                 res.send(JSON.stringify(status));
-            }
-            );
+            });
     }
 }

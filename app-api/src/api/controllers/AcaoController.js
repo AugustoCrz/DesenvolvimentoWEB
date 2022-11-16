@@ -31,9 +31,9 @@ module.exports = {
 
     // handler para adicionar uma nova ação
     add: function (req, res) {
-        const { nome, sobrenome, endereco, saldo } = req.body
+        const { nome, tipo, valor } = req.body
         AcaoService.addNew(
-            { nome, sobrenome, endereco, saldo }
+            { nome, tipo, valor }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");
@@ -47,9 +47,9 @@ module.exports = {
     },
 
     update: function (req, res) {
-        const { nome, sobrenome, endereco, saldo } = req.body
+        const { nome, tipo, valor } = req.body
         AcaoService.update(
-            { nome, sobrenome, endereco, saldo }
+            { nome, tipo, valor }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");
@@ -70,7 +70,6 @@ module.exports = {
                 res.statusCode = 200; // Status HTTP para Operação bem sucedida "No content";
                 res.set("Content-Type", "application/json");
                 res.send(JSON.stringify(status));
-            }
-            );
+            });
     }
 }

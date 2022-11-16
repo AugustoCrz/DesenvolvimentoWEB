@@ -4,12 +4,12 @@ const AcaoController = require("../controllers/AcaoController");
 
 const routes = Router();
 
-routes.post("/conta", AcaoController.add);
-routes.post("/conta/update", AcaoController.update);
+routes.post("/acao", AcaoController.add);
+routes.post("/acao/update", AcaoController.update);
 
-routes.get("/conta", AcaoController.listAll);
-routes.get("/conta/:id", AcaoController.getById);
+routes.get("/acao", AcaoController.listAll);
+routes.get("/acao/:id", AcaoController.getById);
 
-routes.delete("/conta/:id", AcaoController.remove);
+routes.delete("/acao/:id", AcaoController.remove);
 
 module.exports = routes;
