@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
         vendas: {
             type: DataTypes.INTEGER,
             defaultValue: 0
+        },
+        saldo: {
+            type: DataTypes.DOUBLE,
+            defaultValue: 0
         }
     }, {
         sequelize: sequelize,

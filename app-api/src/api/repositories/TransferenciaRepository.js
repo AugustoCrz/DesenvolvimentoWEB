@@ -18,13 +18,6 @@ class TransferenciaRepository {
         return await Transferencia.findAll();
     }
 
-    async update(transferencia) {
-        return await Transferencia.update(
-            transferencia,
-            { where: { id: transferencia.identificador } }
-        )
-    }
-
     async removeById(identificador) {
         return await Transferencia.destroy({
             where: {

@@ -48,7 +48,7 @@
 
                 <div id="itens_fnc_rapida">
                     <div class='item_fnc_rapida'>
-                        PIX <i class="fas fa-dollar-pix"></i>
+                        PIX
                         <hr />
                         <p class="btn_item"><i class="fas fa-wallet"></i> Pagar</p>
                         <p class="btn_item"><i class="fas fa-key"></i> Registrar chave</p>

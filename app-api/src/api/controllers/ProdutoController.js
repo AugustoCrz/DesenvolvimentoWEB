@@ -1,22 +1,22 @@
-const ContaService = require("../services/ContaService");
+const ProdutoService = require("../services/ProdutoService");
 
 module.exports = {
 
     listAll: function (req, res) {
         res.statusCode = 200; // Status HTTP para OK;
-        ContaService.getAll().then(
-            contas => {
+        ProdutoService.getAll().then(
+            produtos => {
                 res.set("Content-Type", "application/json");
-                res.send(JSON.stringify(contas));
+                res.send(JSON.stringify(produtos));
             }
         )
     },
 
-    // handler para adicionar uma nova conta
+    // handler para adicionar um novo produto
     add: function (req, res) {
-        const { nome, sobrenome, endereco, saldo } = req.body
-        ContaService.addNew(
-            { nome, sobrenome, endereco, saldo }
+        const { nome, quantidade, categoria, valor } = req.body
+        ProdutoService.addNew(
+            { nome, quantidade, categoria, valor }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");
@@ -30,9 +30,9 @@ module.exports = {
     },
 
     update: function (req, res) {
-        const { nome, sobrenome, endereco, saldo } = req.body
-        ContaService.update(
-            { nome, sobrenome, endereco, saldo }
+        const { nome, quantidade, categoria, valor } = req.body
+        ProdutoService.update(
+            { nome, quantidade, categoria, valor }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");
@@ -45,9 +45,9 @@ module.exports = {
         });
     },
 
-    // handler para remover a conta pelo seu identificador
+    // handler para remover o produto pelo seu identificador
     remove: function (req, res) {
-        ContaService.removeById(
+        ProdutoService.removeById(
             // req.params acessa os parâmetros passados na path definidos como :nomeparam no router
             req.params.id).then((status) => {
                 res.statusCode = 200; // Status HTTP para Operação bem sucedida "No content";

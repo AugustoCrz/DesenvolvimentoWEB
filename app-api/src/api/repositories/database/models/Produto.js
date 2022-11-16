@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 0,
             allowNull: false
         },
+        categoria: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         valor: {
             type: DataTypes.DOUBLE,
             defaultValue: 0,

@@ -1,22 +1,22 @@
-const ContaService = require("../services/ContaService");
+const LojaService = require("../services/LojaService");
 
 module.exports = {
 
     listAll: function (req, res) {
         res.statusCode = 200; // Status HTTP para OK;
-        ContaService.getAll().then(
-            contas => {
+        LojaService.getAll().then(
+            lojas => {
                 res.set("Content-Type", "application/json");
-                res.send(JSON.stringify(contas));
+                res.send(JSON.stringify(lojas));
             }
         )
     },
 
-    // handler para adicionar uma nova conta
+    // handler para adicionar uma nova loja
     add: function (req, res) {
-        const { nome, sobrenome, endereco, saldo } = req.body
-        ContaService.addNew(
-            { nome, sobrenome, endereco, saldo }
+        const { nome, vendas, saldo } = req.body
+        LojaService.addNew(
+            { nome, vendas, saldo }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");
@@ -30,9 +30,9 @@ module.exports = {
     },
 
     update: function (req, res) {
-        const { nome, sobrenome, endereco, saldo } = req.body
-        ContaService.update(
-            { nome, sobrenome, endereco, saldo }
+        const { nome, vendas, saldo } = req.body
+        LojaService.update(
+            { nome, vendas, saldo }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");
@@ -45,9 +45,9 @@ module.exports = {
         });
     },
 
-    // handler para remover a conta pelo seu identificador
+    // handler para remover a loja pelo seu identificador
     remove: function (req, res) {
-        ContaService.removeById(
+        LojaService.removeById(
             // req.params acessa os parâmetros passados na path definidos como :nomeparam no router
             req.params.id).then((status) => {
                 res.statusCode = 200; // Status HTTP para Operação bem sucedida "No content";
