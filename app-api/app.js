@@ -10,7 +10,7 @@ const TransferenciaRoutes = require("./src/api/routes/TransferenciaRoute")
 
 const app = express();
 
-//Configuração dos middlewares
+// Configuração dos middlewares
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(bodyParser.json()); // Converterá qualquer corpo em JSON em um objeto javascript
 
@@ -20,5 +20,5 @@ app.use(ContaRoutes);
 app.use(ProdutoRoutes);
 app.use(TransferenciaRoutes);
 
-//Exporta o aplicativo express configurado
+// Exporta o aplicativo express configurado
 module.exports = app;

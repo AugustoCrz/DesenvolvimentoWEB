@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "admin",
-    "database": "bank_bank",
+    "database": "database_development",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "define": {
@@ -11,8 +11,8 @@
   },
   "test": {
     "username": "root",
-    "password": null,
-    "database": "bank_test",
+    "password": "admin",
+    "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "define": {
@@ -21,8 +21,8 @@
   },
   "production": {
     "username": "root",
-    "password": null,
-    "database": "bank_production",
+    "password": "admin",
+    "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "define": {

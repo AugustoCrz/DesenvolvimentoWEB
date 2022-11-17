@@ -1,3 +1,4 @@
+'use strict';
 const {
     Model
 } = require('sequelize');
@@ -15,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Transferencia.init({
         data: { // A hora da transação
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false
         },
         conta: { // A conta que enviou o valor
