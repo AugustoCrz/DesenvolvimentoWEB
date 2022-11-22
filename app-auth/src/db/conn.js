@@ -13,9 +13,8 @@ let dbConnection;
 module.exports = {
   connectToServer: function (callback) {
     client.connect(function (err, db) {
-      if (err || !db) {
+      if (err || !db)
         return callback(err);
-      }
 
       dbConnection = db.db("bank");
       console.log("Conectado com sucesso ao MongoDB.");

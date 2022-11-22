@@ -40,7 +40,8 @@
         </div>
 
         <div class="invent-cards content_page" v-if="inicioView">
-            <h2>Olá Testador!</h2><hr />
+            <h2>Olá Testador!</h2>
+            <hr />
 
             <div id="btn_operacoes">
                 <i class="fas fa-stopwatch"></i> Funções rápidas
@@ -75,8 +76,10 @@
             <div>
                 <h2>Bem vindo ao Marketplace</h2>
 
-                <h2 style="float: right; margin-top: -46px; margin-right: 20px;">Carrinho <i class="fas fa-dolly"></i></h2>
-            </div><hr />
+                <h2 style="float: right; margin-top: -46px; margin-right: 20px;">Carrinho <i class="fas fa-dolly"></i>
+                </h2>
+            </div>
+            <hr />
             <input type="text" class="search" placeholder="Pesquisa">
 
             <div id="lista_itens_marketplace">
@@ -84,16 +87,20 @@
                     <div class="item_market_place"></div>
                 </div>
             </div>
+
+            <button v-b-modal.modal-produto>Inserir Produtos</button>
         </div>
 
         <div class="invent-cards content_page" v-if="acoesView">
-            <h2>Mercado de ações</h2><hr />
+            <h2>Mercado de ações</h2>
+            <hr />
 
             <input type="text" class="search" placeholder="Pesquisa">
 
             <div id="banner_mercado_acoes">
 
-            </div><hr />
+            </div>
+            <hr />
             <h4>Ações em destaque <i class="fas fa-crown"></i></h4>
 
             <div id="lista_empresas_mercado">
@@ -102,6 +109,40 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal para inserir ou editar produto -->
+        <b-modal id="modal-produto" :title="titulo_modal" hide-footer>
+            <b-overlay :show="prancheta_produto" rounded="sm">
+                <b-form v-on:submit="operacao">
+                    <label class="mr-sm-2" for="input_nome_produto">Nome do item:</label>
+                    <b-form-input id="input_nome_produto" v-model="novoProduto.nome" class="mb-2 mr-sm-2 mb-sm-0"
+                        placeholder="Ex: Chinelos" required></b-form-input> <br /> 
+
+                    <label class="mr-sm-2" for="input-quantidade">Quantidade em estoque:</label>
+                    <b-form-input v-model="novoProduto.quantidade" id="input-quantidade" class="mb-2 mr-sm-2 mb-sm-0"
+                        type="number" required></b-form-input>
+                    <br>
+
+                    <label class="mr-sm-2" for="input-valor">Preço:</label>
+                    <b-form-input v-model="novoProduto.valor" id="input-valor" class="mb-2 mr-sm-2 mb-sm-0"
+                        type="number" required></b-form-input>
+                    <br>
+
+                    <label class="mr-sm-2" for="input_tipo">Categoria:</label>
+                    <b-form-select id="input_tipo" v-bind:options="categorias_produto" v-model="novoProduto.categoria"
+                        v-bind:value="null" required>
+                    </b-form-select> <br /> <br /> 
+                    
+
+                    <b-button v-if="!btn_edit_produto" type="submit" variant="primary"
+                        @click="prancheta_produto = !prancheta_produto">Cadastrar</b-button>
+                    <b-button v-if="btn_edit_produto" type="submit" variant="primary"
+                        @click="btn_edit_produto = !btn_edit_produto">Atualizar</b-button>
+
+                    <b-button type="reset" variant="danger">Limpar formulário</b-button>
+                </b-form>
+            </b-overlay>
+        </b-modal>
     </div>
 </template>
 
@@ -177,6 +218,25 @@ export default {
             tab_produto: false,
             tab_transferencias: false,
 
+            operacao: this.createNewProduto,
+
+            titulo_modal: 'Cadastro de produto',
+
+            btn_edit_produto: false,
+
+            prancheta_produto: false,
+
+            categorias_produto: [
+                { text: "Selecione um:", value: null },
+                "Utensílios",
+                "Eletrônicos",
+                "Roupa e Banho",
+                "Ferramentas",
+                "Peças para automóveis",
+                "Pneus",
+                "Produtos de Limpeza"
+            ],
+
             novaConta: {
                 nome: null,
                 sobrenome: null,
@@ -193,7 +253,7 @@ export default {
                 quantidade: null,
                 categoria: null,
                 valor: null,
-                idLoja: null
+                idLoja: 0
             },
 
             novaAcao: {
@@ -217,20 +277,19 @@ export default {
     },
 
     methods: {
-
         createNewConta: function (event) {
-        event.preventDefault();
+            event.preventDefault();
 
-        // Veja mais sobre em https://axios.nuxtjs.org/usage
-        this.$axios
-            .$post("conta", this.novaConta)
-            .then(() => {
-                this.updateConta();
-            })
-            .catch((error) => {
-                console.error('Não foi possível criar uma nova conta');
-                console.log(error);
-            });
+            // Veja mais sobre em https://axios.nuxtjs.org/usage
+            this.$axios
+                .$post("conta", this.novaConta)
+                .then(() => {
+                    this.updateConta();
+                })
+                .catch((error) => {
+                    console.error('Não foi possível criar uma nova conta');
+                    console.log(error);
+                });
 
             this.$bvModal.hide('modal-conta');
             this.tab_conta = false;
@@ -249,18 +308,18 @@ export default {
         },
 
         createNewLoja: function (event) {
-        event.preventDefault();
+            event.preventDefault();
 
-        // Veja mais sobre em https://axios.nuxtjs.org/usage
-        this.$axios
-            .$post("loja", this.novaLoja)
-            .then(() => {
-                this.updateLoja();
-            })
-            .catch((error) => {
-                console.error('Não foi possível criar uma nova loja');
-                console.log(error);
-            });
+            // Veja mais sobre em https://axios.nuxtjs.org/usage
+            this.$axios
+                .$post("loja", this.novaLoja)
+                .then(() => {
+                    this.updateLoja();
+                })
+                .catch((error) => {
+                    console.error('Não foi possível criar uma nova loja');
+                    console.log(error);
+                });
 
             this.$bvModal.hide('modal-loja');
             this.tab_loja = false;
@@ -279,18 +338,18 @@ export default {
         },
 
         createNewProduto: function (event) {
-        event.preventDefault();
+            event.preventDefault();
 
-        // Veja mais sobre em https://axios.nuxtjs.org/usage
-        this.$axios
-            .$post("produto", this.novoProduto)
-            .then(() => {
-                this.updateProduto();
-            })
-            .catch((error) => {
-                console.error('Não foi possível criar um novo produto');
-                console.log(error);
-            });
+            // Veja mais sobre em https://axios.nuxtjs.org/usage
+            this.$axios
+                .$post("produto", this.novoProduto)
+                .then(() => {
+                    this.updateProduto();
+                })
+                .catch((error) => {
+                    console.error('Não foi possível criar um novo produto');
+                    console.log(error);
+                });
 
             this.$bvModal.hide('modal-produto');
             this.tab_produto = false;
@@ -309,18 +368,18 @@ export default {
         },
 
         createNewAcao: function (event) {
-        event.preventDefault();
+            event.preventDefault();
 
-        // Veja mais sobre em https://axios.nuxtjs.org/usage
-        this.$axios
-            .$post("acao", this.novaAcao)
-            .then(() => {
-                this.updateAcao();
-            })
-            .catch((error) => {
-                console.error('Não foi possível criar uma nova ação');
-                console.log(error);
-            });
+            // Veja mais sobre em https://axios.nuxtjs.org/usage
+            this.$axios
+                .$post("acao", this.novaAcao)
+                .then(() => {
+                    this.updateAcao();
+                })
+                .catch((error) => {
+                    console.error('Não foi possível criar uma nova ação');
+                    console.log(error);
+                });
 
             this.$bvModal.hide('modal-acao');
             this.tab_acao = false;
@@ -339,18 +398,18 @@ export default {
         },
 
         createNewTransferencia: function (event) {
-        event.preventDefault();
+            event.preventDefault();
 
-        // Veja mais sobre em https://axios.nuxtjs.org/usage
-        this.$axios
-            .$post("transferencia", this.novaLoja)
-            .then(() => {
-                this.updateTransferencia();
-            })
-            .catch((error) => {
-                console.error('Não foi possível registrar uma nova transferência');
-                console.log(error);
-            });
+            // Veja mais sobre em https://axios.nuxtjs.org/usage
+            this.$axios
+                .$post("transferencia", this.novaLoja)
+                .then(() => {
+                    this.updateTransferencia();
+                })
+                .catch((error) => {
+                    console.error('Não foi possível registrar uma nova transferência');
+                    console.log(error);
+                });
 
             this.$bvModal.hide('modal-transferencia');
             this.tab_transferencias = false;
