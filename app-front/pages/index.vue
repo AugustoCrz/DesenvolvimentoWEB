@@ -110,34 +110,91 @@
             </div>
         </div>
 
+        <!-- Modal para inserir ou editar lojas -->
+        <b-modal id="modal-loja" :title="titulo_modal" hide-footer>
+            <b-overlay :show="prancheta_loja" rounded="sm">
+                <b-form v-on:submit="operacao">
+                    <label class="mr-sm-2" for="input_nome_loja">Nome da loja:</label>
+                    <b-form-input id="input_nome_loja" v-model="objetoLoja.nome" class="mb-2 mr-sm-2 mb-sm-0"
+                        placeholder="Ex: Rei dos descontos" required></b-form-input> 
+                    <br /> 
+
+                    <label class="mr-sm-2" for="input_endereco_loja">Endereço da loja:</label>
+                    <b-form-input id="input_endereco_loja" v-model="objetoLoja.endereco" class="mb-2 mr-sm-2 mb-sm-0"
+                        placeholder="Ex: Rua das flores douradas, 24 - Centro - Ratanabá" required></b-form-input> 
+                    <br /> 
+
+                    <label class="mr-sm-2" for="input-telefone">Telefone:</label>
+                    <b-form-input v-model="objetoLoja.telefone" id="input-telefone" class="mb-2 mr-sm-2 mb-sm-0"
+                    placeholder="(11) 8445-2382" required></b-form-input>
+                    <br /><br />
+
+                    <b-button v-if="!btn_edit_acao" type="submit" variant="primary"
+                        @click="prancheta_acao = !prancheta_acao">Cadastrar</b-button>
+                    <b-button v-if="btn_edit_acao" type="submit" variant="primary"
+                        @click="btn_edit_acao = !btn_edit_acao">Atualizar</b-button>
+
+                    <b-button type="reset" variant="danger">Limpar formulário</b-button>
+                </b-form>
+            </b-overlay>
+        </b-modal>
+
         <!-- Modal para inserir ou editar produto -->
         <b-modal id="modal-produto" :title="titulo_modal" hide-footer>
             <b-overlay :show="prancheta_produto" rounded="sm">
                 <b-form v-on:submit="operacao">
                     <label class="mr-sm-2" for="input_nome_produto">Nome do item:</label>
-                    <b-form-input id="input_nome_produto" v-model="novoProduto.nome" class="mb-2 mr-sm-2 mb-sm-0"
+                    <b-form-input id="input_nome_produto" v-model="objetoProduto.nome" class="mb-2 mr-sm-2 mb-sm-0"
                         placeholder="Ex: Chinelos" required></b-form-input> <br /> 
 
                     <label class="mr-sm-2" for="input-quantidade">Quantidade em estoque:</label>
-                    <b-form-input v-model="novoProduto.quantidade" id="input-quantidade" class="mb-2 mr-sm-2 mb-sm-0"
+                    <b-form-input v-model="objetoProduto.quantidade" id="input-quantidade" class="mb-2 mr-sm-2 mb-sm-0"
                         type="number" required></b-form-input>
-                    <br>
+                    <br />
 
-                    <label class="mr-sm-2" for="input-valor">Preço:</label>
-                    <b-form-input v-model="novoProduto.valor" id="input-valor" class="mb-2 mr-sm-2 mb-sm-0"
+                    <label class="mr-sm-2" for="input-preco">Preço:</label>
+                    <b-form-input v-model="objetoProduto.preco" id="input-preco" class="mb-2 mr-sm-2 mb-sm-0"
                         type="number" required></b-form-input>
-                    <br>
+                    <br />
 
                     <label class="mr-sm-2" for="input_tipo">Categoria:</label>
-                    <b-form-select id="input_tipo" v-bind:options="categorias_produto" v-model="novoProduto.categoria"
+                    <b-form-select id="input_tipo" v-bind:options="categorias_produto" v-model="objetoProduto.categoria"
                         v-bind:value="null" required>
-                    </b-form-select> <br /> <br /> 
-                    
+                    </b-form-select> <br /> <br />
 
                     <b-button v-if="!btn_edit_produto" type="submit" variant="primary"
                         @click="prancheta_produto = !prancheta_produto">Cadastrar</b-button>
                     <b-button v-if="btn_edit_produto" type="submit" variant="primary"
                         @click="btn_edit_produto = !btn_edit_produto">Atualizar</b-button>
+
+                    <b-button type="reset" variant="danger">Limpar formulário</b-button>
+                </b-form>
+            </b-overlay>
+        </b-modal>
+
+        <!-- Modal para inserir ou editar ações -->
+        <b-modal id="modal-acao" :title="titulo_modal" hide-footer>
+            <b-overlay :show="prancheta_acao" rounded="sm">
+                <b-form v-on:submit="operacao">
+                    <label class="mr-sm-2" for="input_nome_acao">Nome da ação:</label>
+                    <b-form-input id="input_nome_acao" v-model="objetoAcao.nome" class="mb-2 mr-sm-2 mb-sm-0"
+                        placeholder="Ex: PETR4" required></b-form-input> 
+                    <br /> 
+
+                    <label class="mr-sm-2" for="input-tipo">Tipo de ação:</label>
+                    <b-form-input v-model="objetoAcao.tipo" id="input-tipo" class="mb-2 mr-sm-2 mb-sm-0"
+                        placeholder="Ex: Refinaria" required></b-form-input>
+                    <br />
+
+                    <label class="mr-sm-2" for="input-preco">Preço:</label>
+                    <b-form-input v-model="objetoAcao.preco" id="input-preco" class="mb-2 mr-sm-2 mb-sm-0"
+                        type="number" required></b-form-input>
+                    <br /><br />
+
+                    <b-button v-if="!btn_edit_acao" type="submit" variant="primary"
+                        @click="prancheta_acao = !prancheta_acao">Cadastrar</b-button>
+                    <b-button v-if="btn_edit_acao" type="submit" variant="primary"
+                        @click="btn_edit_acao = !btn_edit_acao">Atualizar</b-button>
 
                     <b-button type="reset" variant="danger">Limpar formulário</b-button>
                 </b-form>
@@ -222,8 +279,10 @@ export default {
 
             titulo_modal: 'Cadastro de produto',
 
+            btn_edit_acao: false,
             btn_edit_produto: false,
 
+            prancheta_acao: false,
             prancheta_produto: false,
 
             categorias_produto: [
@@ -237,28 +296,39 @@ export default {
                 "Produtos de Limpeza"
             ],
 
-            novaConta: {
+            objetoConta: {
                 nome: null,
                 sobrenome: null,
                 endereco: null,
-                saldo: null
+                saldo: 0
             },
 
-            novaLoja: {
+            objetoLoja: {
                 nome: null,
+                endereco: null,
+                telefone: null,
+                vendas: 0,
+                saldo: 0
             },
 
-            novoProduto: {
+            objetoProduto: {
                 nome: null,
                 quantidade: null,
                 categoria: null,
-                valor: null,
+                preco: null,
                 idLoja: 0
             },
 
-            novaAcao: {
+            objetoAcao: {
                 nome: null,
                 tipo: null,
+                preco: null
+            },
+
+            objetoTransferencia: {
+                data: null,
+                conta: null,
+                conta_alvo: null,
                 valor: null
             },
 
@@ -282,7 +352,7 @@ export default {
 
             // Veja mais sobre em https://axios.nuxtjs.org/usage
             this.$axios
-                .$post("conta", this.novaConta)
+                .$post("conta", this.objetoConta)
                 .then(() => {
                     this.updateConta();
                 })
@@ -312,7 +382,7 @@ export default {
 
             // Veja mais sobre em https://axios.nuxtjs.org/usage
             this.$axios
-                .$post("loja", this.novaLoja)
+                .$post("loja", this.objetoLoja)
                 .then(() => {
                     this.updateLoja();
                 })
@@ -342,7 +412,7 @@ export default {
 
             // Veja mais sobre em https://axios.nuxtjs.org/usage
             this.$axios
-                .$post("produto", this.novoProduto)
+                .$post("produto", this.objetoProduto)
                 .then(() => {
                     this.updateProduto();
                 })
@@ -372,7 +442,7 @@ export default {
 
             // Veja mais sobre em https://axios.nuxtjs.org/usage
             this.$axios
-                .$post("acao", this.novaAcao)
+                .$post("acao", this.objetoAcao)
                 .then(() => {
                     this.updateAcao();
                 })
@@ -402,7 +472,7 @@ export default {
 
             // Veja mais sobre em https://axios.nuxtjs.org/usage
             this.$axios
-                .$post("transferencia", this.novaLoja)
+                .$post("transferencia", this.objetoLoja)
                 .then(() => {
                     this.updateTransferencia();
                 })

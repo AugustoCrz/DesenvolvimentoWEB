@@ -13,6 +13,12 @@ module.exports = {
       nome: {
         type: Sequelize.STRING
       },
+      endereco: {
+        type: Sequelize.STRING
+      },
+      telefone: {
+        type: Sequelize.STRING
+      },
       vendas: {
         type: Sequelize.INTEGER
       },

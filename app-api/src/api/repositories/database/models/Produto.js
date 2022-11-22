@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        valor: {
+        preco: {
             type: DataTypes.DOUBLE,
             defaultValue: 0,
             allowNull: false

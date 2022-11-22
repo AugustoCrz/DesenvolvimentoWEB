@@ -24,6 +24,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        endereco: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        telefone: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         vendas: {
             type: DataTypes.INTEGER,
             defaultValue: 0

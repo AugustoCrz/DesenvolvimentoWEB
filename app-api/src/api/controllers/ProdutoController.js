@@ -31,9 +31,9 @@ module.exports = {
 
     // handler para adicionar um novo produto
     add: function (req, res) {
-        const { nome, quantidade, categoria, valor } = req.body
+        const { nome, quantidade, categoria, preco } = req.body
         ProdutoService.addNew(
-            { nome, quantidade, categoria, valor }
+            { nome, quantidade, categoria, preco }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");
@@ -47,9 +47,9 @@ module.exports = {
     },
 
     update: function (req, res) {
-        const { nome, quantidade, categoria, valor } = req.body
+        const { nome, quantidade, categoria, preco } = req.body
         ProdutoService.update(
-            { nome, quantidade, categoria, valor }
+            { nome, quantidade, categoria, preco }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");

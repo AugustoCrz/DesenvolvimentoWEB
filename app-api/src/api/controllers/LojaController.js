@@ -31,9 +31,9 @@ module.exports = {
 
     // handler para adicionar uma nova loja
     add: function (req, res) {
-        const { nome, vendas, saldo } = req.body
+        const { nome, endereco, telefone, vendas, saldo } = req.body
         LojaService.addNew(
-            { nome, vendas, saldo }
+            { nome, endereco, telefone, vendas, saldo }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");
@@ -47,9 +47,9 @@ module.exports = {
     },
 
     update: function (req, res) {
-        const { nome, vendas, saldo } = req.body
+        const { nome, endereco, telefone, vendas, saldo } = req.body
         LojaService.update(
-            { nome, vendas, saldo }
+            { nome, endereco, telefone, vendas, saldo }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");

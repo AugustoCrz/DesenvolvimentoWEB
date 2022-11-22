@@ -16,7 +16,7 @@ module.exports = {
       tipo: {
         type: Sequelize.STRING
       },
-      valor: {
+      preco: {
         type: Sequelize.DOUBLE
       }
     })

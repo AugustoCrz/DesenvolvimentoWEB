@@ -27,7 +27,7 @@ module.exports = {
       categoria: {
         type: Sequelize.STRING
       },
-      valor: {
+      preco: {
         type: Sequelize.DOUBLE
       }
     })
