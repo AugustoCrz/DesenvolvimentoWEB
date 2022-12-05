@@ -8,6 +8,7 @@
                 <h1 class="titulo_pag" v-if="inicioView">Bank Bank</h1>
                 <h1 class="titulo_pag" v-if="marketplaceView">Marketplace</h1>
                 <h1 class="titulo_pag" v-if="acoesView">Mercado de ações</h1>
+                <h1 class="titulo_pag" v-if="configuracoesView">Configurações</h1>
             </div>
 
             <div id="buttons_nav">
@@ -16,7 +17,8 @@
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = true
                         marketplaceView = false
-                        acoesView = false">
+                        acoesView = false
+                        configsView = false">
                         <h3 class="buttn_icon_menu">Página inicial</h3>
                     </b-nav-item>
 
@@ -24,7 +26,8 @@
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = false
                         marketplaceView = true
-                        acoesView = false">
+                        acoesView = false
+                        configsView = false">
                         <h3 class="buttn_icon_menu">Marketplace</h3>
                     </b-nav-item>
 
@@ -32,8 +35,18 @@
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = false
                         marketplaceView = false
-                        acoesView = true">
+                        acoesView = true
+                        configsView = false">
                         <h3 class="buttn_icon_menu">Mercado de Ações</h3>
+                    </b-nav-item>
+
+                    <!-- Botão de Configurações -->
+                    <b-nav-item class='icons_nav_menu' @click="
+                        inicioView = false
+                        marketplaceView = false
+                        acoesView = false
+                        configsView = true">
+                        <h3 class="buttn_icon_menu">Configurações</h3>
                     </b-nav-item>
                 </b-navbar-nav>
             </div>
@@ -110,6 +123,31 @@
             </div>
         </div>
 
+        <div class="invent-cards content_page" v-if="configsView">
+            <h2>Configurações</h2>
+            <hr />
+
+            <div id="itens_fnc_rapida">
+                <div class='item_fnc_rapida'>
+                    Lojas
+                    <hr />
+                    <p class="btn_item" v-b-modal.modal-loja @click="objeto_foco(0)"><i class="fas fa-wallet"></i> Cadastrar nova</p>
+                </div>
+
+                <div class='item_fnc_rapida'>
+                    Itens <i class="fas fa-dollar-sign"></i>
+                    <hr />
+                    <p class="btn_item" v-b-modal.modal-produto @click="objeto_foco(1)"><i class="fas fa-wallet"></i> Inserir novo</p>
+                </div>
+
+                <div class='item_fnc_rapida'>
+                    Ações <i class="fas fa-bolt"></i>
+                    <hr />
+                    <p class="btn_item" v-b-modal.modal-acao @click="objeto_foco(2)"><i class="fas fa-mobile"></i> Inserir nova</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal para inserir ou editar lojas -->
         <b-modal id="modal-loja" :title="titulo_modal" hide-footer>
             <b-overlay :show="prancheta_loja" rounded="sm">
@@ -129,10 +167,10 @@
                     placeholder="(11) 8445-2382" required></b-form-input>
                     <br /><br />
 
-                    <b-button v-if="!btn_edit_acao" type="submit" variant="primary"
+                    <b-button v-if="!btn_edit_loja" type="submit" variant="primary"
                         @click="prancheta_acao = !prancheta_acao">Cadastrar</b-button>
-                    <b-button v-if="btn_edit_acao" type="submit" variant="primary"
-                        @click="btn_edit_acao = !btn_edit_acao">Atualizar</b-button>
+                    <b-button v-if="btn_edit_loja" type="submit" variant="primary"
+                        @click="btn_edit_loja = !btn_edit_loja">Atualizar</b-button>
 
                     <b-button type="reset" variant="danger">Limpar formulário</b-button>
                 </b-form>
@@ -268,6 +306,7 @@ export default {
             inicioView: true,
             marketplaceView: false,
             acoesView: false,
+            configsView: false,
 
             tab_acao: false,
             tab_loja: false,
@@ -348,6 +387,47 @@ export default {
     },
 
     methods: {
+
+        objeto_foco: function(caso){
+
+            // 0 -> Loja, 1 -> Produto, 2 -> Ação
+            if(caso == 0){ // Loja
+                this.objetoLoja = {
+                    nome: null,
+                    endereco: null,
+                    telefone: null,
+                    vendas: 0,
+                    saldo: 0
+                }
+
+                this.btn_edit_loja = false;
+                this.titulo_modal = "Nova Loja";
+                this.modo_operantes = this.createNewLoja;
+            }else if(caso == 1){
+                this.objetoProduto = {
+                    nome: null,
+                    quantidade: null,
+                    categoria: null,
+                    preco: null,
+                    idLoja: 0
+                },
+
+                this.btn_edit_produto = false;
+                this.titulo_modal = "Cadastro de Produto";
+                this.modo_operantes = this.createNewProduto;
+            }else{
+                this.objetoAcao = {
+                    nome: null,
+                    tipo: null,
+                    preco: null
+                },
+
+                this.btn_edit_acao = false;
+                this.titulo_modal = "Cadastro de Ação";
+                this.modo_operantes = this.createNewAcao;
+            }
+        },
+
         createNewConta: function (event) {
             event.preventDefault();
 
