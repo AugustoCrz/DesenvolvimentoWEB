@@ -31,9 +31,9 @@ module.exports = {
 
     // handler para adicionar um novo produto
     add: function (req, res) {
-        const { nome, quantidade, categoria, preco } = req.body
+        const { nome, quantidade, categoria, preco, idLoja } = req.body
         ProdutoService.addNew(
-            { nome, quantidade, categoria, preco }
+            { nome, quantidade, categoria, preco, idLoja }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");

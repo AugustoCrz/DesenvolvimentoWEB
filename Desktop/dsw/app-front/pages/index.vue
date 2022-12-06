@@ -18,7 +18,8 @@
                         inicioView = true
                         marketplaceView = false
                         acoesView = false
-                        configsView = false">
+                        configsView = false
+                        lojaPainelView = false">
                         <h3 class="buttn_icon_menu">Página inicial</h3>
                     </b-nav-item>
 
@@ -27,7 +28,8 @@
                         inicioView = false
                         marketplaceView = true
                         acoesView = false
-                        configsView = false">
+                        configsView = false
+                        lojaPainelView = false">
                         <h3 class="buttn_icon_menu">Marketplace</h3>
                     </b-nav-item>
 
@@ -36,7 +38,8 @@
                         inicioView = false
                         marketplaceView = false
                         acoesView = true
-                        configsView = false">
+                        configsView = false
+                        lojaPainelView = false">
                         <h3 class="buttn_icon_menu">Mercado de Ações</h3>
                     </b-nav-item>
 
@@ -45,7 +48,8 @@
                         inicioView = false
                         marketplaceView = false
                         acoesView = false
-                        configsView = true">
+                        configsView = true
+                        lojaPainelView = false">
                         <h3 class="buttn_icon_menu">Configurações</h3>
                     </b-nav-item>
                 </b-navbar-nav>
@@ -93,18 +97,20 @@
                 </h2>
             </div>
             <hr />
-            <input type="text" class="search" placeholder="Pesquisa por um produto">
+            <input type="text" class="search" placeholder="Pesquisar por um produto">
 
             <div id="lista_lojas_destaque_marketplace" v-if="(lojas.length > 0)">
 
-                <hr />
+                <br />
                 <h4>Lojas em destaque <i class="fas fa-store"></i></h4>
 
                 <div id="lista_lojas_marketplace">
                     <div v-for="(loja, index) in lojas" v-if="(index <= 2)">
-                        <div class="item_loja_market_place_destaque">
-                            <h3>{{loja.nome}}</h3>
-                        </div>
+                        <a href="#">
+                            <div class="item_loja_market_place_destaque" @click="abrir_painel_loja(loja)">
+                                <h3>{{loja.nome}}</h3>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -114,7 +120,26 @@
 
             <div id="lista_itens_marketplace">
                 <div v-for="produto in produtos">
-                    <div class="item_market_place"></div>
+                    <div class="item_market_place">
+                        <h2>{{produto.nome}}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div id="painel_loja_preview" v-if="lojaPainelView">
+                <h2>{{objetoLoja.nome}} <i class="fas fa-store"></i></h2>
+
+                <p class="btn_item" style="float: right; margin-top: 25px;" @click="lojaPainelView = false">Retornar</p>
+
+                <hr />
+                <p class="btn_item inserir_produto" v-b-modal.modal-produto @click="objeto_foco(1)"><i class="fas fa-plus"></i> Inserir novo produto</p>
+
+                <div id="lista_itens_marketplace">
+                    <div v-for="produto in produtos_loja">
+                        <div class="item_market_place">
+                            <h2>{{produto.nome}}</h2>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -155,7 +180,7 @@
                 </div>
 
                 <div class='item_fnc_rapida' v-if="lojas.length > 0">
-                    Itens <i class="fas fa-cube"></i>
+                    Produtos <i class="fas fa-cube"></i>
                     <hr />
                     <p class="btn_item" v-b-modal.modal-produto @click="objeto_foco(1)"><i class="fas fa-plus"></i> Inserir novo</p>
 
@@ -360,8 +385,6 @@ export default {
         //     console.log(ex);
         // }
 
-        console.log(lojas)
-
         return { conta, lojas, produtos, acoes, transferencias }
     },
 
@@ -379,6 +402,8 @@ export default {
             acoesRegistradasView: false,
 
             viewConfigAnterior: false,
+
+            lojaPainelView: false,
 
             tab_acao: false,
             tab_loja: false,
@@ -455,6 +480,7 @@ export default {
             acoes: [],
             lojas: [],
             produtos: [],
+            produtos_loja: [],
             transferencias: []
         };
     },
@@ -524,6 +550,22 @@ export default {
             }
 
             this.viewConfigAnterior = caso
+        },
+
+        abrir_painel_loja: function (dados) {
+
+            this.lojaPainelView = true;
+            this.objetoLoja = dados;
+            this.objetoProduto.idLoja = dados.id;
+
+            this.produtos_loja = [];
+
+            console.log(dados, this.produtos)
+
+            for(let i = 0; i < this.produtos.length; i++){
+                if(this.produtos[i].idLoja == dados.id)
+                    this.produtos_loja.push(this.produtos[i])
+            }
         },
 
         createNewConta: function (event) {

@@ -136,6 +136,7 @@ input.search {
     float: left;
     margin-top: 60px;
     margin-left: 10px;
+    color: rgb(51, 51, 51);
 }
 
 .item_m_acoes {
@@ -168,6 +169,10 @@ input.search {
     background-color: rgb(182, 182, 182);
 }
 
+.inserir_produto {
+    max-width: 200px;
+}
+
 i.fas {
     width: 15px;
     text-align: center;
@@ -178,4 +183,16 @@ i.fas {
     margin: 10px;
     margin-top: 40px;
     text-shadow: 2px 2px 2px black;
+}
+
+#painel_loja_preview {
+    top: 0px;
+    z-index: 2;
+    width: 68%;
+    height: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5%;
+    position: fixed;
+    background-color: white;
 }
