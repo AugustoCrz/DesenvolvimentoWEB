@@ -82,7 +82,8 @@ input.search {
 }
 
 #lista_itens_marketplace,
-#lista_empresas_mercado {
+#lista_empresas_mercado,
+#lista_lojas_marketplace {
     width: 100%;
     row-gap: 5px;
     display: grid;
@@ -97,12 +98,44 @@ input.search {
 }
 
 .item_market_place,
-.item_m_acoes {
+.item_m_acoes,
+.item_loja_market_place,
+.item_loja_market_place_destaque {
     width: 100%;
     height: 250px;
     border-radius: 10px;
     transition: all .2s;
-    background-color: rgb(136, 136, 136)
+    background-color: rgb(136, 136, 136);
+}
+
+.item_m_acoes {
+    max-width: 250px;
+}
+
+.item_loja_market_place {
+    height: 150px;
+    max-width: 250px;
+}
+
+.item_loja_market_place:hover {
+    background-color: rgb(100, 100, 100);
+}
+
+.item_loja_market_place>h3 {
+    float: left;
+    margin-top: 100px;
+    margin-left: 10px;
+}
+
+.item_loja_market_place_destaque {
+    height: 100px;
+    background-color: rgb(214, 173, 219);
+}
+
+.item_loja_market_place_destaque>h3 {
+    float: left;
+    margin-top: 60px;
+    margin-left: 10px;
 }
 
 .item_m_acoes {
@@ -138,4 +171,11 @@ input.search {
 i.fas {
     width: 15px;
     text-align: center;
+}
+
+.infos_acao {
+    color: white;
+    margin: 10px;
+    margin-top: 40px;
+    text-shadow: 2px 2px 2px black;
 }

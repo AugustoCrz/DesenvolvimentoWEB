@@ -8,7 +8,7 @@
                 <h1 class="titulo_pag" v-if="inicioView">Bank Bank</h1>
                 <h1 class="titulo_pag" v-if="marketplaceView">Marketplace</h1>
                 <h1 class="titulo_pag" v-if="acoesView">Mercado de ações</h1>
-                <h1 class="titulo_pag" v-if="configuracoesView">Configurações</h1>
+                <h1 class="titulo_pag" v-if="configsView">Configurações</h1>
             </div>
 
             <div id="buttons_nav">
@@ -93,15 +93,30 @@
                 </h2>
             </div>
             <hr />
-            <input type="text" class="search" placeholder="Pesquisa">
+            <input type="text" class="search" placeholder="Pesquisa por um produto">
+
+            <div id="lista_lojas_destaque_marketplace" v-if="(lojas.length > 0)">
+
+                <hr />
+                <h4>Lojas em destaque <i class="fas fa-store"></i></h4>
+
+                <div id="lista_lojas_marketplace">
+                    <div v-for="(loja, index) in lojas" v-if="(index <= 2)">
+                        <div class="item_loja_market_place_destaque">
+                            <h3>{{loja.nome}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr v-if="(produtos.length > 0)"/>
+            <h4 v-if="(produtos.length > 0)">Produtos em destaque <i class="fas fa-store"></i></h4>
 
             <div id="lista_itens_marketplace">
                 <div v-for="produto in produtos">
                     <div class="item_market_place"></div>
                 </div>
             </div>
-
-            <button v-b-modal.modal-produto>Inserir Produtos</button>
         </div>
 
         <div class="invent-cards content_page" v-if="acoesView">
@@ -113,12 +128,15 @@
             <div id="banner_mercado_acoes">
 
             </div>
-            <hr />
-            <h4>Ações em destaque <i class="fas fa-crown"></i></h4>
+            <hr v-if="(acoes.length > 0)"/>
+            <h4 v-if="(acoes.length > 0)">Ações em destaque <i class="fas fa-crown"></i></h4>
 
             <div id="lista_empresas_mercado">
                 <div v-for="(acao, index) in acoes" v-if="index < 5">
-                    <div class="item_m_acoes"></div>
+                    <div class="item_m_acoes">
+                        <h3 style="float: left;" class="infos_acao">{{acao.nome}}</h3>
+                        <h1 style="float: right;" class="infos_acao">R${{acao.preco}}</h1>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,21 +147,67 @@
 
             <div id="itens_fnc_rapida">
                 <div class='item_fnc_rapida'>
-                    Lojas
+                    Lojas <i class="fas fa-store"></i>
                     <hr />
-                    <p class="btn_item" v-b-modal.modal-loja @click="objeto_foco(0)"><i class="fas fa-wallet"></i> Cadastrar nova</p>
+                    <p class="btn_item" v-b-modal.modal-loja @click="objeto_foco(0)"><i class="fas fa-plus"></i> Cadastrar nova</p>
+
+                    <p class="btn_item" v-if="lojas.length > 0" @click="ordena_amostragem(0)"><i class="fas fa-folder-open"></i> Exibir todas</p>
+                </div>
+
+                <div class='item_fnc_rapida' v-if="lojas.length > 0">
+                    Itens <i class="fas fa-cube"></i>
+                    <hr />
+                    <p class="btn_item" v-b-modal.modal-produto @click="objeto_foco(1)"><i class="fas fa-plus"></i> Inserir novo</p>
+
+                    <p class="btn_item" v-if="produtos.length > 0" @click="ordena_amostragem(1)"><i class="fas fa-folder-open"></i> Exibir todos</p>
                 </div>
 
                 <div class='item_fnc_rapida'>
-                    Itens <i class="fas fa-dollar-sign"></i>
+                    Ações <i class="fas fa-dollar-sign"></i>
                     <hr />
-                    <p class="btn_item" v-b-modal.modal-produto @click="objeto_foco(1)"><i class="fas fa-wallet"></i> Inserir novo</p>
-                </div>
+                    <p class="btn_item" v-b-modal.modal-acao @click="objeto_foco(2)"><i class="fas fa-plus"></i> Inserir nova</p>
 
-                <div class='item_fnc_rapida'>
-                    Ações <i class="fas fa-bolt"></i>
-                    <hr />
-                    <p class="btn_item" v-b-modal.modal-acao @click="objeto_foco(2)"><i class="fas fa-mobile"></i> Inserir nova</p>
+                    <p class="btn_item" v-if="acoes.length > 0" @click="ordena_amostragem(2)"><i class="fas fa-folder-open"></i> Exibir todas</p>
+                </div>
+            </div>
+
+            <div v-if="lojasRegistradasView">
+                <hr />
+                <h4>Lojas registradas <i class="fas fa-store"></i></h4>
+
+                <div id="lista_lojas_marketplace">
+                    <div v-for="loja in lojas">
+                        <div class="item_loja_market_place">
+                            <h3>{{loja.nome}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="produtosRegistradosView">
+                <hr />
+                <h4>Produtos registrados <i class="fas fa-cube"></i></h4>
+
+                <div id="lista_lojas_marketplace">
+                    <div v-for="produto in produtos">
+                        <div class="item_loja_market_place">
+                            <h3>{{produto.nome}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="acoesRegistradasView">
+                <hr />
+                <h4>Ações registradas <i class="fas fa-dollar-sign"></i></h4>
+
+                <div id="lista_empresas_mercado">
+                    <div v-for="acao in acoes">
+                        <div class="item_m_acoes">
+                            <h3 style="float: left;" class="infos_acao">{{acao.nome}}</h3>
+                            <h1 style="float: right;" class="infos_acao">R${{acao.preco}}</h1>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -289,12 +353,14 @@ export default {
             console.log(ex);
         }
 
-        try {
-            const response = await $axios.$get('transferencia');
-            transferencias = response;
-        } catch (ex) {
-            console.log(ex);
-        }
+        // try {
+        //     const response = await $axios.$get('transferencia');
+        //     transferencias = response;
+        // } catch (ex) {
+        //     console.log(ex);
+        // }
+
+        console.log(lojas)
 
         return { conta, lojas, produtos, acoes, transferencias }
     },
@@ -308,16 +374,23 @@ export default {
             acoesView: false,
             configsView: false,
 
+            lojasRegistradasView: false,
+            produtosRegistradosView: false,
+            acoesRegistradasView: false,
+
+            viewConfigAnterior: false,
+
             tab_acao: false,
             tab_loja: false,
             tab_conta: false,
             tab_produto: false,
             tab_transferencias: false,
 
-            operacao: this.createNewProduto,
+            operacao: this.createNewLoja,
 
             titulo_modal: 'Cadastro de produto',
 
+            btn_edit_loja: false,
             btn_edit_acao: false,
             btn_edit_produto: false,
 
@@ -402,7 +475,7 @@ export default {
 
                 this.btn_edit_loja = false;
                 this.titulo_modal = "Nova Loja";
-                this.modo_operantes = this.createNewLoja;
+                this.operacao = this.createNewLoja;
             }else if(caso == 1){
                 this.objetoProduto = {
                     nome: null,
@@ -414,7 +487,7 @@ export default {
 
                 this.btn_edit_produto = false;
                 this.titulo_modal = "Cadastro de Produto";
-                this.modo_operantes = this.createNewProduto;
+                this.operacao = this.createNewProduto;
             }else{
                 this.objetoAcao = {
                     nome: null,
@@ -424,8 +497,33 @@ export default {
 
                 this.btn_edit_acao = false;
                 this.titulo_modal = "Cadastro de Ação";
-                this.modo_operantes = this.createNewAcao;
+                this.operacao = this.createNewAcao;
             }
+        },
+
+        ordena_amostragem: function (caso){
+
+            // 0 -> Lojas, 1 -> Produtos, 2 -> Ações 
+            this.lojasRegistradasView = false;
+            this.produtosRegistradosView = false;
+            this.acoesRegistradasView = false;
+
+            if(caso !== this.viewConfigAnterior){
+                if(caso == 0)
+                    this.lojasRegistradasView = true;
+                else if(caso == 1)
+                    this.produtosRegistradosView = true;
+                else
+                    this.acoesRegistradasView = true;
+            }else{
+                this.lojasRegistradasView = false;
+                this.produtosRegistradosView = false;
+                this.acoesRegistradasView = false;
+
+                caso = null;
+            }
+
+            this.viewConfigAnterior = caso
         },
 
         createNewConta: function (event) {
