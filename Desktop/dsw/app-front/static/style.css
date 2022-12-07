@@ -196,3 +196,10 @@ i.fas {
     position: fixed;
     background-color: white;
 }
+
+#logo_app{
+    width: 80px;
+    height: 80px;
+    margin-left: 38%;
+    margin-top: 10%;
+}

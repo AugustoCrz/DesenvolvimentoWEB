@@ -3,9 +3,8 @@
         <script src="https://kit.fontawesome.com/6c1b2d82eb.js" crossorigin="anonymous"></script>
 
         <div id="rodape_lateral">
-
             <div class="invent-cards">
-                <h1 class="titulo_pag" v-if="inicioView">Bank Bank</h1>
+                <img id="logo_app" src="logo.png" />
                 <h1 class="titulo_pag" v-if="marketplaceView">Marketplace</h1>
                 <h1 class="titulo_pag" v-if="acoesView">Mercado de ações</h1>
                 <h1 class="titulo_pag" v-if="configsView">Configurações</h1>
@@ -559,8 +558,6 @@ export default {
             this.objetoProduto.idLoja = dados.id;
 
             this.produtos_loja = [];
-
-            console.log(dados, this.produtos)
 
             for(let i = 0; i < this.produtos.length; i++){
                 if(this.produtos[i].idLoja == dados.id)
