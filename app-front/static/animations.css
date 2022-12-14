@@ -1,0 +1,9 @@
+@keyframes fecha_menu {
+    from {
+        left: 0px;
+    }
+
+    to {
+        left: -25%;
+    }
+}
