@@ -1,10 +1,10 @@
 const request = require("supertest");
 const app = require("../app");
 
-describe("Testes para o path 'conta'", () => {
-    test("[GET /conta] Lista todas as contas do sistema", async () => {
+describe("Testes para o path 'loja'", () => {
+    test("[GET /loja] Lista todas as lojas do sistema", async () => {
         const res = await request(app)
-            .get("/conta")
+            .get("/loja")
             // Especifique na API que o tipo enviado é application/json.
             // Caso contrário o Supertest não será capas de fazer o parse da resposta
             // para um objeto javascript, e consequentemente res.body vira vazio.
@@ -29,9 +29,9 @@ describe("Testes para o path 'conta'", () => {
         expect(objToTest).toHaveProperty("saldo");
     });
 
-    test("[GET /conta/{conta_id}] Recupera uma conta por identificador", async () => {
+    test("[GET /loja/{loja_id}] Recupera uma loja por identificador", async () => {
         const res = await request(app)
-            .get("/conta/84234234")
+            .get("/loja/1")
             .set('Accept', 'application/json');
 
         // Espera que o código HTTP seja 200
@@ -49,9 +49,9 @@ describe("Testes para o path 'conta'", () => {
         expect(res.body).toHaveProperty("saldo");
     });
 
-    test("[POST /conta] Criação de uma nova conta", async () => {
+    test("[POST /loja] Criação de uma nova loja", async () => {
         const res = await request(app)
-            .post("/conta", {
+            .post("/loja", {
                 "nome": "João",
                 "sobremome": "Gomes",
                 "identificador": "29348238492",
@@ -63,17 +63,17 @@ describe("Testes para o path 'conta'", () => {
         // Espera que o código HTTP seja 201
         expect(res.statusCode).toBe(201);
 
-        expect(res.body).toEqual({ status: "Conta bancária criada com sucesso." });
+        expect(res.body).toEqual({ status: "Loja criada com sucesso." });
     });
 
-    test("[DELETE /conta/{identificador}] Remove uma conta bancária pelo ID", async () => {
+    test("[DELETE /loja/{identificador}] Remove uma loja pelo ID", async () => {
         const res = await request(app)
-            .delete("/conta/29348238492")
+            .delete("/loja/1")
             .set('Accept', 'application/json');
 
         // Espera que o código HTTP seja 200
         expect(res.statusCode).toBe(200);
-        expect(res.body).toEqual({ status: "Conta encerrada com sucesso." });
+        expect(res.body).toEqual({ status: "Loja encerrada com sucesso." });
     });
 
     const agent = request.agent(app);
@@ -82,12 +82,12 @@ describe("Testes para o path 'conta'", () => {
 
         // Faz primeiro a requisição DELETE ...        
         const resPOST = await agent
-            .delete("/conta/29348238492")
+            .delete("/loja/1")
             .set('Accept', 'application/json');
 
         // Espera que o código HTTP seja 200
         expect(resPOST.statusCode).toBe(200);
-        expect(resPOST.body).toEqual({ status: "Conta encerrada com sucesso." });
+        expect(resPOST.body).toEqual({ status: "Loja encerrada com sucesso." });
 
         // ... Para em seguida fazer um GET e obter um 404.
         const resGET = await agent
@@ -96,6 +96,6 @@ describe("Testes para o path 'conta'", () => {
 
         // Espera que o código HTTP seja 404 - Not Found
         expect(resGET.statusCode).toBe(404);
-        expect(resGET.body).toEqual({ status: `Não foi possível encontrar a conta bancaria.` });
+        expect(resGET.body).toEqual({ status: `Não foi possível encontrar a loja.` });
     });
 });
