@@ -227,7 +227,8 @@ input.search {
     padding-right: 10px;
 }
 
-.btn_item:hover {
+.btn_item:hover,
+.btn_opcao_item:hover {
     background-color: rgb(182, 182, 182);
 }
 
@@ -267,6 +268,35 @@ i.fas {
 }
 
 .a_btn_link,
-.btn_item {
+.btn_item,
+.btn_opcao_item {
     color: black;
+}
+
+.opcoes_item {
+    width: 100%;
+    margin-top: 40%;
+    margin-left: 40%;
+}
+
+.btn_opcao_item {
+    float: left;
+    width: 45px;
+    height: 45px;
+    padding: 7px;
+    font-size: 25px;
+    margin-left: 15px;
+    padding-left: 12px;
+    position: relative;
+    border-radius: 5px;
+    transition: all .2s;
+    background-color: rgb(230, 230, 230);
+}
+
+.btn_opcao_excluir {
+    background-color: rgb(255, 139, 139);
+}
+
+.btn_opcao_excluir:hover{
+    background-color: rgb(255, 84, 84);
 }

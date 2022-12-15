@@ -19,9 +19,10 @@ class ProdutoRepository {
     }
 
     async update(produto) {
+
         return await Produto.update(
             produto,
-            { where: { id: produto.identificador } }
+            { where: { id: produto.id } }
         )
     }
 

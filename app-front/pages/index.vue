@@ -121,6 +121,12 @@
                             <h3 class="nome_item_marketplace">{{produto.nome}}</h3>
 
                             <p class="preco_item_marketplace">R${{produto.preco}}</p>
+
+                            <div class="opcoes_item">
+                                <p class="btn_opcao_item" v-b-modal.modal-produto @click="objeto_edita(1, produto.id)"><i class="fas fa-pen"></i></p>
+
+                                <p class="btn_opcao_item btn_opcao_excluir" v-b-modal.modal-produto v-on:click="removeSelectedProduto(produto.id)"><i class="fas fa-trash"></i></p>
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -141,6 +147,12 @@
                                 <h3 class="nome_item_marketplace">{{produto.nome}}</h3>
 
                                 <p class="preco_item_marketplace">R${{produto.preco}}</p>
+
+                                <div class="opcoes_item">
+                                    <p class="btn_opcao_item" v-b-modal.modal-produto @click="objeto_edita(1, produto.id)"><i class="fas fa-pen"></i></p>
+
+                                    <p class="btn_opcao_item btn_opcao_excluir" v-b-modal.modal-produto v-on:click="removeSelectedProduto(produto.id)"><i class="fas fa-trash"></i></p>
+                                </div>
                             </div>
                         </a>
                     </div>
@@ -227,6 +239,12 @@
                                 <h3 class="nome_item_marketplace">{{produto.nome}}</h3>
 
                                 <p class="preco_item_marketplace">R${{produto.preco}}</p>
+
+                                <div class="opcoes_item">
+                                    <p class="btn_opcao_item" v-b-modal.modal-produto @click="objeto_edita(1, produto.id)"><i class="fas fa-pen"></i></p>
+
+                                    <p class="btn_opcao_item btn_opcao_excluir" v-b-modal.modal-produto v-on:click="removeSelectedProduto(produto.id)"><i class="fas fa-trash"></i></p>
+                                </div>
                             </div>
                         </a>
                     </div>
@@ -541,6 +559,36 @@ export default {
             }
         },
 
+        objeto_edita: function(caso, id_alvo){
+            
+            // 0 -> Loja, 1 -> Produto, 2 -> Ação
+            if(caso == 0){ // Loja
+                this.$axios.$get(`loja/${id_alvo}`).then((response) => {
+                    this.objetoLoja = response[0];
+
+                    this.titulo_modal = "Atualizar Loja";
+                    this.operacao = this.updateSelectedLoja;
+                    this.btn_edit_loja = true;
+                })
+            }else if(caso == 1){
+                this.$axios.$get(`produto/${id_alvo}`).then((response) => {
+                    this.objetoProduto = response[0];
+
+                    this.titulo_modal = "Atualizar Produto";
+                    this.operacao = this.updateSelectedProduto;
+                    this.btn_edit_produto = true;
+                });
+            }else{
+                this.$axios.$get(`acao/${id_alvo}`).then((response) => {
+                    this.objetoAcao = response[0];
+
+                    this.titulo_modal = "Atualizar Ação";
+                    this.operacao = this.updateSelectedAcao;
+                    this.btn_edit_acao = true;
+                })
+            }
+        },
+
         ordena_amostragem: function (caso){
 
             // 0 -> Lojas, 1 -> Produtos, 2 -> Ações 
@@ -607,6 +655,23 @@ export default {
             this.tab_conta = false;
         },
 
+        updateSelectedConta: function (event) {
+            event.preventDefault();
+
+            this.$axios
+            .$post("conta/update", this.objetoConta)
+            .then(() => {
+                this.updateConta();
+            })
+            .catch((error) => {
+                console.error('Não foi possível atualizar a conta selecionada.');
+                console.log(error);
+            });
+
+            this.$bvModal.hide('modal-conta');
+            this.operacao = this.createNewConta;
+        },
+
         updateConta: function () {
             this.$axios.$get("conta").then((response) => {
                 this.conta = response;
@@ -635,6 +700,23 @@ export default {
 
             this.$bvModal.hide('modal-loja');
             this.tab_loja = false;
+        },
+
+        updateSelectedLoja: function (event) {
+            event.preventDefault();
+
+            this.$axios
+            .$post("loja/update", this.objetoLoja)
+            .then(() => {
+                this.updateLoja();
+            })
+            .catch((error) => {
+                console.error('Não foi possível atualizar a loja selecionada.');
+                console.log(error);
+            });
+
+            this.$bvModal.hide('modal-loja');
+            this.operacao = this.createNewLoja;
         },
 
         updateLoja: function () {
@@ -673,6 +755,23 @@ export default {
                 });
         },
 
+        updateSelectedProduto: function (event) {
+            event.preventDefault();
+
+            this.$axios
+            .$post("produto/update", this.objetoProduto)
+            .then(() => {
+                this.updateProduto();
+            })
+            .catch((error) => {
+                console.error('Não foi possível atualizar o produto selecionado.');
+                console.log(error);
+            });
+
+            this.$bvModal.hide('modal-produto');
+            this.operacao = this.createNewProduto;
+        },
+
         updateProduto: function () {
             this.$axios.$get("produto").then((response) => {
                 this.produtos = response;
@@ -704,6 +803,23 @@ export default {
 
             this.$bvModal.hide('modal-acao');
             this.tab_acao = false;
+        },
+
+        updateSelectedAcao: function (event) {
+            event.preventDefault();
+
+            this.$axios
+            .$post("acao/update", this.objetoAcao)
+            .then(() => {
+                this.updateAcao();
+            })
+            .catch((error) => {
+                console.error('Não foi possível atualizar a ação selecionada.');
+                console.log(error);
+            });
+
+            this.$bvModal.hide('modal-acao');
+            this.operacao = this.createNewAcao;
         },
 
         updateAcao: function () {

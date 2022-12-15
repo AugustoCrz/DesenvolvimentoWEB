@@ -21,7 +21,7 @@ class ContaRepository {
     async update(conta) {
         return await Conta.update(
             conta,
-            { where: { id: conta.identificador } }
+            { where: { id: conta.id } }
         )
     }
 

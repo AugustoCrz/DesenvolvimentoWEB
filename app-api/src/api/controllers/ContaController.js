@@ -47,9 +47,9 @@ module.exports = {
     },
 
     update: function (req, res) {
-        const { nome, sobrenome, endereco, saldo } = req.body
+        const { id, nome, sobrenome, endereco, saldo } = req.body
         ContaService.update(
-            { nome, sobrenome, endereco, saldo }
+            { id, nome, sobrenome, endereco, saldo }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");

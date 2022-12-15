@@ -21,7 +21,7 @@ class AcaoRepository {
     async update(acao) {
         return await Acao.update(
             acao,
-            { where: { id: acao.identificador } }
+            { where: { id: acao.id } }
         )
     }
 

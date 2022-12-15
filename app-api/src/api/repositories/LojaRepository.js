@@ -21,7 +21,7 @@ class LojaRepository {
     async update(loja) {
         return await Loja.update(
             loja,
-            { where: { id: loja.identificador } }
+            { where: { id: loja.id } }
         )
     }
 

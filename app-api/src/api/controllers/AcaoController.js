@@ -47,9 +47,9 @@ module.exports = {
     },
 
     update: function (req, res) {
-        const { nome, tipo, preco } = req.body
+        const { id, nome, tipo, preco } = req.body
         AcaoService.update(
-            { nome, tipo, preco }
+            { id, nome, tipo, preco }
         ).then((status) => {
             res.statusCode = 201; // Status HTTP para created;
             res.set("Content-Type", "application/json");
