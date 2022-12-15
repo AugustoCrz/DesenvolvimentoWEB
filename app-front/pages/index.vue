@@ -103,7 +103,7 @@
                 <div id="lista_lojas_marketplace">
                     <div v-for="(loja, index) in lojas" v-if="(index <= 2)">
                         <a href="#">
-                            <div class="item_loja_marketplace_destaque" @click="abrir_painel_loja(loja)">
+                            <div class="item_loja_marketplace_destaque" v-on:click="abrir_painel_loja(loja)">
                                 <h3>{{loja.nome}}</h3>
                             </div>
                         </a>
@@ -123,7 +123,7 @@
                             <p class="preco_item_marketplace">R${{produto.preco}}</p>
 
                             <div class="opcoes_item">
-                                <p class="btn_opcao_item" v-b-modal.modal-produto @click="objeto_edita(1, produto.id)"><i class="fas fa-pen"></i></p>
+                                <p class="btn_opcao_item" v-b-modal.modal-produto v-on:click="objeto_edita(1, produto.id)"><i class="fas fa-pen"></i></p>
 
                                 <p class="btn_opcao_item btn_opcao_excluir" v-b-modal.modal-produto v-on:click="removeSelectedProduto(produto.id)"><i class="fas fa-trash"></i></p>
                             </div>
@@ -131,31 +131,40 @@
                     </a>
                 </div>
             </div>
+        </div>
 
-            <div id="painel_loja_preview" v-if="lojaPainelView">
-                <h2>{{objetoLoja.nome}} <i class="fas fa-store"></i></h2>
+        <div id="painel_loja_preview" v-if="lojaPainelView">
+            <h2>{{objetoLoja.nome}} <i class="fas fa-store"></i></h2>
 
-                <a href="#" class="a_btn_link"><p class="btn_item btn_retornar_pag" style="float: right; margin-top: 25px;" @click="lojaPainelView = false">Retornar</p></a>
+            <div class="opcoes_edit_loja">
+                <p class="btn_opcao_item" v-b-modal.modal-loja v-on:click="objeto_edita(0, objetoLoja.id)"><i class="fas fa-pen"></i></p>
 
-                <hr />
-                <p class="btn_item inserir_produto" v-b-modal.modal-produto @click="objeto_foco(1)"><i class="fas fa-plus"></i> Inserir novo produto</p>
+                <p class="btn_opcao_item btn_opcao_excluir" v-b-modal.modal-loja v-on:click="removeSelectedLoja(objetoLoja.id)"><i class="fas fa-trash"></i></p>
+            </div>
 
-                <div id="lista_itens_marketplace">
-                    <div v-for="produto in produtos_loja">
-                        <a href="#">
-                            <div class="item_marketplace">
-                                <h3 class="nome_item_marketplace">{{produto.nome}}</h3>
+            <a href="#" class="a_btn_link"><p class="btn_item btn_retornar_pag" style="float: right; margin-top: 25px;" v-on:click="lojaPainelView = false">Retornar</p></a>
 
-                                <p class="preco_item_marketplace">R${{produto.preco}}</p>
+            <hr />
 
-                                <div class="opcoes_item">
-                                    <p class="btn_opcao_item" v-b-modal.modal-produto @click="objeto_edita(1, produto.id)"><i class="fas fa-pen"></i></p>
+            <i class="fas fa-location-arrow"></i> {{objetoLoja.endereco}} <br /> <i class="fas fa-check"></i> {{objetoLoja.vendas == 1 ? "1 venda realizada": `${objetoLoja.vendas} vendas realizadas` }} <br /><br />
 
-                                    <p class="btn_opcao_item btn_opcao_excluir" v-b-modal.modal-produto v-on:click="removeSelectedProduto(produto.id)"><i class="fas fa-trash"></i></p>
-                                </div>
+            <p class="btn_item inserir_produto" v-b-modal.modal-produto v-on:click="objeto_foco(1)"><i class="fas fa-plus"></i> Inserir novo produto</p>
+
+            <div id="lista_itens_marketplace">
+                <div v-for="produto in produtos_loja">
+                    <a href="#">
+                        <div class="item_marketplace">
+                            <h3 class="nome_item_marketplace">{{produto.nome}}</h3>
+
+                            <p class="preco_item_marketplace">R${{produto.preco}}</p>
+
+                            <div class="opcoes_item">
+                                <p class="btn_opcao_item" v-b-modal.modal-produto v-on:click="objeto_edita(1, produto.id)"><i class="fas fa-pen"></i></p>
+
+                                <p class="btn_opcao_item btn_opcao_excluir" v-b-modal.modal-produto v-on:click="removeSelectedProduto(produto.id)"><i class="fas fa-trash"></i></p>
                             </div>
-                        </a>
-                    </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -191,25 +200,26 @@
                 <div class='item_fnc_rapida'>
                     Lojas <i class="fas fa-store"></i>
                     <hr />
-                    <p class="btn_item" v-b-modal.modal-loja @click="objeto_foco(0)"><i class="fas fa-plus"></i> Cadastrar nova</p>
+                    <p class="btn_item" v-b-modal.modal-loja v-on:click="objeto_foco(0)"><i class="fas fa-plus"></i> Cadastrar nova</p>
 
-                    <a href="#" class="a_btn_link"><p class="btn_item" v-if="lojas.length > 0" @click="ordena_amostragem(0)"><i class="fas fa-folder-open"></i> Exibir todas</p></a>
+                    <a href="#" class="a_btn_link"><p class="btn_item" v-if="lojas.length > 0" v-on:click="ordena_amostragem(0)"><i class="fas fa-folder-open"></i> Exibir todas</p></a>
                 </div>
 
-                <div class='item_fnc_rapida' v-if="lojas.length > 0">
+                <div class='item_fnc_rapida'>
                     Produtos <i class="fas fa-cube"></i>
                     <hr />
-                    <p class="btn_item" v-b-modal.modal-produto @click="objeto_foco(1)"><i class="fas fa-plus"></i> Inserir novo</p>
+                    <p v-if="lojas.length > 0" class="btn_item" v-b-modal.modal-produto v-on:click="objeto_foco(1)"><i class="fas fa-plus"></i> Inserir novo</p>
+                    <p v-else class="btn_item">Crie uma loja antes!</p>
 
-                    <a href="#" class="a_btn_link"><p class="btn_item" v-if="produtos.length > 0" @click="ordena_amostragem(1)"><i class="fas fa-folder-open"></i> Exibir todos</p></a>
+                    <a href="#" class="a_btn_link"><p class="btn_item" v-if="produtos.length > 0" v-on:click="ordena_amostragem(1)"><i class="fas fa-folder-open"></i> Exibir todos</p></a>
                 </div>
 
                 <div class='item_fnc_rapida'>
                     Ações <i class="fas fa-dollar-sign"></i>
                     <hr />
-                    <p class="btn_item" v-b-modal.modal-acao @click="objeto_foco(2)"><i class="fas fa-plus"></i> Inserir nova</p>
+                    <p class="btn_item" v-b-modal.modal-acao v-on:click="objeto_foco(2)"><i class="fas fa-plus"></i> Inserir nova</p>
 
-                    <a href="#" class="a_btn_link"><p class="btn_item" v-if="acoes.length > 0" @click="ordena_amostragem(2)"><i class="fas fa-folder-open"></i> Exibir todas</p></a>
+                    <a href="#" class="a_btn_link"><p class="btn_item" v-if="acoes.length > 0" v-on:click="ordena_amostragem(2)"><i class="fas fa-folder-open"></i> Exibir todas</p></a>
                 </div>
             </div>
 
@@ -219,11 +229,9 @@
 
                 <div id="lista_lojas_marketplace">
                     <div v-for="loja in lojas">
-                        <a href="#">
-                            <div class="item_loja_marketplace" @click="abrir_painel_loja(loja)">
-                                <h3>{{loja.nome}}</h3>
-                            </div>
-                        </a>
+                        <div class="item_loja_marketplace" v-on:click="abrir_painel_loja(loja)">
+                            <h3>{{loja.nome}}</h3>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -241,7 +249,7 @@
                                 <p class="preco_item_marketplace">R${{produto.preco}}</p>
 
                                 <div class="opcoes_item">
-                                    <p class="btn_opcao_item" v-b-modal.modal-produto @click="objeto_edita(1, produto.id)"><i class="fas fa-pen"></i></p>
+                                    <p class="btn_opcao_item" v-b-modal.modal-produto v-on:click="objeto_edita(1, produto.id)"><i class="fas fa-pen"></i></p>
 
                                     <p class="btn_opcao_item btn_opcao_excluir" v-b-modal.modal-produto v-on:click="removeSelectedProduto(produto.id)"><i class="fas fa-trash"></i></p>
                                 </div>
@@ -288,9 +296,9 @@
                     <br /><br />
 
                     <b-button v-if="!btn_edit_loja" type="submit" variant="primary"
-                        @click="prancheta_acao = !prancheta_acao">Cadastrar</b-button>
+                        v-on:click="prancheta_acao = !prancheta_acao">Cadastrar</b-button>
                     <b-button v-if="btn_edit_loja" type="submit" variant="primary"
-                        @click="btn_edit_loja = !btn_edit_loja">Atualizar</b-button>
+                        v-on:click="btn_edit_loja = !btn_edit_loja">Atualizar</b-button>
 
                     <b-button type="reset" variant="danger">Limpar formulário</b-button>
                 </b-form>
@@ -321,9 +329,9 @@
                     </b-form-select> <br /> <br />
 
                     <b-button v-if="!btn_edit_produto" type="submit" variant="primary"
-                        @click="prancheta_produto = !prancheta_produto">Cadastrar</b-button>
+                        v-on:click="prancheta_produto = !prancheta_produto">Cadastrar</b-button>
                     <b-button v-if="btn_edit_produto" type="submit" variant="primary"
-                        @click="btn_edit_produto = !btn_edit_produto">Atualizar</b-button>
+                        v-on:click="btn_edit_produto = !btn_edit_produto">Atualizar</b-button>
 
                     <b-button type="reset" variant="danger">Limpar formulário</b-button>
                 </b-form>
@@ -350,9 +358,9 @@
                     <br /><br />
 
                     <b-button v-if="!btn_edit_acao" type="submit" variant="primary"
-                        @click="prancheta_acao = !prancheta_acao">Cadastrar</b-button>
+                        v-on:click="prancheta_acao = !prancheta_acao">Cadastrar</b-button>
                     <b-button v-if="btn_edit_acao" type="submit" variant="primary"
-                        @click="btn_edit_acao = !btn_edit_acao">Atualizar</b-button>
+                        v-on:click="btn_edit_acao = !btn_edit_acao">Atualizar</b-button>
 
                     <b-button type="reset" variant="danger">Limpar formulário</b-button>
                 </b-form>
@@ -722,12 +730,18 @@ export default {
         updateLoja: function () {
             this.$axios.$get("loja").then((response) => {
                 this.lojas = response;
+
+                if(this.lojas.length < 1)
+                    this.lojasRegistradasView = false;
             })
         },
 
         removeSelectedLoja: function (id) {
             this.$axios.$delete(`loja/${id}`).then(() => {
+
+                this.lojaPainelView = false;
                 this.updateLoja();
+                this.updateProduto();
             })
         },
 
@@ -775,6 +789,9 @@ export default {
         updateProduto: function () {
             this.$axios.$get("produto").then((response) => {
                 this.produtos = response;
+
+                if(this.produtos.length < 1)
+                    this.produtosRegistradosView = false;
             })
 
             this.$bvModal.hide('modal-produto');
@@ -825,6 +842,9 @@ export default {
         updateAcao: function () {
             this.$axios.$get("acao").then((response) => {
                 this.acoes = response;
+
+                if(this.acoes.length < 1)
+                    this.acoesRegistradasView = false;
             })
         },
 
