@@ -3,11 +3,12 @@
         <script src="https://kit.fontawesome.com/6c1b2d82eb.js" crossorigin="anonymous"></script>
 
         <div id="rodape_lateral">
-
             <div class="invent-cards">
-                <h1 class="titulo_pag" v-if="inicioView">Bank Bank</h1>
+                <img id="logo_app" src="logo.png" />
+                <h1 class="titulo_pag" v-if="inicioView">UpBank</h1>
                 <h1 class="titulo_pag" v-if="marketplaceView">Marketplace</h1>
                 <h1 class="titulo_pag" v-if="acoesView">Mercado de ações</h1>
+                <h1 class="titulo_pag" v-if="configsView">Configurações</h1>
             </div>
 
             <div id="buttons_nav">
@@ -16,7 +17,9 @@
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = true
                         marketplaceView = false
-                        acoesView = false">
+                        acoesView = false
+                        configsView = false
+                        lojaPainelView = false">
                         <h3 class="buttn_icon_menu">Página inicial</h3>
                     </b-nav-item>
 
@@ -24,7 +27,9 @@
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = false
                         marketplaceView = true
-                        acoesView = false">
+                        acoesView = false
+                        configsView = false
+                        lojaPainelView = false">
                         <h3 class="buttn_icon_menu">Marketplace</h3>
                     </b-nav-item>
 
@@ -32,8 +37,20 @@
                     <b-nav-item class='icons_nav_menu' @click="
                         inicioView = false
                         marketplaceView = false
-                        acoesView = true">
+                        acoesView = true
+                        configsView = false
+                        lojaPainelView = false">
                         <h3 class="buttn_icon_menu">Mercado de Ações</h3>
+                    </b-nav-item>
+
+                    <!-- Botão de Configurações -->
+                    <b-nav-item class='icons_nav_menu' @click="
+                        inicioView = false
+                        marketplaceView = false
+                        acoesView = false
+                        configsView = true
+                        lojaPainelView = false">
+                        <h3 class="buttn_icon_menu">Configurações</h3>
                     </b-nav-item>
                 </b-navbar-nav>
             </div>
@@ -80,15 +97,51 @@
                 </h2>
             </div>
             <hr />
-            <input type="text" class="search" placeholder="Pesquisa">
+            <input type="text" class="search" placeholder="Pesquisar por um produto">
 
-            <div id="lista_itens_marketplace">
-                <div v-for="produto in produtos">
-                    <div class="item_market_place"></div>
+            <div id="lista_lojas_destaque_marketplace" v-if="(lojas.length > 0)">
+
+                <br />
+                <h4>Lojas em destaque <i class="fas fa-store"></i></h4>
+
+                <div id="lista_lojas_marketplace">
+                    <div v-for="(loja, index) in lojas" v-if="(index <= 2)">
+                        <a href="#">
+                            <div class="item_loja_market_place_destaque" @click="abrir_painel_loja(loja)">
+                                <h3>{{loja.nome}}</h3>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <button v-b-modal.modal-produto>Inserir Produtos</button>
+            <hr v-if="(produtos.length > 0)"/>
+            <h4 v-if="(produtos.length > 0)">Produtos em destaque <i class="fas fa-store"></i></h4>
+
+            <div id="lista_itens_marketplace">
+                <div v-for="produto in produtos">
+                    <div class="item_market_place">
+                        <h2>{{produto.nome}}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div id="painel_loja_preview" v-if="lojaPainelView">
+                <h2>{{objetoLoja.nome}} <i class="fas fa-store"></i></h2>
+
+                <p class="btn_item" style="float: right; margin-top: 25px;" @click="lojaPainelView = false">Retornar</p>
+
+                <hr />
+                <p class="btn_item inserir_produto" v-b-modal.modal-produto @click="objeto_foco(1)"><i class="fas fa-plus"></i> Inserir novo produto</p>
+
+                <div id="lista_itens_marketplace">
+                    <div v-for="produto in produtos_loja">
+                        <div class="item_market_place">
+                            <h2>{{produto.nome}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="invent-cards content_page" v-if="acoesView">
@@ -100,12 +153,86 @@
             <div id="banner_mercado_acoes">
 
             </div>
-            <hr />
-            <h4>Ações em destaque <i class="fas fa-crown"></i></h4>
+            <hr v-if="(acoes.length > 0)"/>
+            <h4 v-if="(acoes.length > 0)">Ações em destaque <i class="fas fa-crown"></i></h4>
 
             <div id="lista_empresas_mercado">
                 <div v-for="(acao, index) in acoes" v-if="index < 5">
-                    <div class="item_m_acoes"></div>
+                    <div class="item_m_acoes">
+                        <h3 style="float: left;" class="infos_acao">{{acao.nome}}</h3>
+                        <h1 style="float: right;" class="infos_acao">R${{acao.preco}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="invent-cards content_page" v-if="configsView">
+            <h2>Configurações</h2>
+            <hr />
+
+            <div id="itens_fnc_rapida">
+                <div class='item_fnc_rapida'>
+                    Lojas <i class="fas fa-store"></i>
+                    <hr />
+                    <p class="btn_item" v-b-modal.modal-loja @click="objeto_foco(0)"><i class="fas fa-plus"></i> Cadastrar nova</p>
+
+                    <p class="btn_item" v-if="lojas.length > 0" @click="ordena_amostragem(0)"><i class="fas fa-folder-open"></i> Exibir todas</p>
+                </div>
+
+                <div class='item_fnc_rapida' v-if="lojas.length > 0">
+                    Produtos <i class="fas fa-cube"></i>
+                    <hr />
+                    <p class="btn_item" v-b-modal.modal-produto @click="objeto_foco(1)"><i class="fas fa-plus"></i> Inserir novo</p>
+
+                    <p class="btn_item" v-if="produtos.length > 0" @click="ordena_amostragem(1)"><i class="fas fa-folder-open"></i> Exibir todos</p>
+                </div>
+
+                <div class='item_fnc_rapida'>
+                    Ações <i class="fas fa-dollar-sign"></i>
+                    <hr />
+                    <p class="btn_item" v-b-modal.modal-acao @click="objeto_foco(2)"><i class="fas fa-plus"></i> Inserir nova</p>
+
+                    <p class="btn_item" v-if="acoes.length > 0" @click="ordena_amostragem(2)"><i class="fas fa-folder-open"></i> Exibir todas</p>
+                </div>
+            </div>
+
+            <div v-if="lojasRegistradasView">
+                <hr />
+                <h4>Lojas registradas <i class="fas fa-store"></i></h4>
+
+                <div id="lista_lojas_marketplace">
+                    <div v-for="loja in lojas">
+                        <div class="item_loja_market_place">
+                            <h3>{{loja.nome}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="produtosRegistradosView">
+                <hr />
+                <h4>Produtos registrados <i class="fas fa-cube"></i></h4>
+
+                <div id="lista_lojas_marketplace">
+                    <div v-for="produto in produtos">
+                        <div class="item_loja_market_place">
+                            <h3>{{produto.nome}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="acoesRegistradasView">
+                <hr />
+                <h4>Ações registradas <i class="fas fa-dollar-sign"></i></h4>
+
+                <div id="lista_empresas_mercado">
+                    <div v-for="acao in acoes">
+                        <div class="item_m_acoes">
+                            <h3 style="float: left;" class="infos_acao">{{acao.nome}}</h3>
+                            <h1 style="float: right;" class="infos_acao">R${{acao.preco}}</h1>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,10 +256,10 @@
                     placeholder="(11) 8445-2382" required></b-form-input>
                     <br /><br />
 
-                    <b-button v-if="!btn_edit_acao" type="submit" variant="primary"
+                    <b-button v-if="!btn_edit_loja" type="submit" variant="primary"
                         @click="prancheta_acao = !prancheta_acao">Cadastrar</b-button>
-                    <b-button v-if="btn_edit_acao" type="submit" variant="primary"
-                        @click="btn_edit_acao = !btn_edit_acao">Atualizar</b-button>
+                    <b-button v-if="btn_edit_loja" type="submit" variant="primary"
+                        @click="btn_edit_loja = !btn_edit_loja">Atualizar</b-button>
 
                     <b-button type="reset" variant="danger">Limpar formulário</b-button>
                 </b-form>
@@ -251,12 +378,12 @@ export default {
             console.log(ex);
         }
 
-        try {
-            const response = await $axios.$get('transferencia');
-            transferencias = response;
-        } catch (ex) {
-            console.log(ex);
-        }
+        // try {
+        //     const response = await $axios.$get('transferencia');
+        //     transferencias = response;
+        // } catch (ex) {
+        //     console.log(ex);
+        // }
 
         return { conta, lojas, produtos, acoes, transferencias }
     },
@@ -268,6 +395,15 @@ export default {
             inicioView: true,
             marketplaceView: false,
             acoesView: false,
+            configsView: false,
+
+            lojasRegistradasView: false,
+            produtosRegistradosView: false,
+            acoesRegistradasView: false,
+
+            viewConfigAnterior: false,
+
+            lojaPainelView: false,
 
             tab_acao: false,
             tab_loja: false,
@@ -275,14 +411,16 @@ export default {
             tab_produto: false,
             tab_transferencias: false,
 
-            operacao: this.createNewProduto,
+            operacao: this.createNewLoja,
 
             titulo_modal: 'Cadastro de produto',
 
+            btn_edit_loja: false,
             btn_edit_acao: false,
             btn_edit_produto: false,
 
             prancheta_acao: false,
+            prancheta_loja: false,
             prancheta_produto: false,
 
             categorias_produto: [
@@ -342,11 +480,92 @@ export default {
             acoes: [],
             lojas: [],
             produtos: [],
+            produtos_loja: [],
             transferencias: []
         };
     },
 
     methods: {
+
+        objeto_foco: function(caso){
+
+            // 0 -> Loja, 1 -> Produto, 2 -> Ação
+            if(caso == 0){ // Loja
+                this.objetoLoja = {
+                    nome: null,
+                    endereco: null,
+                    telefone: null,
+                    vendas: 0,
+                    saldo: 0
+                }
+
+                this.btn_edit_loja = false;
+                this.titulo_modal = "Nova Loja";
+                this.operacao = this.createNewLoja;
+            }else if(caso == 1){
+                this.objetoProduto = {
+                    nome: null,
+                    quantidade: null,
+                    categoria: null,
+                    preco: null,
+                    idLoja: 0
+                },
+
+                this.btn_edit_produto = false;
+                this.titulo_modal = "Cadastro de Produto";
+                this.operacao = this.createNewProduto;
+            }else{
+                this.objetoAcao = {
+                    nome: null,
+                    tipo: null,
+                    preco: null
+                },
+
+                this.btn_edit_acao = false;
+                this.titulo_modal = "Cadastro de Ação";
+                this.operacao = this.createNewAcao;
+            }
+        },
+
+        ordena_amostragem: function (caso){
+
+            // 0 -> Lojas, 1 -> Produtos, 2 -> Ações 
+            this.lojasRegistradasView = false;
+            this.produtosRegistradosView = false;
+            this.acoesRegistradasView = false;
+
+            if(caso !== this.viewConfigAnterior){
+                if(caso == 0)
+                    this.lojasRegistradasView = true;
+                else if(caso == 1)
+                    this.produtosRegistradosView = true;
+                else
+                    this.acoesRegistradasView = true;
+            }else{
+                this.lojasRegistradasView = false;
+                this.produtosRegistradosView = false;
+                this.acoesRegistradasView = false;
+
+                caso = null;
+            }
+
+            this.viewConfigAnterior = caso
+        },
+
+        abrir_painel_loja: function (dados) {
+
+            this.lojaPainelView = true;
+            this.objetoLoja = dados;
+            this.objetoProduto.idLoja = dados.id;
+
+            this.produtos_loja = [];
+
+            for(let i = 0; i < this.produtos.length; i++){
+                if(this.produtos[i].idLoja == dados.id)
+                    this.produtos_loja.push(this.produtos[i])
+            }
+        },
+
         createNewConta: function (event) {
             event.preventDefault();
 
