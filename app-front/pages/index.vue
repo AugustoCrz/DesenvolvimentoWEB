@@ -15,27 +15,30 @@
                         marketplaceView = false
                         acoesView = false
                         configsView = false
-                        lojaPainelView = false">
+                        lojaPainelView = false
+                        acaoPainelView = false">
                         <h3 class="buttn_icon_menu">Página inicial</h3>
                     </b-nav-item>
 
                     <!-- Botão do marketplace -->
-                    <b-nav-item class='icons_nav_menu' v-on:click="
+                    <b-nav-item v-if="lojas.length > 0" class='icons_nav_menu' v-on:click="
                         inicioView = false
                         marketplaceView = true
                         acoesView = false
                         configsView = false
-                        lojaPainelView = false">
+                        lojaPainelView = false
+                        acaoPainelView = false">
                         <h3 class="buttn_icon_menu">Marketplace</h3>
                     </b-nav-item>
 
                     <!-- Botão de Ações -->
-                    <b-nav-item class='icons_nav_menu' v-on:click="
+                    <b-nav-item v-if="acoes.length > 0" class='icons_nav_menu' v-on:click="
                         inicioView = false
                         marketplaceView = false
                         acoesView = true
                         configsView = false
-                        lojaPainelView = false">
+                        lojaPainelView = false
+                        acaoPainelView = false">
                         <h3 class="buttn_icon_menu">Mercado de Ações</h3>
                     </b-nav-item>
 
@@ -45,7 +48,8 @@
                         marketplaceView = false
                         acoesView = false
                         configsView = true
-                        lojaPainelView = false">
+                        lojaPainelView = false
+                        acaoPainelView = false">
                         <h3 class="buttn_icon_menu">Configurações</h3>
                     </b-nav-item>
                 </b-navbar-nav>
@@ -53,7 +57,7 @@
         </div>
 
         <div class="invent-cards content_page" v-if="inicioView">
-            <h2>Olá Testador!</h2>
+            <h2>Olá!</h2>
             <hr />
 
             <div id="btn_operacoes">
@@ -122,10 +126,10 @@
 
                             <p class="preco_item_marketplace">R${{produto.preco}}</p>
 
-                            <div class="opcoes_item">
+                            <div class="opcoes_item" v-if="modo_develop">
                                 <p class="btn_opcao_item" v-b-modal.modal-produto v-on:click="objeto_edita(1, produto.id)"><i class="fas fa-pen"></i></p>
 
-                                <p class="btn_opcao_item btn_opcao_excluir" v-b-modal.modal-produto v-on:click="removeSelectedProduto(produto.id)"><i class="fas fa-trash"></i></p>
+                                <p class="btn_opcao_item btn_opcao_excluir" v-on:click="removeSelectedProduto(produto.id)"><i class="fas fa-trash"></i></p>
                             </div>
                         </div>
                     </a>
@@ -139,7 +143,7 @@
             <div class="opcoes_edit_loja">
                 <p class="btn_opcao_item" v-b-modal.modal-loja v-on:click="objeto_edita(0, objetoLoja.id)"><i class="fas fa-pen"></i></p>
 
-                <p class="btn_opcao_item btn_opcao_excluir" v-b-modal.modal-loja v-on:click="removeSelectedLoja(objetoLoja.id)"><i class="fas fa-trash"></i></p>
+                <p class="btn_opcao_item btn_opcao_excluir" v-on:click="removeSelectedLoja(objetoLoja.id)"><i class="fas fa-trash"></i></p>
             </div>
 
             <a href="#" class="a_btn_link"><p class="btn_item btn_retornar_pag" style="float: right; margin-top: 25px;" v-on:click="lojaPainelView = false">Retornar</p></a>
@@ -148,7 +152,7 @@
 
             <i class="fas fa-location-arrow"></i> {{objetoLoja.endereco}} <br /> <i class="fas fa-check"></i> {{objetoLoja.vendas == 1 ? "1 venda realizada": `${objetoLoja.vendas} vendas realizadas` }} <br /><br />
 
-            <p class="btn_item inserir_produto" v-b-modal.modal-produto v-on:click="objeto_foco(1)"><i class="fas fa-plus"></i> Inserir novo produto</p>
+            <p class="btn_item inserir_produto" v-b-modal.modal-produto v-on:click="objeto_adicionar(1)"><i class="fas fa-plus"></i> Inserir novo produto</p>
 
             <div id="lista_itens_marketplace">
                 <div v-for="produto in produtos_loja">
@@ -158,10 +162,10 @@
 
                             <p class="preco_item_marketplace">R${{produto.preco}}</p>
 
-                            <div class="opcoes_item">
+                            <div class="opcoes_item" v-if="modo_develop">
                                 <p class="btn_opcao_item" v-b-modal.modal-produto v-on:click="objeto_edita(1, produto.id)"><i class="fas fa-pen"></i></p>
 
-                                <p class="btn_opcao_item btn_opcao_excluir" v-b-modal.modal-produto v-on:click="removeSelectedProduto(produto.id)"><i class="fas fa-trash"></i></p>
+                                <p class="btn_opcao_item btn_opcao_excluir" v-on:click="removeSelectedProduto(produto.id)"><i class="fas fa-trash"></i></p>
                             </div>
                         </div>
                     </a>
@@ -183,13 +187,33 @@
             <div id="lista_empresas_mercado">
                 <div v-for="(acao, index) in acoes" v-if="index < 5">
                     <a href="#">
-                        <div class="item_m_acoes">
+                        <div class="item_m_acoes" v-on:click="abrir_painel_acao(acao)">
                             <h3 class="infos_acao acao_nome">{{acao.nome}}</h3>
                             <p class="infos_acao acao_preco">R${{acao.preco}}</p>
                         </div>
                     </a>
                 </div>
             </div>
+        </div>
+
+        <div id="painel_acao_preview" v-if="acaoPainelView">
+
+            <div id="banner_topo_acao_view"></div>
+
+            <h2>{{objetoAcao.nome}} <i class="fas fa-comments-dollar"></i></h2>
+
+            <div class="opcoes_edit_loja">
+                <p class="btn_opcao_item" v-b-modal.modal-acao v-on:click="objeto_edita(2, objetoAcao.id)"><i class="fas fa-pen"></i></p>
+
+                <p class="btn_opcao_item btn_opcao_excluir" v-on:click="removeSelectedAcao(objetoAcao.id)"><i class="fas fa-trash"></i></p>
+            </div>
+
+            <a href="#" class="a_btn_link"><p class="btn_item btn_retornar_pag" style="float: right; margin-top: 25px;" v-on:click="acaoPainelView = false">Retornar</p></a>
+
+            <br />
+            <p><i class="fas fa-industry"></i> {{objetoAcao.tipo}}</p>
+
+            <p id="valor_acao_preview">R${{objetoAcao.preco}}</p>
         </div>
 
         <div class="invent-cards content_page" v-if="configsView">
@@ -200,7 +224,7 @@
                 <div class='item_fnc_rapida'>
                     Lojas <i class="fas fa-store"></i>
                     <hr />
-                    <p class="btn_item" v-b-modal.modal-loja v-on:click="objeto_foco(0)"><i class="fas fa-plus"></i> Cadastrar nova</p>
+                    <p class="btn_item" v-b-modal.modal-loja v-on:click="objeto_adicionar(0)"><i class="fas fa-plus"></i> Cadastrar nova</p>
 
                     <a href="#" class="a_btn_link"><p class="btn_item" v-if="lojas.length > 0" v-on:click="ordena_amostragem(0)"><i class="fas fa-folder-open"></i> Exibir todas</p></a>
                 </div>
@@ -208,7 +232,7 @@
                 <div class='item_fnc_rapida'>
                     Produtos <i class="fas fa-cube"></i>
                     <hr />
-                    <p v-if="lojas.length > 0" class="btn_item" v-b-modal.modal-produto v-on:click="objeto_foco(1)"><i class="fas fa-plus"></i> Inserir novo</p>
+                    <p v-if="lojas.length > 0" class="btn_item" v-b-modal.modal-produto v-on:click="objeto_adicionar(1)"><i class="fas fa-plus"></i> Inserir novo</p>
                     <p v-else class="btn_item">Crie uma loja antes!</p>
 
                     <a href="#" class="a_btn_link"><p class="btn_item" v-if="produtos.length > 0" v-on:click="ordena_amostragem(1)"><i class="fas fa-folder-open"></i> Exibir todos</p></a>
@@ -217,9 +241,21 @@
                 <div class='item_fnc_rapida'>
                     Ações <i class="fas fa-dollar-sign"></i>
                     <hr />
-                    <p class="btn_item" v-b-modal.modal-acao v-on:click="objeto_foco(2)"><i class="fas fa-plus"></i> Inserir nova</p>
+                    <p class="btn_item" v-b-modal.modal-acao v-on:click="objeto_adicionar(2)"><i class="fas fa-plus"></i> Inserir nova</p>
 
                     <a href="#" class="a_btn_link"><p class="btn_item" v-if="acoes.length > 0" v-on:click="ordena_amostragem(2)"><i class="fas fa-folder-open"></i> Exibir todas</p></a>
+                </div>
+
+                <div class='item_fnc_rapida'>
+                    Configurações <i class="fas fa-fingerprint"></i>
+                    <hr />
+
+                    <a href="#">
+                    <p v-if="!modo_develop" class="btn_item" v-on:click="develop()">
+                        <i class="fas fa-solid fa-thumbs-down"></i> Desenvolvedor</p>
+
+                    <p v-else class="btn_item" v-on:click="develop()">
+                        <i class="fas fa-solid fa-thumbs-up"></i> Desenvolvedor</p></a>
                 </div>
             </div>
 
@@ -250,10 +286,10 @@
 
                                 <p class="preco_item_marketplace">R${{produto.preco}}</p>
 
-                                <div class="opcoes_item">
+                                <div class="opcoes_item" v-if="modo_develop">
                                     <p class="btn_opcao_item" v-b-modal.modal-produto v-on:click="objeto_edita(1, produto.id)"><i class="fas fa-pen"></i></p>
 
-                                    <p class="btn_opcao_item btn_opcao_excluir" v-b-modal.modal-produto v-on:click="removeSelectedProduto(produto.id)"><i class="fas fa-trash"></i></p>
+                                    <p class="btn_opcao_item btn_opcao_excluir" v-on:click="removeSelectedProduto(produto.id)"><i class="fas fa-trash"></i></p>
                                 </div>
                             </div>
                         </a>
@@ -268,7 +304,7 @@
                 <div id="lista_empresas_mercado">
                     <div v-for="acao in acoes">
                         <a href="#">
-                            <div class="item_m_acoes">
+                            <div class="item_m_acoes" v-on:click="abrir_painel_acao(acao)">
                                 <h3 class="infos_acao acao_nome">{{acao.nome}}</h3>
                                 <h4 class="infos_acao acao_preco">R${{acao.preco}}</h4>
                             </div>
@@ -445,6 +481,7 @@ export default {
             viewConfigAnterior: false,
 
             lojaPainelView: false,
+            acaoPainelView: false,
 
             tab_acao: false,
             tab_loja: false,
@@ -518,6 +555,7 @@ export default {
             },
 
             id_loja_alvo: null,
+            modo_develop: 1,
 
             acoes: [],
             lojas: [],
@@ -529,7 +567,11 @@ export default {
 
     methods: {
 
-        objeto_foco: function(caso){
+        develop: function() {
+            this.modo_develop = !this.modo_develop;
+        },
+
+        objeto_adicionar: function(caso){
 
             // 0 -> Loja, 1 -> Produto, 2 -> Ação
             if(caso == 0){ // Loja
@@ -630,6 +672,12 @@ export default {
             this.atualiza_itens_loja(dados.id);
         },
 
+        abrir_painel_acao: function (dados) {
+
+            this.objetoAcao = dados;
+            this.acaoPainelView = true;
+        },
+
         atualiza_itens_loja: function (id_loja) {
 
             this.lojaPainelView = false;
@@ -726,15 +774,19 @@ export default {
             });
 
             this.$bvModal.hide('modal-loja');
-            this.operacao = this.createNewLoja;
         },
 
         updateLoja: function () {
             this.$axios.$get("loja").then((response) => {
                 this.lojas = response;
 
-                if(this.lojas.length < 1)
+                if(this.lojas.length < 1){
                     this.lojasRegistradasView = false;
+
+                    // Remove a visualização da aba do marketplace
+                    this.marketplaceView = false;
+                    this.configsView = true;
+                }
             })
         },
 
@@ -845,8 +897,12 @@ export default {
             this.$axios.$get("acao").then((response) => {
                 this.acoes = response;
 
-                if(this.acoes.length < 1)
+                if(this.acoes.length < 1){
                     this.acoesRegistradasView = false;
+
+                    this.acaoPainelView = false;
+                    this.configsView = true;
+                }
             })
         },
 

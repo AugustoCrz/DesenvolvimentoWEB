@@ -253,7 +253,8 @@ i.fas {
     text-shadow: 2px 2px 2px black;
 }
 
-#painel_loja_preview {
+#painel_loja_preview,
+#painel_acao_preview {
     top: 0px;
     z-index: 2;
     width: 68%;
@@ -264,6 +265,34 @@ i.fas {
     padding-top: 5%;
     position: fixed;
     background-color: white;
+}
+
+#painel_acao_preview {
+    width: 70%;
+    color: white;
+    padding-left: 40px;
+}
+
+#valor_acao_preview {
+    float: right;
+    font-size: 90px;
+    font-weight: 500;
+    margin-top: -150px;
+    margin-right: 100px;
+    color: greenyellow;
+    text-shadow: 1px 1px 2px black;
+}
+
+#banner_topo_acao_view {
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: -1;
+    height: 200px;
+    position: absolute;
+    padding: 0px !important;
+    background: rgb(1, 64, 61);
+    background: linear-gradient(142deg, rgba(1, 64, 61, 1) 0%, rgba(56, 56, 56, 1) 88%);
 }
 
 #logo_app {
@@ -280,9 +309,11 @@ i.fas {
 }
 
 .opcoes_item {
-    width: 100%;
-    margin-top: 40%;
-    margin-left: 40%;
+    width: 120px;
+    height: 45px;
+    margin-top: 80px;
+    margin-left: 70px;
+    position: absolute;
 }
 
 .btn_opcao_item {
