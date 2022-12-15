@@ -97,6 +97,10 @@ input.search {
     grid-template-columns: auto auto auto auto;
 }
 
+#lista_lojas_marketplace {
+    grid-template-columns: auto auto auto;
+}
+
 #lista_empresas_mercado,
 #lista_usuarios_registrados {
     row-gap: 10px;
@@ -190,7 +194,6 @@ input.search {
 .item_loja_marketplace_destaque {
     height: 100px;
     overflow: hidden;
-    max-width: 218px !important;
     background: rgb(214, 173, 219);
     transition: all 2s linear !important;
     background: linear-gradient(142deg, rgba(214, 173, 219, 1) 0%, rgba(157, 123, 161, 1) 100%);
