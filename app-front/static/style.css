@@ -97,10 +97,10 @@ input.search {
     grid-template-columns: auto auto auto auto auto;
 }
 
-.item_market_place,
+.item_marketplace,
 .item_m_acoes,
-.item_loja_market_place,
-.item_loja_market_place_destaque {
+.item_loja_marketplace,
+.item_loja_marketplace_destaque {
     width: 100%;
     height: 250px;
     border-radius: 10px;
@@ -108,31 +108,85 @@ input.search {
     background-color: rgb(136, 136, 136);
 }
 
+.item_loja_marketplace {
+    width: 218px;
+    overflow: hidden;
+}
+
+.item_marketplace {
+    padding: 5%;
+    width: 218px;
+    height: 150px;
+    overflow: hidden;
+}
+
 .item_m_acoes {
+    overflow: hidden;
     max-width: 250px;
 }
 
-.item_loja_market_place {
+.acao_nome {
+    float: left;
+    max-width: 50%;
+    overflow: hidden;
+}
+
+.acao_preco {
+    float: right;
+    max-width: 30%;
+    font-size: 22px;
+    overflow: hidden;
+    text-size-adjust: initial;
+}
+
+.nome_item_marketplace {
+    max-width: 65%;
+    float: left;
+    text-shadow: 1px 1px 2px black;
+}
+
+.preco_item_marketplace {
+    top: 80%;
+    max-width: 35%;
+    padding: 5px;
+    float: right;
+    font-size: 22px;
+    border-radius: 5px;
+    text-shadow: 1px 1px 2px black;
+    background-color: rgb(0, 94, 0);
+}
+
+.item_loja_marketplace {
     height: 150px;
     max-width: 250px;
 }
 
-.item_loja_market_place:hover {
+.item_loja_marketplace:hover {
     background-color: rgb(100, 100, 100);
 }
 
-.item_loja_market_place>h3 {
+.item_loja_marketplace>h3 {
     float: left;
     margin-top: 100px;
     margin-left: 10px;
 }
 
-.item_loja_market_place_destaque {
+.item_loja_marketplace_destaque {
     height: 100px;
-    background-color: rgb(214, 173, 219);
+    overflow: hidden;
+    max-width: 218px !important;
+    background: rgb(214, 173, 219);
+    transition: all 2s linear !important;
+    background: linear-gradient(142deg, rgba(214, 173, 219, 1) 0%, rgba(157, 123, 161, 1) 100%);
 }
 
-.item_loja_market_place_destaque>h3 {
+.item_loja_marketplace_destaque:hover {
+    background: rgb(157, 124, 161);
+    background: linear-gradient(142deg, rgba(167, 134, 172, 1) 0%, rgba(112, 82, 116, 1) 100%);
+    transition: all 2s linear !important;
+}
+
+.item_loja_marketplace_destaque>h3 {
     float: left;
     margin-top: 60px;
     margin-left: 10px;
@@ -141,11 +195,14 @@ input.search {
 
 .item_m_acoes {
     height: 80px;
-    background-color: rgb(56, 56, 56);
+    width: 200px;
+    background: rgb(1, 64, 61);
+    background: linear-gradient(142deg, rgba(1, 64, 61, 1) 0%, rgba(56, 56, 56, 1) 88%);
 }
 
-.item_market_place:hover {
-    box-shadow: 2px 2px 15px rgba(0, 0, 0, .2);
+.item_marketplace:hover {
+    background-color: rgb(85, 85, 85);
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, .5);
 }
 
 #banner_mercado_acoes {
@@ -155,6 +212,7 @@ input.search {
     border-radius: 10px;
     background-color: rgb(212, 212, 212);
     box-shadow: 2px 2px 15px rgba(0, 0, 0, .2);
+    animation: infinite linear 20s fundo_acoes;
 }
 
 .btn_item {
@@ -163,6 +221,10 @@ input.search {
     padding-left: 10px;
     background-color: rgb(230, 230, 230);
     transition: all .2s;
+}
+
+.btn_retornar_pag {
+    padding-right: 10px;
 }
 
 .btn_item:hover {
@@ -197,9 +259,14 @@ i.fas {
     background-color: white;
 }
 
-#logo_app{
+#logo_app {
     width: 80px;
     height: 80px;
     margin-left: 38%;
     margin-top: 10%;
+}
+
+.a_btn_link,
+.btn_item {
+    color: black;
 }

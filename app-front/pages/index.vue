@@ -5,10 +5,6 @@
         <div id="rodape_lateral">
             <div class="invent-cards">
                 <img id="logo_app" src="logo.png" />
-                <h1 class="titulo_pag" v-if="inicioView">UpBank</h1>
-                <h1 class="titulo_pag" v-if="marketplaceView">Marketplace</h1>
-                <h1 class="titulo_pag" v-if="acoesView">Mercado de ações</h1>
-                <h1 class="titulo_pag" v-if="configsView">Configurações</h1>
             </div>
 
             <div id="buttons_nav">
@@ -107,7 +103,7 @@
                 <div id="lista_lojas_marketplace">
                     <div v-for="(loja, index) in lojas" v-if="(index <= 2)">
                         <a href="#">
-                            <div class="item_loja_market_place_destaque" @click="abrir_painel_loja(loja)">
+                            <div class="item_loja_marketplace_destaque" @click="abrir_painel_loja(loja)">
                                 <h3>{{loja.nome}}</h3>
                             </div>
                         </a>
@@ -120,25 +116,33 @@
 
             <div id="lista_itens_marketplace">
                 <div v-for="produto in produtos">
-                    <div class="item_market_place">
-                        <h2>{{produto.nome}}</h2>
-                    </div>
+                    <a href="#">
+                        <div class="item_marketplace">
+                            <h3 class="nome_item_marketplace">{{produto.nome}}</h3>
+
+                            <p class="preco_item_marketplace">R${{produto.preco}}</p>
+                        </div>
+                    </a>
                 </div>
             </div>
 
             <div id="painel_loja_preview" v-if="lojaPainelView">
                 <h2>{{objetoLoja.nome}} <i class="fas fa-store"></i></h2>
 
-                <p class="btn_item" style="float: right; margin-top: 25px;" @click="lojaPainelView = false">Retornar</p>
+                <a href="#" class="a_btn_link"><p class="btn_item btn_retornar_pag" style="float: right; margin-top: 25px;" @click="lojaPainelView = false">Retornar</p></a>
 
                 <hr />
                 <p class="btn_item inserir_produto" v-b-modal.modal-produto @click="objeto_foco(1)"><i class="fas fa-plus"></i> Inserir novo produto</p>
 
                 <div id="lista_itens_marketplace">
                     <div v-for="produto in produtos_loja">
-                        <div class="item_market_place">
-                            <h2>{{produto.nome}}</h2>
-                        </div>
+                        <a href="#">
+                            <div class="item_marketplace">
+                                <h3 class="nome_item_marketplace">{{produto.nome}}</h3>
+
+                                <p class="preco_item_marketplace">R${{produto.preco}}</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -150,18 +154,19 @@
 
             <input type="text" class="search" placeholder="Pesquisa">
 
-            <div id="banner_mercado_acoes">
+            <div id="banner_mercado_acoes"></div>
 
-            </div>
             <hr v-if="(acoes.length > 0)"/>
             <h4 v-if="(acoes.length > 0)">Ações em destaque <i class="fas fa-crown"></i></h4>
 
             <div id="lista_empresas_mercado">
                 <div v-for="(acao, index) in acoes" v-if="index < 5">
-                    <div class="item_m_acoes">
-                        <h3 style="float: left;" class="infos_acao">{{acao.nome}}</h3>
-                        <h1 style="float: right;" class="infos_acao">R${{acao.preco}}</h1>
-                    </div>
+                    <a href="#">
+                        <div class="item_m_acoes">
+                            <h3 class="infos_acao acao_nome">{{acao.nome}}</h3>
+                            <p class="infos_acao acao_preco">R${{acao.preco}}</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -176,7 +181,7 @@
                     <hr />
                     <p class="btn_item" v-b-modal.modal-loja @click="objeto_foco(0)"><i class="fas fa-plus"></i> Cadastrar nova</p>
 
-                    <p class="btn_item" v-if="lojas.length > 0" @click="ordena_amostragem(0)"><i class="fas fa-folder-open"></i> Exibir todas</p>
+                    <a href="#" class="a_btn_link"><p class="btn_item" v-if="lojas.length > 0" @click="ordena_amostragem(0)"><i class="fas fa-folder-open"></i> Exibir todas</p></a>
                 </div>
 
                 <div class='item_fnc_rapida' v-if="lojas.length > 0">
@@ -184,7 +189,7 @@
                     <hr />
                     <p class="btn_item" v-b-modal.modal-produto @click="objeto_foco(1)"><i class="fas fa-plus"></i> Inserir novo</p>
 
-                    <p class="btn_item" v-if="produtos.length > 0" @click="ordena_amostragem(1)"><i class="fas fa-folder-open"></i> Exibir todos</p>
+                    <a href="#" class="a_btn_link"><p class="btn_item" v-if="produtos.length > 0" @click="ordena_amostragem(1)"><i class="fas fa-folder-open"></i> Exibir todos</p></a>
                 </div>
 
                 <div class='item_fnc_rapida'>
@@ -192,7 +197,7 @@
                     <hr />
                     <p class="btn_item" v-b-modal.modal-acao @click="objeto_foco(2)"><i class="fas fa-plus"></i> Inserir nova</p>
 
-                    <p class="btn_item" v-if="acoes.length > 0" @click="ordena_amostragem(2)"><i class="fas fa-folder-open"></i> Exibir todas</p>
+                    <a href="#" class="a_btn_link"><p class="btn_item" v-if="acoes.length > 0" @click="ordena_amostragem(2)"><i class="fas fa-folder-open"></i> Exibir todas</p></a>
                 </div>
             </div>
 
@@ -202,9 +207,11 @@
 
                 <div id="lista_lojas_marketplace">
                     <div v-for="loja in lojas">
-                        <div class="item_loja_market_place">
-                            <h3>{{loja.nome}}</h3>
-                        </div>
+                        <a href="#">
+                            <div class="item_loja_marketplace" @click="abrir_painel_loja(loja)">
+                                <h3>{{loja.nome}}</h3>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -215,9 +222,13 @@
 
                 <div id="lista_lojas_marketplace">
                     <div v-for="produto in produtos">
-                        <div class="item_loja_market_place">
-                            <h3>{{produto.nome}}</h3>
-                        </div>
+                        <a href="#">
+                            <div class="item_marketplace">
+                                <h3 class="nome_item_marketplace">{{produto.nome}}</h3>
+
+                                <p class="preco_item_marketplace">R${{produto.preco}}</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -228,10 +239,12 @@
 
                 <div id="lista_empresas_mercado">
                     <div v-for="acao in acoes">
-                        <div class="item_m_acoes">
-                            <h3 style="float: left;" class="infos_acao">{{acao.nome}}</h3>
-                            <h1 style="float: right;" class="infos_acao">R${{acao.preco}}</h1>
-                        </div>
+                        <a href="#">
+                            <div class="item_m_acoes">
+                                <h3 class="infos_acao acao_nome">{{acao.nome}}</h3>
+                                <h4 class="infos_acao acao_preco">R${{acao.preco}}</h4>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
