@@ -10,54 +10,34 @@
             <div id="buttons_nav">
                 <!-- Botão de Inicio -->
                 <b-navbar-nav>
-                    <b-nav-item class='icons_nav_menu' v-on:click="
-                        inicioView = true
-                        marketplaceView = false
-                        acoesView = false
-                        configsView = false
-                        lojaPainelView = false
-                        acaoPainelView = false">
+                    <b-nav-item class='icons_nav_menu' v-on:click="desativa_views(0)">
                         <h3 class="buttn_icon_menu">Página inicial</h3>
                     </b-nav-item>
 
                     <!-- Botão do marketplace -->
                     <b-nav-item v-if="lojas.length > 0" class='icons_nav_menu' v-on:click="
-                        inicioView = false
-                        marketplaceView = true
-                        acoesView = false
-                        configsView = false
-                        lojaPainelView = false
-                        acaoPainelView = false">
+                        desativa_views(1)">
                         <h3 class="buttn_icon_menu">Marketplace</h3>
                     </b-nav-item>
 
                     <!-- Botão de Ações -->
                     <b-nav-item v-if="acoes.length > 0" class='icons_nav_menu' v-on:click="
-                        inicioView = false
-                        marketplaceView = false
-                        acoesView = true
-                        configsView = false
-                        lojaPainelView = false
-                        acaoPainelView = false">
+                        desativa_views(2)">
                         <h3 class="buttn_icon_menu">Mercado de Ações</h3>
                     </b-nav-item>
 
                     <!-- Botão de Configurações -->
                     <b-nav-item class='icons_nav_menu' v-on:click="
-                        inicioView = false
-                        marketplaceView = false
-                        acoesView = false
-                        configsView = true
-                        lojaPainelView = false
-                        acaoPainelView = false">
+                        desativa_views(3)">
                         <h3 class="buttn_icon_menu">Configurações</h3>
                     </b-nav-item>
                 </b-navbar-nav>
             </div>
         </div>
 
+        <!-- Tela inicial com várias funções de conta -->
         <div class="invent-cards content_page" v-if="inicioView">
-            <h2>Olá!</h2>
+            <h2>Olá {{conta.nome}}!</h2>
             <hr />
 
             <div id="btn_operacoes">
@@ -87,18 +67,49 @@
                     </div>
                 </div>
             </div>
+
+            <div id="btn_operacoes">
+                <i class="fas fa-user"></i> Sua conta
+                <hr />
+
+                <div id="itens_fnc_rapida">
+
+                    <div class='item_fnc_rapida'>
+                        Compras <i class="fas fa-dollar-sign"></i>
+                        <hr />
+                        <p class="btn_item"><i class="fas fa-calendar"></i> Histórico</p>
+                    </div>
+
+                    <div class='item_fnc_rapida'>
+                        Dados
+                        <hr />
+                        <a href="#">
+                            <p class="btn_item" v-b-modal.modal-conta v-on:click="objeto_edita(3, conta.id)"><i class="fas fa-server"></i> Atualizar</p>
+                        </a>
+                    </div>
+
+                    <div class='item_fnc_rapida'>
+                        Deslogar <i class="fas fa-bolt"></i>
+                        <hr />
+                        <p class="btn_item"><i class="fas fa-right-from-bracket"></i> Deslogar</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <!-- Marketplace -->
         <div class="invent-cards content_page" v-if="marketplaceView">
             <div>
                 <h2>Bem vindo ao Marketplace</h2>
 
-                <h2 style="float: right; margin-top: -46px; margin-right: 20px;">Carrinho <i class="fas fa-dolly"></i>
-                </h2>
+                <a href="#" class="icon_carrinho_compras" v-on:click="abrir_carrinho()">
+                    <h2 id="text_carrinho">Carrinho <i class="fas fa-dolly"></i></h2>
+                </a>
             </div>
             <hr />
             <input type="text" class="search" placeholder="Pesquisar por um produto">
 
+            <!-- Lojas em destaque -->
             <div id="lista_lojas_destaque_marketplace" v-if="(lojas.length > 0)">
 
                 <br />
@@ -118,6 +129,7 @@
             <hr v-if="(produtos.length > 0)"/>
             <h4 v-if="(produtos.length > 0)">Produtos em destaque <i class="fas fa-store"></i></h4>
 
+            <!-- Produtos do marketplace -->
             <div id="lista_itens_marketplace">
                 <div v-for="produto in produtos">
                     <a href="#">
@@ -137,10 +149,11 @@
             </div>
         </div>
 
+        <!-- Painel com os detalhes e produtos da loja selecionada -->
         <div id="painel_loja_preview" v-if="lojaPainelView">
             <h2>{{objetoLoja.nome}} <i class="fas fa-store"></i></h2>
 
-            <div class="opcoes_edit_loja">
+            <div class="opcoes_edit_loja" v-if="modo_develop">
                 <p class="btn_opcao_item" v-b-modal.modal-loja v-on:click="objeto_edita(0, objetoLoja.id)"><i class="fas fa-pen"></i></p>
 
                 <p class="btn_opcao_item btn_opcao_excluir" v-on:click="removeSelectedLoja(objetoLoja.id)"><i class="fas fa-trash"></i></p>
@@ -150,9 +163,9 @@
 
             <hr />
 
-            <i class="fas fa-location-arrow"></i> {{objetoLoja.endereco}} <br /> <i class="fas fa-check"></i> {{objetoLoja.vendas == 1 ? "1 venda realizada": `${objetoLoja.vendas} vendas realizadas` }} <br /><br />
+            <i class="fas fa-location-arrow"></i> {{objetoLoja.endereco}} <br /> <i class="fas fa-check"></i> {{objetoLoja.vendas == 1 ? "1 venda realizada": objetoLoja.vendas == 0 ? "Nenhuma venda realizada" : `${objetoLoja.vendas} vendas realizadas` }} <br /> <i class="fas fa-box"></i> {{produtos_loja.length == 1 ? "1 produto disponível": produtos_loja.length == 0 ? "Nenhum produto disponível" : `${produtos_loja.length} produtos disponíveis` }} <br /><br />
 
-            <p class="btn_item inserir_produto" v-b-modal.modal-produto v-on:click="objeto_adicionar(1)"><i class="fas fa-plus"></i> Inserir novo produto</p>
+            <p class="btn_item inserir_produto" v-if="modo_develop" v-b-modal.modal-produto v-on:click="objeto_adicionar(1)"><i class="fas fa-plus"></i> Inserir novo produto</p>
 
             <div id="lista_itens_marketplace">
                 <div v-for="produto in produtos_loja">
@@ -173,6 +186,7 @@
             </div>
         </div>
 
+        <!-- Tela do mercado de ações -->
         <div class="invent-cards content_page" v-if="acoesView">
             <h2>Mercado de ações</h2>
             <hr />
@@ -196,13 +210,14 @@
             </div>
         </div>
 
+        <!-- Painel com detalhes da ação selecionada -->
         <div id="painel_acao_preview" v-if="acaoPainelView">
 
             <div id="banner_topo_acao_view"></div>
 
             <h2>{{objetoAcao.nome}} <i class="fas fa-comments-dollar"></i></h2>
 
-            <div class="opcoes_edit_loja">
+            <div class="opcoes_edit_loja" v-if="modo_develop">
                 <p class="btn_opcao_item" v-b-modal.modal-acao v-on:click="objeto_edita(2, objetoAcao.id)"><i class="fas fa-pen"></i></p>
 
                 <p class="btn_opcao_item btn_opcao_excluir" v-on:click="removeSelectedAcao(objetoAcao.id)"><i class="fas fa-trash"></i></p>
@@ -213,9 +228,44 @@
             <br />
             <p><i class="fas fa-industry"></i> {{objetoAcao.tipo}}</p>
 
-            <p id="valor_acao_preview">R${{objetoAcao.preco}}</p>
+            <p class="valor_acao_preview">R${{objetoAcao.preco}}</p>
         </div>
 
+        <!-- Carrinho de compras -->
+        <div id="painel_carrinho_preview" v-if="carrinhoPainelView">
+
+            <h2>Seu carrinho de compras <i class="fas fa-"></i></h2>
+
+            <!-- <div>
+                <hr />
+                <h3>Seu carrinho está vazio! Adicione produtos para poder visualizar por aqui!</h3>
+            </div> -->
+
+            <a href="#" class="a_btn_link"><p class="btn_item btn_retornar_pag" style="float: right; margin-top: 25px;" v-on:click="carrinhoPainelView = false">Retornar</p></a>
+        </div>
+
+        <!-- Painel com detalhes da conta selecionada -->
+        <div id="painel_acao_preview" v-if="contaPainelView">
+
+            <div id="banner_topo_acao_view"></div>
+
+            <h2>{{objetoConta.nome}} <i class="fas fa-user"></i></h2>
+
+            <div class="opcoes_edit_loja" v-if="modo_develop">
+                <p class="btn_opcao_item" v-b-modal.modal-conta v-on:click="objeto_edita(3, objetoConta.id)"><i class="fas fa-pen"></i></p>
+
+                <p class="btn_opcao_item btn_opcao_excluir" v-on:click="removeSelectedConta(objetoConta.id)"><i class="fas fa-trash"></i></p>
+            </div>
+
+            <a href="#" class="a_btn_link"><p class="btn_item btn_retornar_pag" style="float: right; margin-top: 25px;" v-on:click="contaPainelView = false">Retornar</p></a>
+
+            <br />
+            <p><i class="fas fa-location-arrow"></i> {{objetoConta.endereco}}</p>
+
+            <p class="saldo_conta_preview">R${{objetoConta.saldo}}</p>
+        </div>
+
+        <!-- Configurações; Adições e listagens -->
         <div class="invent-cards content_page" v-if="configsView">
             <h2>Configurações</h2>
             <hr />
@@ -256,6 +306,18 @@
 
                     <p v-else class="btn_item" v-on:click="develop()">
                         <i class="fas fa-solid fa-thumbs-up"></i> Desenvolvedor</p></a>
+                </div>
+
+                <div class='item_fnc_rapida' v-if="modo_develop">
+                    Administrativo <i class="fas fa-signal"></i>
+                    <hr />
+
+                    <a href="#">
+                        <p class="btn_item" v-b-modal.modal-conta v-on:click="objeto_adicionar(3)">
+                        <i class="fas fa-solid fa-plus"></i> Nova conta</p></a>
+
+                    <a href="#"><p class="btn_item" v-on:click="ordena_amostragem(3)">
+                        <i class="fas fa-solid fa-user"></i> Registrados</p></a>
                 </div>
             </div>
 
@@ -312,6 +374,27 @@
                     </div>
                 </div>
             </div>
+
+            <div v-if="usuariosRegistradosView">
+                <hr />
+                <h4>Usuários registrados <i class="fas fa-user"></i></h4>
+
+                <div id="lista_usuarios_registrados">
+                    <div v-for="usuario in contas">
+                        <a href="#">
+                            <div class="item_usuario_registrado" v-on:click="abrir_painel_conta(usuario)">
+                                <h3>{{usuario.nome}}</h3>
+
+                                <div class="opcoes_item_usuario" v-if="modo_develop">
+                                    <p class="btn_opcao_item" v-b-modal.modal-conta v-on:click="objeto_edita(3, usuario.id)"><i class="fas fa-pen"></i></p>
+
+                                    <p class="btn_opcao_item btn_opcao_excluir" v-on:click="removeSelectedConta(usuario.id)"><i class="fas fa-trash"></i></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Modal para inserir ou editar lojas -->
@@ -328,13 +411,13 @@
                         placeholder="Ex: Rua das flores douradas, 24 - Centro - Ratanabá" required></b-form-input> 
                     <br /> 
 
-                    <label class="mr-sm-2" for="input-telefone">Telefone:</label>
-                    <b-form-input v-model="objetoLoja.telefone" id="input-telefone" class="mb-2 mr-sm-2 mb-sm-0"
+                    <label class="mr-sm-2" for="input_telefone">Telefone:</label>
+                    <b-form-input v-model="objetoLoja.telefone" id="input_telefone" class="mb-2 mr-sm-2 mb-sm-0"
                     placeholder="(11) 8445-2382" required></b-form-input>
                     <br /><br />
 
                     <b-button v-if="!btn_edit_loja" type="submit" variant="primary"
-                        v-on:click="prancheta_acao = !prancheta_acao">Cadastrar</b-button>
+                        v-on:click="prancheta_loja = !prancheta_loja">Cadastrar</b-button>
                     <b-button v-if="btn_edit_loja" type="submit" variant="primary"
                         v-on:click="btn_edit_loja = !btn_edit_loja">Atualizar</b-button>
 
@@ -351,13 +434,13 @@
                     <b-form-input id="input_nome_produto" v-model="objetoProduto.nome" class="mb-2 mr-sm-2 mb-sm-0"
                         placeholder="Ex: Chinelos" required></b-form-input> <br /> 
 
-                    <label class="mr-sm-2" for="input-quantidade">Quantidade em estoque:</label>
-                    <b-form-input v-model="objetoProduto.quantidade" id="input-quantidade" class="mb-2 mr-sm-2 mb-sm-0"
+                    <label class="mr-sm-2" for="input_quantidade">Quantidade em estoque:</label>
+                    <b-form-input v-model="objetoProduto.quantidade" id="input_quantidade" class="mb-2 mr-sm-2 mb-sm-0"
                         type="number" required></b-form-input>
                     <br />
 
-                    <label class="mr-sm-2" for="input-preco">Preço:</label>
-                    <b-form-input v-model="objetoProduto.preco" id="input-preco" class="mb-2 mr-sm-2 mb-sm-0"
+                    <label class="mr-sm-2" for="input_preco">Preço:</label>
+                    <b-form-input v-model="objetoProduto.preco" id="input_preco" class="mb-2 mr-sm-2 mb-sm-0"
                         type="number" required></b-form-input>
                     <br />
 
@@ -385,13 +468,13 @@
                         placeholder="Ex: PETR4" required></b-form-input> 
                     <br /> 
 
-                    <label class="mr-sm-2" for="input-tipo">Tipo de ação:</label>
-                    <b-form-input v-model="objetoAcao.tipo" id="input-tipo" class="mb-2 mr-sm-2 mb-sm-0"
+                    <label class="mr-sm-2" for="input_tipo">Tipo de ação:</label>
+                    <b-form-input v-model="objetoAcao.tipo" id="input_tipo" class="mb-2 mr-sm-2 mb-sm-0"
                         placeholder="Ex: Refinaria" required></b-form-input>
                     <br />
 
-                    <label class="mr-sm-2" for="input-preco">Preço:</label>
-                    <b-form-input v-model="objetoAcao.preco" id="input-preco" class="mb-2 mr-sm-2 mb-sm-0"
+                    <label class="mr-sm-2" for="input_preco">Preço:</label>
+                    <b-form-input v-model="objetoAcao.preco" id="input_preco" class="mb-2 mr-sm-2 mb-sm-0"
                         type="number" required></b-form-input>
                     <br /><br />
 
@@ -399,6 +482,36 @@
                         v-on:click="prancheta_acao = !prancheta_acao">Cadastrar</b-button>
                     <b-button v-if="btn_edit_acao" type="submit" variant="primary"
                         v-on:click="btn_edit_acao = !btn_edit_acao">Atualizar</b-button>
+
+                    <b-button type="reset" variant="danger">Limpar formulário</b-button>
+                </b-form>
+            </b-overlay>
+        </b-modal>
+
+        <!-- Modal para editar a conta do usuário -->
+        <b-modal id="modal-conta" :title="titulo_modal" hide-footer>
+            <b-overlay :show="prancheta_conta" rounded="sm">
+                <b-form v-on:submit="operacao">
+                    <label class="mr-sm-2" for="input_nome">Nome:</label>
+                    <b-form-input id="input_nome" v-model="objetoConta.nome" class="mb-2 mr-sm-2 mb-sm-0" required></b-form-input> 
+                    <br />
+
+                    <label class="mr-sm-2" for="input_sobrenome">Sobrenome:</label>
+                    <b-form-input v-model="objetoConta.sobrenome" id="input_sobrenome" class="mb-2 mr-sm-2 mb-sm-0" required></b-form-input>
+                    <br />
+
+                    <label class="mr-sm-2" for="input_endereco">Endereço:</label>
+                    <b-form-input v-model="objetoConta.endereco" id="input_endereco" class="mb-2 mr-sm-2 mb-sm-0" required></b-form-input>
+                    <br />
+
+                    <label class="mr-sm-2" for="input_endereco" v-if="modo_develop">Saldo:</label>
+                    <b-form-input v-model="objetoConta.saldo" id="input_endereco" class="mb-2 mr-sm-2 mb-sm-0" required></b-form-input>
+                    <br /><br />
+
+                    <b-button v-if="!btn_edit_conta" type="submit" variant="primary"
+                        v-on:click="prancheta_conta = !prancheta_conta">Cadastrar</b-button>
+                    <b-button v-if="btn_edit_conta" type="submit" variant="primary"
+                        v-on:click="btn_edit_conta = !btn_edit_conta">Atualizar</b-button>
 
                     <b-button type="reset" variant="danger">Limpar formulário</b-button>
                 </b-form>
@@ -424,15 +537,22 @@ export default {
             $axios.defaults.headers.common.Authorization = `Bearer ${authToken}`; // salva o token para usar nos headers nas requisições
         }
 
-        let produtos, conta, acoes, lojas, transferencias;
-        const identificador = 0;
+        let produtos, conta, contas, acoes, lojas, transferencias, itens_carrinho;
+        const identificador = 1;
 
-        // try {
-        //     const response = await $axios.$get(`conta/${identificador}`);
-        //     conta = response;
-        // } catch (ex) {
-        //     console.log(ex);
-        // }
+        try {
+            const response = await $axios.$get(`conta/${identificador}`);
+            conta = response[0];
+        } catch (ex) {
+            console.log(ex);
+        }
+
+        try {
+            const response = await $axios.$get('conta');
+            contas = response;
+        } catch (ex) {
+            console.log(ex);
+        }
 
         try {
             const response = await $axios.$get('produto');
@@ -455,6 +575,13 @@ export default {
             console.log(ex);
         }
 
+        try{
+            const response = await $axios.$get('carrinho');
+            itens_carrinho = response;
+        } catch (ex) {
+            console.log(ex);
+        }
+
         // try {
         //     const response = await $axios.$get('transferencia');
         //     transferencias = response;
@@ -462,7 +589,7 @@ export default {
         //     console.log(ex);
         // }
 
-        return { conta, lojas, produtos, acoes, transferencias }
+        return { conta, contas, lojas, produtos, acoes, transferencias, itens_carrinho }
     },
 
     name: 'IndexPage',
@@ -475,6 +602,7 @@ export default {
             configsView: false,
 
             lojasRegistradasView: false,
+            usuariosRegistradosView: false,
             produtosRegistradosView: false,
             acoesRegistradasView: false,
 
@@ -482,6 +610,8 @@ export default {
 
             lojaPainelView: false,
             acaoPainelView: false,
+            contaPainelView: false,
+            carrinhoPainelView: false,
 
             tab_acao: false,
             tab_loja: false,
@@ -494,10 +624,12 @@ export default {
 
             btn_edit_loja: false,
             btn_edit_acao: false,
+            btn_edit_conta: false,
             btn_edit_produto: false,
 
             prancheta_acao: false,
             prancheta_loja: false,
+            prancheta_conta: false,
             prancheta_produto: false,
 
             categorias_produto: [
@@ -548,10 +680,12 @@ export default {
             },
 
             conta: {
-                nome: 'Testômetro',
-                tipo: 0, // 0 - Usuário comum, 1 - adm, 2 - vendedor/loja
+                id: null,
+                nome: null,
+                sobrenome: null,
                 endereco: null,
-                saldo: 0,
+                saldo: null,
+                tipo: 0, // 0 - Usuário comum, 1 - adm, 2 - vendedor/loja
             },
 
             id_loja_alvo: null,
@@ -559,9 +693,12 @@ export default {
 
             acoes: [],
             lojas: [],
+            contas: [],
             produtos: [],
             produtos_loja: [],
-            transferencias: []
+            transferencias: [],
+
+            itens_carrinho: [],
         };
     },
 
@@ -569,12 +706,15 @@ export default {
 
         develop: function() {
             this.modo_develop = !this.modo_develop;
+
+            this.viewConfigAnterior = null;
+            this.usuariosRegistradosView = false;
         },
 
         objeto_adicionar: function(caso){
 
-            // 0 -> Loja, 1 -> Produto, 2 -> Ação
-            if(caso == 0){ // Loja
+            // 0 -> Loja, 1 -> Produto, 2 -> Ação, 3 -> Conta
+            if (caso == 0) { // Loja
                 this.objetoLoja = {
                     nome: null,
                     endereco: null,
@@ -586,7 +726,7 @@ export default {
                 this.btn_edit_loja = false;
                 this.titulo_modal = "Nova Loja";
                 this.operacao = this.createNewLoja;
-            }else if(caso == 1){
+            } else if(caso == 1) {
                 this.objetoProduto = {
                     nome: null,
                     quantidade: null,
@@ -598,7 +738,7 @@ export default {
                 this.btn_edit_produto = false;
                 this.titulo_modal = "Cadastro de Produto";
                 this.operacao = this.createNewProduto;
-            }else{
+            } else if(caso == 2) {
                 this.objetoAcao = {
                     nome: null,
                     tipo: null,
@@ -608,13 +748,46 @@ export default {
                 this.btn_edit_acao = false;
                 this.titulo_modal = "Cadastro de Ação";
                 this.operacao = this.createNewAcao;
+            } else {
+                this.objetoConta = {
+                    nome: null,
+                    sobrenome: null,
+                    endereco: null,
+                    saldo: 0
+                },
+
+                this.btn_edit_conta = false;
+                this.titulo_modal = "Cadastro de Conta";
+                this.operacao = this.createNewConta;
             }
+        },
+
+        desativa_views: function (alvo) {
+
+            this.inicioView = false;
+            this.marketplaceView = false;
+            this.acoesView = false;
+            this.configsView = false;
+            this.lojaPainelView = false;
+            this.acaoPainelView = false;
+            this.carrinhoPainelView = false;
+            this.contaPainelView = false;
+
+            // 0 -> Inicio, 1 -> Marketplace, 2 -> Acoes, 3 -> Configurações
+            if(alvo == 0)
+                this.inicioView = true;
+            else if(alvo == 1)
+                this.marketplaceView = true;
+            else if(alvo == 2)
+                this.acoesView = true;
+            else
+                this.configsView = true;
         },
 
         objeto_edita: function(caso, id_alvo){
             
-            // 0 -> Loja, 1 -> Produto, 2 -> Ação
-            if(caso == 0){ // Loja
+            // 0 -> Loja, 1 -> Produto, 2 -> Ação, 3 -> Conta
+            if(caso == 0) { // Loja
                 this.$axios.$get(`loja/${id_alvo}`).then((response) => {
                     this.objetoLoja = response[0];
 
@@ -622,7 +795,7 @@ export default {
                     this.operacao = this.updateSelectedLoja;
                     this.btn_edit_loja = true;
                 })
-            }else if(caso == 1){
+            } else if(caso == 1) {
                 this.$axios.$get(`produto/${id_alvo}`).then((response) => {
                     this.objetoProduto = response[0];
 
@@ -630,13 +803,21 @@ export default {
                     this.operacao = this.updateSelectedProduto;
                     this.btn_edit_produto = true;
                 });
-            }else{
+            } else if(caso == 2) {
                 this.$axios.$get(`acao/${id_alvo}`).then((response) => {
                     this.objetoAcao = response[0];
 
                     this.titulo_modal = "Atualizar Ação";
                     this.operacao = this.updateSelectedAcao;
                     this.btn_edit_acao = true;
+                })
+            } else {
+                this.$axios.$get(`conta/${id_alvo}`).then((response) => {
+                    this.objetoConta = response[0];
+
+                    this.titulo_modal = "Atualizar Conta";
+                    this.operacao = this.updateSelectedConta;
+                    this.btn_edit_conta = true;
                 })
             }
         },
@@ -645,25 +826,34 @@ export default {
 
             // 0 -> Lojas, 1 -> Produtos, 2 -> Ações 
             this.lojasRegistradasView = false;
-            this.produtosRegistradosView = false;
             this.acoesRegistradasView = false;
+            this.produtosRegistradosView = false;
+            this.usuariosRegistradosView = false;
 
             if(caso !== this.viewConfigAnterior){
                 if(caso == 0)
                     this.lojasRegistradasView = true;
                 else if(caso == 1)
                     this.produtosRegistradosView = true;
-                else
+                else if(caso == 2)
                     this.acoesRegistradasView = true;
+                else
+                    this.usuariosRegistradosView = true;
             }else{
                 this.lojasRegistradasView = false;
-                this.produtosRegistradosView = false;
                 this.acoesRegistradasView = false;
+                this.usuariosRegistradosView = false;
+                this.produtosRegistradosView = false;
 
                 caso = null;
             }
 
             this.viewConfigAnterior = caso
+        },
+
+        abrir_carrinho: function() {
+
+            this.carrinhoPainelView = true;
         },
 
         abrir_painel_loja: function (dados) {
@@ -676,6 +866,12 @@ export default {
 
             this.objetoAcao = dados;
             this.acaoPainelView = true;
+        },
+
+        abrir_painel_conta: function (dados) {
+
+            this.objetoConta = dados;
+            this.contaPainelView = true;
         },
 
         atualiza_itens_loja: function (id_loja) {
@@ -702,7 +898,7 @@ export default {
             this.$axios
                 .$post("conta", this.objetoConta)
                 .then(() => {
-                    this.updateConta();
+                    this.updateContas();
                 })
                 .catch((error) => {
                     console.error('Não foi possível criar uma nova conta');
@@ -715,11 +911,11 @@ export default {
 
         updateSelectedConta: function (event) {
             event.preventDefault();
-
+            
             this.$axios
             .$post("conta/update", this.objetoConta)
             .then(() => {
-                this.updateConta();
+                this.updateContas();
             })
             .catch((error) => {
                 console.error('Não foi possível atualizar a conta selecionada.');
@@ -730,15 +926,15 @@ export default {
             this.operacao = this.createNewConta;
         },
 
-        updateConta: function () {
-            this.$axios.$get("conta").then((response) => {
-                this.conta = response;
+        updateContas: function () {
+            this.$axios.$get('conta').then((response) => {
+                this.contas = response;
             })
         },
 
         removeSelectedConta: function (id) {
             this.$axios.$delete(`conta/${id}`).then(() => {
-                this.updateConta();
+                this.updateContas();
             })
         },
 
@@ -939,6 +1135,34 @@ export default {
         removeSelectedTransferencia: function (id) {
             this.$axios.$delete(`transferencia/${id}`).then(() => {
                 this.updateTransferencia();
+            })
+        },
+
+        createNewItemCarrinho: function (event) {
+            event.preventDefault();
+
+            // Veja mais sobre em https://axios.nuxtjs.org/usage
+            this.$axios
+                .$post("carrinho", this.itemCarrinho)
+                .then(() => {
+                    this.updateItemCarrinho();
+                })
+                .catch((error) => {
+                    console.error('Não foi possível inserir este item no carrinho.');
+                    console.log(error);
+                });
+        },
+
+        updateItemCarrinho: function () {
+            this.$axios.$get("carrinho").then((response) => {
+                this.carrinho = response;
+            })
+        },
+
+        removeSelectedItemCarrinho: function (id) {
+            this.$axios.$delete(`carrinho/${id}`).then(() => {
+
+                this.updateItemCarrinho();
             })
         },
     }

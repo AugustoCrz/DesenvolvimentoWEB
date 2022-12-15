@@ -61,6 +61,7 @@ a {
     width: 100%;
     padding: 2%;
     border-radius: 15px;
+    margin-bottom: 15px;
     box-shadow: 2px 2px 15px rgba(0, 0, 0, .2);
 }
 
@@ -86,7 +87,8 @@ input.search {
 
 #lista_itens_marketplace,
 #lista_empresas_mercado,
-#lista_lojas_marketplace {
+#lista_lojas_marketplace,
+#lista_usuarios_registrados {
     width: 100%;
     row-gap: 5px;
     display: grid;
@@ -95,15 +97,17 @@ input.search {
     grid-template-columns: auto auto auto auto;
 }
 
-#lista_empresas_mercado {
-    row-gap: 15px;
-    grid-template-columns: auto auto auto auto auto;
+#lista_empresas_mercado,
+#lista_usuarios_registrados {
+    row-gap: 10px;
+    grid-template-columns: auto auto auto auto;
 }
 
 .item_marketplace,
 .item_m_acoes,
 .item_loja_marketplace,
-.item_loja_marketplace_destaque {
+.item_loja_marketplace_destaque,
+.item_usuario_registrado {
     width: 100%;
     height: 250px;
     border-radius: 10px;
@@ -114,6 +118,15 @@ input.search {
 .item_loja_marketplace {
     width: 218px;
     overflow: hidden;
+}
+
+.item_usuario_registrado {
+    padding: 5%;
+    width: auto;
+    width: 200px;
+    height: 100px;
+    overflow: hidden;
+    background-color: rgb(53, 53, 53);
 }
 
 .item_marketplace {
@@ -254,7 +267,8 @@ i.fas {
 }
 
 #painel_loja_preview,
-#painel_acao_preview {
+#painel_acao_preview,
+#painel_carrinho_preview {
     top: 0px;
     z-index: 2;
     width: 68%;
@@ -273,7 +287,8 @@ i.fas {
     padding-left: 40px;
 }
 
-#valor_acao_preview {
+.valor_acao_preview,
+.saldo_conta_preview {
     float: right;
     font-size: 90px;
     font-weight: 500;
@@ -281,6 +296,10 @@ i.fas {
     margin-right: 100px;
     color: greenyellow;
     text-shadow: 1px 1px 2px black;
+}
+
+.saldo_conta_preview {
+    font-size: 45px;
 }
 
 #banner_topo_acao_view {
@@ -308,12 +327,18 @@ i.fas {
     color: black;
 }
 
-.opcoes_item {
+.opcoes_item,
+.opcoes_item_usuario {
     width: 120px;
     height: 45px;
     margin-top: 80px;
     margin-left: 70px;
     position: absolute;
+}
+
+.opcoes_item_usuario {
+    margin-top: -10px;
+    margin-left: 55px;
 }
 
 .btn_opcao_item {
@@ -342,4 +367,14 @@ i.fas {
     right: 2%;
     margin-top: -50px;
     position: absolute;
+}
+
+#text_carrinho {
+    float: right;
+    margin-top: -46px;
+    margin-right: 20px;
+}
+
+.icon_carrinho_compras {
+    color: black;
 }

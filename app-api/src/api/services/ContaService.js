@@ -14,6 +14,7 @@ module.exports = {
     },
 
     addNew: async function (conta) {
+
         // Criando a conta com os dados fornecidos
         const data = await ContaRepository.create(conta);
         if (data) return { status: "Conta aberta com sucesso." }

@@ -5,8 +5,8 @@ module.exports = {
         return AcaoRepository.all();
     },
 
-    update: async function (conta) {
-        return AcaoRepository.update(conta);
+    update: async function (acao) {
+        return AcaoRepository.update(acao);
     },
 
     getById: async function (identificador) {
@@ -22,7 +22,7 @@ module.exports = {
 
     removeById: async function (identificador) {
         const status = await AcaoRepository.removeById(identificador);
-        if (status) return { status: "Ação encerrada com sucesso." }
+        if (status) return { status: "Ação removida com sucesso." }
         else return { status: "Ação não encontrada." }
     }
 }
