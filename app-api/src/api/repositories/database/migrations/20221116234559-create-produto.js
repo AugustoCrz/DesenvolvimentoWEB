@@ -15,6 +15,12 @@ module.exports = {
       quantidade: {
         type: Sequelize.STRING
       },
+      categoria: {
+        type: Sequelize.STRING
+      },
+      preco: {
+        type: Sequelize.DOUBLE
+      },
       idLoja: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
@@ -23,12 +29,6 @@ module.exports = {
           model: 'lojas',
           key: 'id'
         }
-      },
-      categoria: {
-        type: Sequelize.STRING
-      },
-      preco: {
-        type: Sequelize.DOUBLE
       }
     })
   },

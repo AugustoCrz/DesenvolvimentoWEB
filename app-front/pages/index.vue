@@ -363,12 +363,12 @@ export default {
         let produtos, conta, acoes, lojas, transferencias;
         const identificador = 0;
 
-        try {
-            const response = await $axios.$get(`conta/${identificador}`);
-            conta = response;
-        } catch (ex) {
-            console.log(ex);
-        }
+        // try {
+        //     const response = await $axios.$get(`conta/${identificador}`);
+        //     conta = response;
+        // } catch (ex) {
+        //     console.log(ex);
+        // }
 
         try {
             const response = await $axios.$get('produto');
@@ -421,7 +421,6 @@ export default {
             tab_acao: false,
             tab_loja: false,
             tab_conta: false,
-            tab_produto: false,
             tab_transferencias: false,
 
             operacao: this.createNewLoja,
@@ -467,7 +466,7 @@ export default {
                 quantidade: null,
                 categoria: null,
                 preco: null,
-                idLoja: 0
+                idLoja: null
             },
 
             objetoAcao: {
@@ -489,6 +488,8 @@ export default {
                 endereco: null,
                 saldo: 0,
             },
+
+            id_loja_alvo: null,
 
             acoes: [],
             lojas: [],
@@ -567,16 +568,25 @@ export default {
 
         abrir_painel_loja: function (dados) {
 
-            this.lojaPainelView = true;
             this.objetoLoja = dados;
-            this.objetoProduto.idLoja = dados.id;
+            this.atualiza_itens_loja(dados.id);
+        },
+
+        atualiza_itens_loja: function (id_loja) {
+
+            this.lojaPainelView = false;
+
+            this.objetoProduto.idLoja = id_loja;
+            this.id_loja_alvo = id_loja;
 
             this.produtos_loja = [];
 
             for(let i = 0; i < this.produtos.length; i++){
-                if(this.produtos[i].idLoja == dados.id)
+                if(this.produtos[i].idLoja == id_loja)
                     this.produtos_loja.push(this.produtos[i])
             }
+
+            this.lojaPainelView = true;
         },
 
         createNewConta: function (event) {
@@ -642,25 +652,34 @@ export default {
         createNewProduto: function (event) {
             event.preventDefault();
 
+            if(this.objetoProduto.idLoja != this.id_loja_alvo)
+                this.objetoProduto.idLoja = this.id_loja_alvo;
+
             // Veja mais sobre em https://axios.nuxtjs.org/usage
             this.$axios
                 .$post("produto", this.objetoProduto)
                 .then(() => {
                     this.updateProduto();
+
+                    // Atualizando a lista de itens da loja
+                    this.atualiza_itens_loja(this.objetoProduto.idLoja)
+
+                    this.$bvModal.hide('modal-produto');
+                    this.operacao = this.createNewProduto;
                 })
                 .catch((error) => {
                     console.error('Não foi possível criar um novo produto');
                     console.log(error);
                 });
-
-            this.$bvModal.hide('modal-produto');
-            this.tab_produto = false;
         },
 
         updateProduto: function () {
             this.$axios.$get("produto").then((response) => {
                 this.produtos = response;
             })
+
+            this.$bvModal.hide('modal-produto');
+            this.operacao = this.createNewProduto;
         },
 
         removeSelectedProduto: function (id) {
