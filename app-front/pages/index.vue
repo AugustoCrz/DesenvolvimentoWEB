@@ -10,7 +10,7 @@
             <div id="buttons_nav">
                 <!-- Botão de Inicio -->
                 <b-navbar-nav>
-                    <b-nav-item class='icons_nav_menu' @click="
+                    <b-nav-item class='icons_nav_menu' v-on:click="
                         inicioView = true
                         marketplaceView = false
                         acoesView = false
@@ -20,7 +20,7 @@
                     </b-nav-item>
 
                     <!-- Botão do marketplace -->
-                    <b-nav-item class='icons_nav_menu' @click="
+                    <b-nav-item class='icons_nav_menu' v-on:click="
                         inicioView = false
                         marketplaceView = true
                         acoesView = false
@@ -30,7 +30,7 @@
                     </b-nav-item>
 
                     <!-- Botão de Ações -->
-                    <b-nav-item class='icons_nav_menu' @click="
+                    <b-nav-item class='icons_nav_menu' v-on:click="
                         inicioView = false
                         marketplaceView = false
                         acoesView = true
@@ -40,7 +40,7 @@
                     </b-nav-item>
 
                     <!-- Botão de Configurações -->
-                    <b-nav-item class='icons_nav_menu' @click="
+                    <b-nav-item class='icons_nav_menu' v-on:click="
                         inicioView = false
                         marketplaceView = false
                         acoesView = false
@@ -229,9 +229,11 @@
 
                 <div id="lista_lojas_marketplace">
                     <div v-for="loja in lojas">
-                        <div class="item_loja_marketplace" v-on:click="abrir_painel_loja(loja)">
-                            <h3>{{loja.nome}}</h3>
-                        </div>
+                        <a href="#">
+                            <div class="item_loja_marketplace" v-on:click="abrir_painel_loja(loja)">
+                                <h3>{{loja.nome}}</h3>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -886,7 +888,7 @@ export default {
     }
 }
 </script>
-  
+
 <style scoped>
 @import '../static/style.css';
 @import '../static/animations.css';
