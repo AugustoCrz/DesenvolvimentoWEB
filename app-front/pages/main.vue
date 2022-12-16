@@ -92,7 +92,7 @@
                         Deslogar <i class="fas fa-bolt"></i>
                         <hr />
                         <a href="#">
-                            <p class="btn_item"><i class="fas fa-power-off"></i> Deslogar</p>
+                            <p class="btn_item" v-on:click="deslogar()"><i class="fas fa-power-off"></i> Deslogar</p>
                         </a>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                 </a>
             </div>
             <hr />
-            <input type="text" class="search" placeholder="Pesquisar por um produto">
+            <!-- <input type="text" class="search" placeholder="Pesquisar por um produto"> -->
 
             <!-- Lojas em destaque -->
             <div id="lista_lojas_destaque_marketplace" v-if="(lojas.length > 0)">
@@ -134,6 +134,7 @@
             <!-- Produtos do marketplace -->
             <div id="lista_itens_marketplace">
                 <div v-for="produto in produtos">
+
                     <a href="#">
                         <div class="item_marketplace">
                             <h3 class="nome_item_marketplace">{{produto.nome}}</h3>
@@ -193,7 +194,7 @@
             <h2>Mercado de ações</h2>
             <hr />
 
-            <input type="text" class="search" placeholder="Pesquisa">
+            <!-- <input type="text" class="search" placeholder="Pesquisa"> -->
 
             <div id="banner_mercado_acoes"></div>
 
@@ -525,8 +526,8 @@
 <script>
 export default {
     async asyncData({ store, $axios, redirect }) {
-        console.log(`STATE: ${store}`)
-        const authToken = typeof window !== 'undefined' ? store.state.authenticationToken : null
+        console.log(`STATE: ${store.state.authenticationToken}`)
+        const authToken = store.state.authenticationToken || null
         // se tiver carregando client side, recupera o token do usuário
 
         // Check if user is logged in.
@@ -536,7 +537,8 @@ export default {
             redirect("/");
         } else {
             // This means that there IS a JWT so someone must be logged in.
-            $axios.defaults.headers.common.Authorization = `Bearer ${authToken}`; // salva o token para usar nos headers nas requisições
+            $axios.defaults.headers.common.Authorization = `Bearer ${authToken}`; 
+            // salva o token para usar nos headers nas requisições
         }
 
         let produtos, conta, contas, acoes, lojas, transferencias, itens_carrinho;
@@ -705,6 +707,10 @@ export default {
     },
 
     methods: {
+
+        deslogar: function() {
+            window.location.href = "/";
+        },
 
         develop: function() {
             this.modo_develop = !this.modo_develop;
@@ -901,14 +907,14 @@ export default {
                 .$post("conta", this.objetoConta)
                 .then(() => {
                     this.updateContas();
+
+                    this.$bvModal.hide('modal-conta');
+                    this.tab_conta = false;
                 })
                 .catch((error) => {
                     console.error('Não foi possível criar uma nova conta');
                     console.log(error);
                 });
-
-            this.$bvModal.hide('modal-conta');
-            this.tab_conta = false;
         },
 
         updateSelectedConta: function (event) {
@@ -918,14 +924,14 @@ export default {
             .$post("conta/update", this.objetoConta)
             .then(() => {
                 this.updateContas();
+
+                this.$bvModal.hide('modal-conta');
+                this.operacao = this.createNewConta;
             })
             .catch((error) => {
                 console.error('Não foi possível atualizar a conta selecionada.');
                 console.log(error);
             });
-
-            this.$bvModal.hide('modal-conta');
-            this.operacao = this.createNewConta;
         },
 
         updateContas: function () {
@@ -948,14 +954,14 @@ export default {
                 .$post("loja", this.objetoLoja)
                 .then(() => {
                     this.updateLoja();
+
+                    this.$bvModal.hide('modal-loja');
+                    this.tab_loja = false;
                 })
                 .catch((error) => {
                     console.error('Não foi possível criar uma nova loja');
                     console.log(error);
                 });
-
-            this.$bvModal.hide('modal-loja');
-            this.tab_loja = false;
         },
 
         updateSelectedLoja: function (event) {
@@ -965,13 +971,13 @@ export default {
             .$post("loja/update", this.objetoLoja)
             .then(() => {
                 this.updateLoja();
+
+                this.$bvModal.hide('modal-loja');
             })
             .catch((error) => {
                 console.error('Não foi possível atualizar a loja selecionada.');
                 console.log(error);
             });
-
-            this.$bvModal.hide('modal-loja');
         },
 
         updateLoja: function () {
@@ -1028,26 +1034,26 @@ export default {
             .$post("produto/update", this.objetoProduto)
             .then(() => {
                 this.updateProduto();
+
+                this.$bvModal.hide('modal-produto');
+                this.operacao = this.createNewProduto;
             })
             .catch((error) => {
                 console.error('Não foi possível atualizar o produto selecionado.');
                 console.log(error);
             });
-
-            this.$bvModal.hide('modal-produto');
-            this.operacao = this.createNewProduto;
         },
 
         updateProduto: function () {
             this.$axios.$get("produto").then((response) => {
                 this.produtos = response;
 
+                this.$bvModal.hide('modal-produto');
+                this.operacao = this.createNewProduto;
+
                 if(this.produtos.length < 1)
                     this.produtosRegistradosView = false;
             })
-
-            this.$bvModal.hide('modal-produto');
-            this.operacao = this.createNewProduto;
         },
 
         removeSelectedProduto: function (id) {
@@ -1064,14 +1070,14 @@ export default {
                 .$post("acao", this.objetoAcao)
                 .then(() => {
                     this.updateAcao();
+
+                    this.$bvModal.hide('modal-acao');
+                    this.tab_acao = false;
                 })
                 .catch((error) => {
                     console.error('Não foi possível criar uma nova ação');
                     console.log(error);
                 });
-
-            this.$bvModal.hide('modal-acao');
-            this.tab_acao = false;
         },
 
         updateSelectedAcao: function (event) {
@@ -1081,14 +1087,14 @@ export default {
             .$post("acao/update", this.objetoAcao)
             .then(() => {
                 this.updateAcao();
+            
+                this.$bvModal.hide('modal-acao');
+                this.operacao = this.createNewAcao;
             })
             .catch((error) => {
                 console.error('Não foi possível atualizar a ação selecionada.');
                 console.log(error);
             });
-
-            this.$bvModal.hide('modal-acao');
-            this.operacao = this.createNewAcao;
         },
 
         updateAcao: function () {
@@ -1118,14 +1124,14 @@ export default {
                 .$post("transferencia", this.objetoLoja)
                 .then(() => {
                     this.updateTransferencia();
+
+                    this.$bvModal.hide('modal-transferencia');
+                    this.tab_transferencias = false;
                 })
                 .catch((error) => {
                     console.error('Não foi possível registrar uma nova transferência');
                     console.log(error);
                 });
-
-            this.$bvModal.hide('modal-transferencia');
-            this.tab_transferencias = false;
         },
 
         updateTransferencia: function () {

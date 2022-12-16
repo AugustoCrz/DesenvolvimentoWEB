@@ -6,6 +6,7 @@ module.exports = {
     const matchDocument = {
       username: req.body.username,
       email: req.body.email,
+      tipo_conta: 0,
       pwd: await utils.encryptPwd(req.body.pwd),
       created_in: new Date()
     };

@@ -1,28 +1,32 @@
 <template>
-    <div>
+    <div id="corpo_login">
         <b-container>
-            <div class="login">
-                <b-form @submit="doRegister">
+            <div class="form_cadastro">
 
+                <img id="logo_login" src="~/assets/logo.png" alt />
+
+                <b-form @submit="doRegister">
                     <b-form-group id="user" label="Usuário" label-for="user-input"
                         description="Insira o seu nome de usuário" label-align="left">
                         <b-form-input id="user-input" v-model="user.username" type="text" required
-                            placeholder="Username"></b-form-input>
+                            placeholder="username"></b-form-input>
                     </b-form-group>
 
-                    <b-form-group id="user" label="Email" label-for="user-email" description="Insira o seu email"
+                    <b-form-group id="user" label="E-mail" label-for="user-email" description="Insira o seu email"
                         label-align="left">
-                        <b-form-input id="user-email" v-model="user.email" type="text" required placeholder="Email">
+                        <b-form-input id="user-email" v-model="user.email" type="text" required placeholder="e-mail">
                         </b-form-input>
                     </b-form-group>
 
                     <b-form-group id="pwd" label="Senha" label-for="pwd-input" label-align="left"
                         description="Insira a sua senha.">
-                        <b-form-input id="pwd-input" v-model="user.pwd" type="password" required placeholder="Senha">
+                        <b-form-input id="pwd-input" v-model="user.pwd" type="password" required placeholder="senha">
                         </b-form-input>
                     </b-form-group>
 
-                    <b-button type="submit" variant="success">Cadastrar</b-button>
+                    <b-button type="submit" variant="success" class="btn_cadastro">Cadastrar</b-button> <br /><br />
+
+                    <b-button v-on:click="inicio()" variant="secondary" class="btn_cadastro">Retornar</b-button>
                 </b-form>
             </div>
         </b-container>
@@ -44,13 +48,16 @@ export default {
     },
 
     methods: {
+        inicio() {
+            window.location.href = "/";
+        },
+
         doRegister(event) {
             event.preventDefault();
 
             this.$axios
                 .post("http://localhost:5000/user", this.user)
                 .then((response) => {
-                    console.log(response.data);
                     console.log(response);
                     this.$router.push("/");
                 })
@@ -64,5 +71,6 @@ export default {
 </script>
 
 <style>
-@import '../static/style.css';
+@import '../static/login_style.css';
+@import '../static/animations.css';
 </style>

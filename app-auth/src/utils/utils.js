@@ -15,7 +15,7 @@ module.exports = {
     },
 
     async comparePwd(uncrypted, encrypted) {
-        return uncrypted == encrypted;
+        return await bcrypt.compare(uncrypted.toString(), encrypted);
     },
 
     signJwt(id) {

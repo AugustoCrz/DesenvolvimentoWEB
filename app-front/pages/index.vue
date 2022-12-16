@@ -1,7 +1,7 @@
 <template>
     <div id="corpo_login">
         <b-container>
-            <div class="login">
+            <div class="form_login">
                 <img id="logo_login" src="~/assets/logo.png" alt />
 
                 <b-form @submit="doLogin">
@@ -17,7 +17,8 @@
 
                     <br />
 
-                    <b-button v-on:click="cadastro()" variant="primary" class="btn_login">Cadastrar</b-button> <b-button type="submit" variant="success" class="btn_login">Entrar</b-button>
+                    <b-button v-on:click="cadastro()" variant="primary" class="btn_login">Cadastrar</b-button> <b-button
+                        type="submit" variant="success" class="btn_login">Entrar</b-button>
                 </b-form>
             </div>
         </b-container>
@@ -42,7 +43,7 @@ export default {
     methods: {
 
         cadastro() {
-            redirect("/cadastro");
+            window.location.href = "/cadastro";
         },
 
         doLogin(event) {

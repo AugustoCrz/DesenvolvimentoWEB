@@ -7,7 +7,7 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 400% 400%;
-    animation: infinite linear alterna_fundo_login 20s;
+    /* animation: infinite linear alterna_fundo_login 20s; */
 }
 
 #logo_login {
@@ -16,7 +16,8 @@
     margin-left: 37%;
 }
 
-.login {
+.form_login,
+.form_cadastro {
     color: white;
     width: 50%;
     padding: 5%;
@@ -28,6 +29,14 @@
     box-shadow: 0px 0px 15px rgba(51, 51, 51, 0.233) inset;
 }
 
+.form_cadastro {
+    margin-top: 2%;
+}
+
 .btn_login {
-    min-width: 49.5%;
+    width: 49.5%;
+}
+
+.btn_cadastro {
+    width: 100%;
 }
