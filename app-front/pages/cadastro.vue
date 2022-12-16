@@ -49,7 +49,7 @@ export default {
 
     methods: {
         inicio() {
-            window.location.href = "/";
+            this.$router.push("/");
         },
 
         doRegister(event) {

@@ -37,7 +37,7 @@
 
         <!-- Tela inicial com várias funções de conta -->
         <div class="invent-cards content_page" v-if="inicioView">
-            <h2>Olá {{conta.nome}}!</h2>
+            <h2>Olá!</h2>
             <hr />
 
             <div id="btn_operacoes">
@@ -89,7 +89,7 @@
                     </div>
 
                     <div class='item_fnc_rapida'>
-                        Deslogar <i class="fas fa-bolt"></i>
+                        Deslogar
                         <hr />
                         <a href="#">
                             <p class="btn_item" v-on:click="deslogar()"><i class="fas fa-power-off"></i> Deslogar</p>
@@ -526,8 +526,8 @@
 <script>
 export default {
     async asyncData({ store, $axios, redirect }) {
-        console.log(`STATE: ${store.state.authenticationToken}`)
-        const authToken = store.state.authenticationToken || null
+
+        const authToken = store.state.authenticationToken || 'null'
         // se tiver carregando client side, recupera o token do usuário
 
         // Check if user is logged in.

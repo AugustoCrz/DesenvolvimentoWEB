@@ -43,7 +43,7 @@ export default {
     methods: {
 
         cadastro() {
-            window.location.href = "/cadastro";
+            this.$router.push("/cadastro");
         },
 
         doLogin(event) {

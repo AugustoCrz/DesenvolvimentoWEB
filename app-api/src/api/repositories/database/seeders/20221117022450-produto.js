@@ -7,7 +7,7 @@ module.exports = {
         id: 1,
         nome: "Meias",
         quantidade: 9999,
-        categoria: 'Roupa e banho',
+        categoria: 'Roupa e Banho',
         preco: 10,
         idLoja: 1
       },

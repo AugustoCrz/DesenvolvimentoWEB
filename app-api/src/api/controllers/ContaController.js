@@ -31,7 +31,12 @@ module.exports = {
 
     // handler para adicionar uma nova conta
     add: function (req, res) {
+
         const { nome, sobrenome, endereco, saldo } = req.body
+
+        // user.test.js não está enviando os dados no cadastro de conta
+        console.log(nome, sobrenome, endereco, saldo);
+
         ContaService.addNew(
             { nome, sobrenome, endereco, saldo }
         ).then((status) => {

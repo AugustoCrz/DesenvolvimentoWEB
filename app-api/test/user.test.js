@@ -28,7 +28,7 @@ describe("Testes para o path 'conta'", () => {
         expect(objToTest).toHaveProperty("saldo");
     });
 
-    test("[GET /conta/{conta_id}] Recupera uma conta por identificador", async () => {
+    test("[GET /conta/:id] Recupera uma conta por identificador", async () => {
         const res = await request(app)
             .get("/conta/2")
             .set('Accept', 'application/json');
@@ -41,17 +41,19 @@ describe("Testes para o path 'conta'", () => {
         // Ver em: https://jestjs.io/pt-BR/docs/expect#tohavepropertykeypath-value
         // ---- Testes para Conta
         // Para simplificar, vamos testar apenas o primeiro objeto
-        expect(res.body).toHaveProperty("nome");
-        expect(res.body).toHaveProperty("sobrenome");
-        expect(res.body).toHaveProperty("endereco");
-        expect(res.body).toHaveProperty("saldo");
+        const objToTest = res.body[0];
+        expect(objToTest).toHaveProperty("id");
+        expect(objToTest).toHaveProperty("nome");
+        expect(objToTest).toHaveProperty("sobrenome");
+        expect(objToTest).toHaveProperty("endereco");
+        expect(objToTest).toHaveProperty("saldo");
     });
 
     test("[POST /conta] Criação de uma nova conta", async () => {
         const res = await request(app)
             .post("/conta", {
-                "nome": "João",
-                "sobrenome": "Gomes",
+                "nome": "Tancredo",
+                "sobrenome": "Silva",
                 "endereco": "Rua das ostras, 250",
                 "saldo": 10
             })
@@ -64,9 +66,9 @@ describe("Testes para o path 'conta'", () => {
         expect(res.body).toEqual({ status: "Conta aberta com sucesso." });
     });
 
-    test("[DELETE /conta/{identificador}] Remove uma conta bancária pelo ID", async () => {
+    test("[DELETE /conta/:id] Remove uma conta bancária pelo ID", async () => {
         const res = await request(app)
-            .delete("/conta/3")
+            .delete("/conta/90")
             .set('Accept', 'application/json');
 
         // Espera que o código HTTP seja 200
@@ -80,7 +82,7 @@ describe("Testes para o path 'conta'", () => {
 
         // Faz primeiro a requisição DELETE ...        
         const resPOST = await agent
-            .delete("/conta/4")
+            .delete("/conta/90")
             .set('Accept', 'application/json');
 
         // Espera que o código HTTP seja 200
@@ -89,7 +91,7 @@ describe("Testes para o path 'conta'", () => {
 
         // ... Para em seguida fazer um GET e obter um 404.
         const resGET = await agent
-            .get("/conta/4")
+            .get("/conta/90")
             .set('Accept', 'application/json');
 
         // Espera que o código HTTP seja 404 - Not Found

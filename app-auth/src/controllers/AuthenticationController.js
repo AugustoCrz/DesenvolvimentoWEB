@@ -13,7 +13,7 @@ module.exports = {
                     const token = utils.signJwt(userLogin._id);
 
                     userLogin.token = token;
-                    
+
                     res.set('Authorization', `Bearer ${token}`);
                     res.status(200).send(userLogin);
                 }
