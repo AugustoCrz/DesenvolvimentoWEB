@@ -7,11 +7,13 @@ module.exports = {
             const userLogin = await UserService.getByUsername(req.body.username);
 
             if (userLogin) {
-                const authenticated = await utils.comparePwd(req.body.pwd, userLogin.pwd);
+                const authenticated = await utils.comparePwd(req.body.pwd, userLogin.pwd)
+
                 if (authenticated) {
                     const token = utils.signJwt(userLogin._id);
 
                     userLogin.token = token;
+                    
                     res.set('Authorization', `Bearer ${token}`);
                     res.status(200).send(userLogin);
                 }

@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div id="corpo_login">
         <b-container>
             <div class="login">
-                <img style="width: 100px;" src="~/assets/login_logo.png" alt />
+                <img id="logo_login" src="~/assets/logo.png" alt />
 
                 <b-form @submit="doLogin">
                     <b-form-group id="user" label="Usuário" label-for="user-input" label-align="left">
@@ -15,7 +15,9 @@
                         </b-form-input>
                     </b-form-group>
 
-                    <b-button type="submit" variant="success">Entrar</b-button>
+                    <br />
+
+                    <b-button v-on:click="cadastro()" variant="primary" class="btn_login">Cadastrar</b-button> <b-button type="submit" variant="success" class="btn_login">Entrar</b-button>
                 </b-form>
             </div>
         </b-container>
@@ -31,13 +33,18 @@ export default {
             login: {
                 // username: "",
                 // pwd: "",
-                username: "joao",
-                pwd: "12345",
+                username: "augusto",
+                pwd: "1234",
             },
         };
     },
 
     methods: {
+
+        cadastro() {
+            redirect("/cadastro");
+        },
+
         doLogin(event) {
             event.preventDefault();
             this.$axios
@@ -56,5 +63,6 @@ export default {
 </script>
 
 <style>
-@import '../static/style.css';
+@import '../static/login_style.css';
+@import '../static/animations.css';
 </style>

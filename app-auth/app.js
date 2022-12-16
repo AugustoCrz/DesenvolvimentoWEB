@@ -1,16 +1,17 @@
-const express = require("express");
-const bodyParser = require("body-parser"); // Necessário para interpretar o corpo das requisições HTTP
-const cors = require("cors");
+const express = require("express")
+const bodyParser = require("body-parser") // Necessário para interpretar o corpo das requisições HTTP
+const cors = require("cors")
+
 const AuthenticationRoutes = require("./src/routes/AuthenticationRoutes")
 const UserRoutes = require("./src/routes/UserRoutes")
-const app = express();
+const app = express()
 
 //Configuração dos middlewares
-app.use(cors({ credentials: true, origin: true }));
-app.use(bodyParser.json()); // Converterá qualquer corpo em JSON em um objeto javascript
+app.use(cors({ credentials: true, origin: true }))
+app.use(bodyParser.json()) // Converterá qualquer corpo em JSON em um objeto javascript
 
-app.use(UserRoutes);
-app.use(AuthenticationRoutes);
+app.use(UserRoutes)
+app.use(AuthenticationRoutes)
 
 //Exporta o aplicativo express configurado
-module.exports = app;
+module.exports = app

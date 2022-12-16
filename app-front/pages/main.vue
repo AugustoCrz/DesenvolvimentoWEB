@@ -4,7 +4,7 @@
 
         <div id="rodape_lateral">
             <div class="invent-cards">
-                <img id="logo_app" src="logo.png" />
+                <img id="logo_app" src="~/assets/logo.png" />
             </div>
 
             <div id="buttons_nav">
@@ -92,7 +92,7 @@
                         Deslogar <i class="fas fa-bolt"></i>
                         <hr />
                         <a href="#">
-                            <p class="btn_item"><i class="fas fa-power-off" v-on:click="redirect("/")"></i> Deslogar</p>
+                            <p class="btn_item"><i class="fas fa-power-off"></i> Deslogar</p>
                         </a>
                     </div>
                 </div>
@@ -525,7 +525,7 @@
 <script>
 export default {
     async asyncData({ store, $axios, redirect }) {
-        console.log(`STATE: ${store.state.authenticationToken}`)
+        console.log(`STATE: ${store}`)
         const authToken = typeof window !== 'undefined' ? store.state.authenticationToken : null
         // se tiver carregando client side, recupera o token do usuário
 

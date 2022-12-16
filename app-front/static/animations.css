@@ -29,3 +29,25 @@
         background-color: rgb(212, 212, 212);
     }
 }
+
+@keyframes alterna_fundo_login {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    25% {
+        background-position: 80% 100%;
+    }
+
+    50% {
+        background-position: 50% 50%;
+    }
+
+    75% {
+        background-position: 100% 10%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}

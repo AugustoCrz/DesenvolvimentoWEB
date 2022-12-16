@@ -1,0 +1,33 @@
+#corpo_login {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: rgb(209, 191, 230) cover;
+    background: linear-gradient(210deg, rgb(209, 191, 230), rgb(96, 55, 143), rgba(106, 82, 134, 1), rgb(66, 42, 94));
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 400% 400%;
+    animation: infinite linear alterna_fundo_login 20s;
+}
+
+#logo_login {
+    width: 100px;
+    height: 100px;
+    margin-left: 37%;
+}
+
+.login {
+    color: white;
+    width: 50%;
+    padding: 5%;
+    margin-top: 10%;
+    margin-left: 25%;
+    font-weight: 800px;
+    border-radius: 15px;
+    background: rgba(32, 32, 32, 0.356);
+    box-shadow: 0px 0px 15px rgba(51, 51, 51, 0.233) inset;
+}
+
+.btn_login {
+    min-width: 49.5%;
+}
